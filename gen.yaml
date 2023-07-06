@@ -4,7 +4,7 @@ generation:
     disableComments: false
     omitDescriptionIfSummaryPresent: false
   baseServerURL: ""
-  sdkClassName: openai
+  sdkClassName: oai
   singleTagPerOp: false
   tagNamespacingDisabled: false
 terraform:
