@@ -1,0 +1,13 @@
+configVersion: 1.0.0
+generation:
+  comments:
+    disableComments: false
+    omitDescriptionIfSummaryPresent: false
+  baseServerURL: ""
+  sdkClassName: openai
+  singleTagPerOp: false
+  tagNamespacingDisabled: false
+terraform:
+  version: 0.0.1
+  author: antonbabenko
+  packageName: openai
