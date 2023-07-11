@@ -205,6 +205,8 @@ func (s *openAI) CreateCompletion(ctx context.Context, request shared.CreateComp
 }
 
 // CreateEdit - Creates a new edit for the provided input, instruction, and parameters.
+//
+// Deprecated: this method will be removed in a future release, please migrate away from it as soon as possible.
 func (s *openAI) CreateEdit(ctx context.Context, request shared.CreateEditRequest) (*operations.CreateEditResponse, error) {
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
 	url := strings.TrimSuffix(baseURL, "/") + "/edits"

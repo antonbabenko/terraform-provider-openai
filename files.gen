@@ -105,3 +105,4 @@ internal/sdk/pkg/models/shared/listmodelsresponse.go
 internal/sdk/pkg/models/shared/model.go
 USAGE.md
 internal/provider/provider.go
+examples/provider/provider.tf
