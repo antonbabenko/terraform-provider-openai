@@ -1,9 +1,9 @@
 configVersion: 1.0.0
 management:
-  docChecksum: 2c80dfbf58fa4417e61cdfde6f694754
+  docChecksum: 60758465b46e16e9341d0f17cc2819bd
   docVersion: 2.0.0
-  speakeasyVersion: 1.57.0
-  generationVersion: 2.62.1
+  speakeasyVersion: 1.58.0
+  generationVersion: 2.64.0
 generation:
   comments:
     disableComments: false
@@ -13,6 +13,6 @@ generation:
   singleTagPerOp: false
   tagNamespacingDisabled: false
 terraform:
-  version: 1.2.1
+  version: 1.3.0
   author: antonbabenko
   packageName: oai

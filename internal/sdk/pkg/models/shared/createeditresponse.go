@@ -34,18 +34,10 @@ func (e *CreateEditResponseChoicesFinishReason) UnmarshalJSON(data []byte) error
 	}
 }
 
-type CreateEditResponseChoicesLogprobs struct {
-	TextOffset    []int64            `json:"text_offset,omitempty"`
-	TokenLogprobs []float64          `json:"token_logprobs,omitempty"`
-	Tokens        []string           `json:"tokens,omitempty"`
-	TopLogprobs   []map[string]int64 `json:"top_logprobs,omitempty"`
-}
-
 type CreateEditResponseChoices struct {
-	FinishReason *CreateEditResponseChoicesFinishReason `json:"finish_reason,omitempty"`
-	Index        *int64                                 `json:"index,omitempty"`
-	Logprobs     *CreateEditResponseChoicesLogprobs     `json:"logprobs,omitempty"`
-	Text         *string                                `json:"text,omitempty"`
+	FinishReason CreateEditResponseChoicesFinishReason `json:"finish_reason"`
+	Index        int64                                 `json:"index"`
+	Text         string                                `json:"text"`
 }
 
 type CreateEditResponseUsage struct {

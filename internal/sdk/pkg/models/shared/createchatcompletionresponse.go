@@ -38,9 +38,9 @@ func (e *CreateChatCompletionResponseChoicesFinishReason) UnmarshalJSON(data []b
 }
 
 type CreateChatCompletionResponseChoices struct {
-	FinishReason *CreateChatCompletionResponseChoicesFinishReason `json:"finish_reason,omitempty"`
-	Index        *int64                                           `json:"index,omitempty"`
-	Message      *ChatCompletionResponseMessage                   `json:"message,omitempty"`
+	FinishReason CreateChatCompletionResponseChoicesFinishReason `json:"finish_reason"`
+	Index        int64                                           `json:"index"`
+	Message      ChatCompletionResponseMessage                   `json:"message"`
 }
 
 type CreateChatCompletionResponseUsage struct {
