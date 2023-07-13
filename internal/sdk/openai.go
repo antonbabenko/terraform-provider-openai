@@ -707,7 +707,7 @@ func (s *openAI) CreateModeration(ctx context.Context, request shared.CreateMode
 }
 
 // CreateTranscription - Transcribes audio into the input language.
-func (s *openAI) CreateTranscription(ctx context.Context, request shared.CreateTranscriptionRequest) (*operations.CreateTranscriptionResponse, error) {
+func (s *openAI) CreateTranscription(ctx context.Context, request shared.CreateTranscriptionRequest1) (*operations.CreateTranscriptionResponse, error) {
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
 	url := strings.TrimSuffix(baseURL, "/") + "/audio/transcriptions"
 

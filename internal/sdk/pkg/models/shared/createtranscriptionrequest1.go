@@ -37,7 +37,44 @@ func (e *CreateTranscriptionRequestModel2) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type CreateTranscriptionRequest struct {
+// CreateTranscriptionRequestResponseFormat - The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
+type CreateTranscriptionRequestResponseFormat string
+
+const (
+	CreateTranscriptionRequestResponseFormatJSON        CreateTranscriptionRequestResponseFormat = "json"
+	CreateTranscriptionRequestResponseFormatText        CreateTranscriptionRequestResponseFormat = "text"
+	CreateTranscriptionRequestResponseFormatSrt         CreateTranscriptionRequestResponseFormat = "srt"
+	CreateTranscriptionRequestResponseFormatVerboseJSON CreateTranscriptionRequestResponseFormat = "verbose_json"
+	CreateTranscriptionRequestResponseFormatVtt         CreateTranscriptionRequestResponseFormat = "vtt"
+)
+
+func (e CreateTranscriptionRequestResponseFormat) ToPointer() *CreateTranscriptionRequestResponseFormat {
+	return &e
+}
+
+func (e *CreateTranscriptionRequestResponseFormat) UnmarshalJSON(data []byte) error {
+	var v string
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+	switch v {
+	case "json":
+		fallthrough
+	case "text":
+		fallthrough
+	case "srt":
+		fallthrough
+	case "verbose_json":
+		fallthrough
+	case "vtt":
+		*e = CreateTranscriptionRequestResponseFormat(v)
+		return nil
+	default:
+		return fmt.Errorf("invalid value for CreateTranscriptionRequestResponseFormat: %v", v)
+	}
+}
+
+type CreateTranscriptionRequest1 struct {
 	// The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
 	//
 	File CreateTranscriptionRequestFile `multipartForm:"file"`
@@ -52,7 +89,7 @@ type CreateTranscriptionRequest struct {
 	Prompt *string `multipartForm:"name=prompt"`
 	// The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
 	//
-	ResponseFormat *string `multipartForm:"name=response_format"`
+	ResponseFormat *CreateTranscriptionRequestResponseFormat `multipartForm:"name=response_format"`
 	// The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
 	//
 	Temperature *float64 `multipartForm:"name=temperature"`

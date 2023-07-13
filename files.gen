@@ -93,7 +93,7 @@ internal/sdk/pkg/models/shared/createimagevariationrequest.go
 internal/sdk/pkg/models/shared/createmoderationresponse.go
 internal/sdk/pkg/models/shared/createmoderationrequest.go
 internal/sdk/pkg/models/shared/createtranscriptionresponse.go
-internal/sdk/pkg/models/shared/createtranscriptionrequest.go
+internal/sdk/pkg/models/shared/createtranscriptionrequest1.go
 internal/sdk/pkg/models/shared/createtranslationresponse.go
 internal/sdk/pkg/models/shared/createtranslationrequest.go
 internal/sdk/pkg/models/shared/deletefileresponse.go
