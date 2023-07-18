@@ -521,7 +521,7 @@ func (s *openAI) CreateImage(ctx context.Context, request shared.CreateImageRequ
 }
 
 // CreateImageEdit - Creates an edited or extended image given an original image and a prompt.
-func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImageEditRequest) (*operations.CreateImageEditResponse, error) {
+func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImageEditRequest2) (*operations.CreateImageEditResponse, error) {
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
 	url := strings.TrimSuffix(baseURL, "/") + "/images/edits"
 
@@ -583,7 +583,7 @@ func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImage
 }
 
 // CreateImageVariation - Creates a variation of a given image.
-func (s *openAI) CreateImageVariation(ctx context.Context, request shared.CreateImageVariationRequest) (*operations.CreateImageVariationResponse, error) {
+func (s *openAI) CreateImageVariation(ctx context.Context, request shared.CreateImageVariationRequest2) (*operations.CreateImageVariationResponse, error) {
 	baseURL := utils.ReplaceParameters(s.sdkConfiguration.GetServerDetails())
 	url := strings.TrimSuffix(baseURL, "/") + "/images/variations"
 

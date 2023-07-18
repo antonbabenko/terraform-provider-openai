@@ -235,7 +235,10 @@ func (u CreateChatCompletionRequestStop) MarshalJSON() ([]byte, error) {
 }
 
 type CreateChatCompletionRequest struct {
-	// completions_frequency_penalty_description
+	// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
+	//
+	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
+	//
 	FrequencyPenalty *float64 `json:"frequency_penalty,omitempty"`
 	// Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
 	FunctionCall *CreateChatCompletionRequestFunctionCall `json:"function_call,omitempty"`
@@ -257,7 +260,10 @@ type CreateChatCompletionRequest struct {
 	Model interface{} `json:"model"`
 	// How many chat completion choices to generate for each input message.
 	N *int64 `json:"n,omitempty"`
-	// completions_presence_penalty_description
+	// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
+	//
+	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
+	//
 	PresencePenalty *float64 `json:"presence_penalty,omitempty"`
 	// Up to 4 sequences where the API will stop generating further tokens.
 	//
@@ -265,9 +271,17 @@ type CreateChatCompletionRequest struct {
 	// If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb).
 	//
 	Stream *bool `json:"stream,omitempty"`
-	// completions_temperature_description
+	// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+	//
+	// We generally recommend altering this or `top_p` but not both.
+	//
 	Temperature *float64 `json:"temperature,omitempty"`
-	// completions_top_p_description
-	TopP *float64    `json:"top_p,omitempty"`
-	User interface{} `json:"user,omitempty"`
+	// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+	//
+	// We generally recommend altering this or `temperature` but not both.
+	//
+	TopP *float64 `json:"top_p,omitempty"`
+	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+	//
+	User *string `json:"user,omitempty"`
 }

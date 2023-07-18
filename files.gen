@@ -88,8 +88,8 @@ internal/sdk/pkg/models/shared/createfilerequest.go
 internal/sdk/pkg/models/shared/createfinetunerequest.go
 internal/sdk/pkg/models/shared/imagesresponse.go
 internal/sdk/pkg/models/shared/createimagerequest.go
-internal/sdk/pkg/models/shared/createimageeditrequest.go
-internal/sdk/pkg/models/shared/createimagevariationrequest.go
+internal/sdk/pkg/models/shared/createimageeditrequest2.go
+internal/sdk/pkg/models/shared/createimagevariationrequest2.go
 internal/sdk/pkg/models/shared/createmoderationresponse.go
 internal/sdk/pkg/models/shared/createmoderationrequest.go
 internal/sdk/pkg/models/shared/createtranscriptionresponse.go

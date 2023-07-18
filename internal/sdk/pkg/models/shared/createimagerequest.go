@@ -75,5 +75,7 @@ type CreateImageRequest struct {
 	ResponseFormat *CreateImageRequestResponseFormat `json:"response_format,omitempty"`
 	// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
 	Size *CreateImageRequestSize `json:"size,omitempty"`
-	User interface{}             `json:"user,omitempty"`
+	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+	//
+	User *string `json:"user,omitempty"`
 }
