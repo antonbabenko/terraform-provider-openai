@@ -1,0 +1,88 @@
+{
+  "extends": [
+    // Default base configuration for all languages.
+    // https://docs.renovatebot.com/presets-config/#configbase
+    "config:base",
+    // Group various lint packages together.                                  | https://docs.renovatebot.com/presets-group/#grouplinters
+    "group:linters",
+    // Pin GitHub Action digests.                                             | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
+    "helpers:pinGitHubActionDigests",
+    // Separate each Major version of dependencies into individual PRs.       | https://docs.renovatebot.com/presets-default/#separatemultiplemajorreleases
+    ":separateMultipleMajorReleases",
+    // Upgrade to unstable versions only if the existing version is unstable. | https://docs.renovatebot.com/presets-default/#ignoreunstable
+    ":ignoreUnstable",
+    // Use semantic prefixes for commit messages and PR titles.               | https://docs.renovatebot.com/presets-default/#semanticcommits
+    ":semanticCommits",
+    // If Renovate detects semantic commits, it will use semantic
+    // commit type `fix` for dependencies and `chore` for all others.         | https://docs.renovatebot.com/presets-default/#semanticprefixfixdepschoreothers
+    ":semanticPrefixFixDepsChoreOthers",
+    // Update `_VERSION` environment variables in GitHub Action files.        | https://docs.renovatebot.com/presets-regexManagers/#regexmanagersgithubactionsversions
+    "regexManagers:githubActionsVersions",
+    // Preserve (but continue to upgrade) any existing SemVer ranges.         | https://docs.renovatebot.com/presets-default/#preservesemverranges
+    ":preserveSemverRanges",
+    // Disable semantic commit scope for all commits and PR titles.           | https://docs.renovatebot.com/presets-default/#semanticcommitscopedisabled
+    ":semanticCommitScopeDisabled",
+  ],
+
+  // Dependency Dashboard issue customization.                                | https://docs.renovatebot.com/configuration-options/#dependencydashboard
+  "dependencyDashboardTitle": "Renovate Dependency Dashboard",
+  "dependencyDashboardLabels": ["auto-update"],
+  "dependencyDashboardHeader": "This issue lists Renovate updates and detected dependencies. Read the [Dependency Dashboard](https://docs.renovatebot.com/key-concepts/dashboard/) docs to learn more.<br>Renovate logs for debug [here](https://developer.mend.io/{{platform}}/{{repository}}).",
+  // Wait at least 3 days for possible fixes before creating a branch/PR.     | https://docs.renovatebot.com/configuration-options/#minimumreleaseage
+  "minimumReleaseAge": "3 days",
+  // Create PRs to roll back versions
+  // if the current version is not found in the registry.                     | https://docs.renovatebot.com/configuration-options/#rollbackprs
+  "rollbackPrs": true,
+  // All matched addLabels strings will be attached to the PR.                | https://docs.renovatebot.com/configuration-options/#addlabels
+  "addLabels": [
+    "auto-update",
+  ],
+  // Sometimes you need to change your Renovate configuration.
+  // To help with this, Renovate will create config migration pull requests.  | https://docs.renovatebot.com/configuration-options/#configmigration
+  "configMigration": true,
+  // Renovate will wait until status checks have been completed
+  // (passed or failed) before raising the PR."                               | https://docs.renovatebot.com/configuration-options/#prcreation
+  "prCreation": "not-pending",
+
+  "vulnerabilityAlerts": {
+    "description": "Be sure that the Dependency graph and Dependabot alerts are enabled for the repo. Details: https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts",
+    "enabled": true,
+    // Append `security` label.
+    "addLabels": ["security"],
+  },
+
+  // Lowercase PR- and commit titles.
+  "commitMessageLowerCase": "never",
+
+  // Rate limit PRs to maximum x created per hour. 0 means no limit.
+  "prHourlyLimit": 0,
+
+  // Terraform manager custom settings                                        | https://docs.renovatebot.com/modules/manager/terraform/
+  "terraform": {
+    "ignorePaths": [
+      "examples/**",
+      "docs/**",
+    ],
+    "pinDigests": true, // Make versions idempotent
+  },
+
+  // In beta. Need opt-in. Details - https://docs.renovatebot.com/modules/manager/pre-commit/
+  "pre-commit": {
+    "enabled": true
+  },
+
+  "packageRules": [
+    {
+      "description": "v prefix workaround for action updates",
+      "matchDepTypes": ["action"],
+      "extractVersion": "^(?<version>v\\d+\\.\\d+\\.\\d+)$",
+      "versioning": "regex:^v(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+))?$"
+    },
+    {
+      "description": "Remove v prefix in regex `_VERSION` updates",
+      "matchManagers": ["regex"],
+      "extractVersion": "^?v?(?<version>\\d+\\.\\d+\\.\\d+.*)$",
+      "versioning": "regex:^v?(?<major>\\d+)(\\.(?<minor>\\d+)\\.(?<patch>\\d+.*))?$"
+    },
+  ],
+}
