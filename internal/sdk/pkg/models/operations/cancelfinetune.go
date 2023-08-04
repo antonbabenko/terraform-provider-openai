@@ -4,7 +4,7 @@ package operations
 
 import (
 	"net/http"
-	"oai/internal/sdk/pkg/models/shared"
+	"openai/internal/sdk/pkg/models/shared"
 )
 
 type CancelFineTuneRequest struct {

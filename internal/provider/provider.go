@@ -4,7 +4,8 @@ package provider
 
 import (
 	"context"
-	"oai/internal/sdk"
+	"openai/internal/sdk"
+	"openai/internal/sdk/pkg/models/shared"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -13,26 +14,27 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ provider.Provider = &OaiProvider{}
+var _ provider.Provider = &OpenaiProvider{}
 
-type OaiProvider struct {
+type OpenaiProvider struct {
 	// version is set to the provider version on release, "dev" when the
 	// provider is built and ran locally, and "test" when running acceptance
 	// testing.
 	version string
 }
 
-// OaiProviderModel describes the provider data model.
-type OaiProviderModel struct {
+// OpenaiProviderModel describes the provider data model.
+type OpenaiProviderModel struct {
 	ServerURL types.String `tfsdk:"server_url"`
+	APIKey    types.String `tfsdk:"api_key"`
 }
 
-func (p *OaiProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "oai"
+func (p *OpenaiProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
+	resp.TypeName = "openai"
 	resp.Version = p.version
 }
 
-func (p *OaiProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
+func (p *OpenaiProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: `OpenAI API: APIs for sampling from and fine-tuning language models`,
 		Attributes: map[string]schema.Attribute{
@@ -41,12 +43,16 @@ func (p *OaiProvider) Schema(ctx context.Context, req provider.SchemaRequest, re
 				Optional:            true,
 				Required:            false,
 			},
+			"api_key": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
+			},
 		},
 	}
 }
 
-func (p *OaiProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	var data OaiProviderModel
+func (p *OpenaiProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	var data OpenaiProviderModel
 
 	resp.Diagnostics.Append(req.Config.Get(ctx, &data)...)
 
@@ -60,8 +66,14 @@ func (p *OaiProvider) Configure(ctx context.Context, req provider.ConfigureReque
 		ServerURL = "https://api.openai.com/v1"
 	}
 
+	apiKey := data.APIKey.ValueString()
+	security := shared.Security{
+		APIKey: apiKey,
+	}
+
 	opts := []sdk.SDKOption{
 		sdk.WithServerURL(ServerURL),
+		sdk.WithSecurity(security),
 	}
 	client := sdk.New(opts...)
 
@@ -69,17 +81,21 @@ func (p *OaiProvider) Configure(ctx context.Context, req provider.ConfigureReque
 	resp.ResourceData = client
 }
 
-func (p *OaiProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+func (p *OpenaiProvider) Resources(ctx context.Context) []func() resource.Resource {
+	return []func() resource.Resource{
+		NewChatCompletionResource,
+		NewCompletionResource,
+		NewImageResource,
+	}
 }
 
-func (p *OaiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *OpenaiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{}
 }
 
 func New(version string) func() provider.Provider {
 	return func() provider.Provider {
-		return &OaiProvider{
+		return &OpenaiProvider{
 			version: version,
 		}
 	}

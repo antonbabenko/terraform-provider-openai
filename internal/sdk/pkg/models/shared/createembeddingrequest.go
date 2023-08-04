@@ -125,28 +125,28 @@ func (u CreateEmbeddingRequestInput) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// CreateEmbeddingRequestModel2 - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
-type CreateEmbeddingRequestModel2 string
+// CreateEmbeddingRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+type CreateEmbeddingRequestModel string
 
 const (
-	CreateEmbeddingRequestModel2TextEmbeddingAda002 CreateEmbeddingRequestModel2 = "text-embedding-ada-002"
+	CreateEmbeddingRequestModelTextEmbeddingAda002 CreateEmbeddingRequestModel = "text-embedding-ada-002"
 )
 
-func (e CreateEmbeddingRequestModel2) ToPointer() *CreateEmbeddingRequestModel2 {
+func (e CreateEmbeddingRequestModel) ToPointer() *CreateEmbeddingRequestModel {
 	return &e
 }
 
-func (e *CreateEmbeddingRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateEmbeddingRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "text-embedding-ada-002":
-		*e = CreateEmbeddingRequestModel2(v)
+		*e = CreateEmbeddingRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateEmbeddingRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateEmbeddingRequestModel: %v", v)
 	}
 }
 
@@ -156,7 +156,7 @@ type CreateEmbeddingRequest struct {
 	Input CreateEmbeddingRequestInput `json:"input"`
 	// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
 	//
-	Model interface{} `json:"model"`
+	Model CreateEmbeddingRequestModel `json:"model"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `json:"user,omitempty"`

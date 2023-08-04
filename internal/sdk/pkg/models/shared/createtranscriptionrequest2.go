@@ -12,28 +12,28 @@ type CreateTranscriptionRequestFile struct {
 	File    string `multipartForm:"name=file"`
 }
 
-// CreateTranscriptionRequestModel2 - ID of the model to use. Only `whisper-1` is currently available.
-type CreateTranscriptionRequestModel2 string
+// CreateTranscriptionRequestModel - ID of the model to use. Only `whisper-1` is currently available.
+type CreateTranscriptionRequestModel string
 
 const (
-	CreateTranscriptionRequestModel2Whisper1 CreateTranscriptionRequestModel2 = "whisper-1"
+	CreateTranscriptionRequestModelWhisper1 CreateTranscriptionRequestModel = "whisper-1"
 )
 
-func (e CreateTranscriptionRequestModel2) ToPointer() *CreateTranscriptionRequestModel2 {
+func (e CreateTranscriptionRequestModel) ToPointer() *CreateTranscriptionRequestModel {
 	return &e
 }
 
-func (e *CreateTranscriptionRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateTranscriptionRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "whisper-1":
-		*e = CreateTranscriptionRequestModel2(v)
+		*e = CreateTranscriptionRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateTranscriptionRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateTranscriptionRequestModel: %v", v)
 	}
 }
 
@@ -74,7 +74,7 @@ func (e *CreateTranscriptionRequestResponseFormat) UnmarshalJSON(data []byte) er
 	}
 }
 
-type CreateTranscriptionRequest1 struct {
+type CreateTranscriptionRequest2 struct {
 	// The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
 	//
 	File CreateTranscriptionRequestFile `multipartForm:"file"`
@@ -83,7 +83,7 @@ type CreateTranscriptionRequest1 struct {
 	Language *string `multipartForm:"name=language"`
 	// ID of the model to use. Only `whisper-1` is currently available.
 	//
-	Model interface{} `multipartForm:"name=model,json"`
+	Model CreateTranscriptionRequestModel `multipartForm:"name=model"`
 	// An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should match the audio language.
 	//
 	Prompt *string `multipartForm:"name=prompt"`

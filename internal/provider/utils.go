@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
 	"net/http"
 	"net/http/httputil"
-	tfReflect "oai/internal/provider/reflect"
+	tfReflect "openai/internal/provider/reflect"
 	"reflect"
 )
 

@@ -4,7 +4,7 @@ package int64planmodifier
 
 import (
 	"context"
-	"oai/internal/planmodifiers/utils"
+	"openai/internal/planmodifiers/utils"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema/planmodifier"
 )

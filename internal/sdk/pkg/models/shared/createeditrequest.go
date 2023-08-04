@@ -7,19 +7,19 @@ import (
 	"fmt"
 )
 
-// CreateEditRequestModel2 - ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
-type CreateEditRequestModel2 string
+// CreateEditRequestModel - ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+type CreateEditRequestModel string
 
 const (
-	CreateEditRequestModel2TextDavinciEdit001 CreateEditRequestModel2 = "text-davinci-edit-001"
-	CreateEditRequestModel2CodeDavinciEdit001 CreateEditRequestModel2 = "code-davinci-edit-001"
+	CreateEditRequestModelTextDavinciEdit001 CreateEditRequestModel = "text-davinci-edit-001"
+	CreateEditRequestModelCodeDavinciEdit001 CreateEditRequestModel = "code-davinci-edit-001"
 )
 
-func (e CreateEditRequestModel2) ToPointer() *CreateEditRequestModel2 {
+func (e CreateEditRequestModel) ToPointer() *CreateEditRequestModel {
 	return &e
 }
 
-func (e *CreateEditRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateEditRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -28,10 +28,10 @@ func (e *CreateEditRequestModel2) UnmarshalJSON(data []byte) error {
 	case "text-davinci-edit-001":
 		fallthrough
 	case "code-davinci-edit-001":
-		*e = CreateEditRequestModel2(v)
+		*e = CreateEditRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateEditRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateEditRequestModel: %v", v)
 	}
 }
 
@@ -41,7 +41,7 @@ type CreateEditRequest struct {
 	// The instruction that tells the model how to edit the prompt.
 	Instruction string `json:"instruction"`
 	// ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
-	Model interface{} `json:"model"`
+	Model CreateEditRequestModel `json:"model"`
 	// How many edits to generate for the input and instruction.
 	N *int64 `json:"n,omitempty"`
 	// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.

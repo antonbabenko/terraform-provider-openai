@@ -9,24 +9,24 @@ import (
 	"fmt"
 )
 
-// CreateCompletionRequestModel2 - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
-type CreateCompletionRequestModel2 string
+// CreateCompletionRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+type CreateCompletionRequestModel string
 
 const (
-	CreateCompletionRequestModel2TextDavinci003 CreateCompletionRequestModel2 = "text-davinci-003"
-	CreateCompletionRequestModel2TextDavinci002 CreateCompletionRequestModel2 = "text-davinci-002"
-	CreateCompletionRequestModel2TextDavinci001 CreateCompletionRequestModel2 = "text-davinci-001"
-	CreateCompletionRequestModel2CodeDavinci002 CreateCompletionRequestModel2 = "code-davinci-002"
-	CreateCompletionRequestModel2TextCurie001   CreateCompletionRequestModel2 = "text-curie-001"
-	CreateCompletionRequestModel2TextBabbage001 CreateCompletionRequestModel2 = "text-babbage-001"
-	CreateCompletionRequestModel2TextAda001     CreateCompletionRequestModel2 = "text-ada-001"
+	CreateCompletionRequestModelTextDavinci003 CreateCompletionRequestModel = "text-davinci-003"
+	CreateCompletionRequestModelTextDavinci002 CreateCompletionRequestModel = "text-davinci-002"
+	CreateCompletionRequestModelTextDavinci001 CreateCompletionRequestModel = "text-davinci-001"
+	CreateCompletionRequestModelCodeDavinci002 CreateCompletionRequestModel = "code-davinci-002"
+	CreateCompletionRequestModelTextCurie001   CreateCompletionRequestModel = "text-curie-001"
+	CreateCompletionRequestModelTextBabbage001 CreateCompletionRequestModel = "text-babbage-001"
+	CreateCompletionRequestModelTextAda001     CreateCompletionRequestModel = "text-ada-001"
 )
 
-func (e CreateCompletionRequestModel2) ToPointer() *CreateCompletionRequestModel2 {
+func (e CreateCompletionRequestModel) ToPointer() *CreateCompletionRequestModel {
 	return &e
 }
 
-func (e *CreateCompletionRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateCompletionRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -45,10 +45,10 @@ func (e *CreateCompletionRequestModel2) UnmarshalJSON(data []byte) error {
 	case "text-babbage-001":
 		fallthrough
 	case "text-ada-001":
-		*e = CreateCompletionRequestModel2(v)
+		*e = CreateCompletionRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateCompletionRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateCompletionRequestModel: %v", v)
 	}
 }
 
@@ -271,7 +271,7 @@ type CreateCompletionRequest struct {
 	MaxTokens *int64 `json:"max_tokens,omitempty"`
 	// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
 	//
-	Model interface{} `json:"model"`
+	Model CreateCompletionRequestModel `json:"model"`
 	// How many completions to generate for each prompt.
 	//
 	// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.

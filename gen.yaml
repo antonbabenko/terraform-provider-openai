@@ -15,4 +15,4 @@ generation:
 terraform:
   version: 1.8.1
   author: antonbabenko
-  packageName: oai
+  packageName: openai

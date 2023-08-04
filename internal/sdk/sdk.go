@@ -5,7 +5,8 @@ package sdk
 import (
 	"fmt"
 	"net/http"
-	"oai/internal/sdk/pkg/utils"
+	"openai/internal/sdk/pkg/models/shared"
+	"openai/internal/sdk/pkg/utils"
 	"time"
 )
 
@@ -38,9 +39,9 @@ func Float32(f float32) *float32 { return &f }
 func Float64(f float64) *float64 { return &f }
 
 type sdkConfiguration struct {
-	DefaultClient  HTTPClient
-	SecurityClient HTTPClient
-
+	DefaultClient     HTTPClient
+	SecurityClient    HTTPClient
+	Security          *shared.Security
 	ServerURL         string
 	ServerIndex       int
 	Language          string
@@ -103,6 +104,13 @@ func WithClient(client HTTPClient) SDKOption {
 	}
 }
 
+// WithSecurity configures the SDK to use the provided security details
+func WithSecurity(security shared.Security) SDKOption {
+	return func(sdk *Oai) {
+		sdk.sdkConfiguration.Security = &security
+	}
+}
+
 // New creates a new instance of the SDK with the provided options
 func New(opts ...SDKOption) *Oai {
 	sdk := &Oai{
@@ -110,7 +118,7 @@ func New(opts ...SDKOption) *Oai {
 			Language:          "terraform",
 			OpenAPIDocVersion: "2.0.0",
 			SDKVersion:        "1.8.1",
-			GenVersion:        "2.75.2",
+			GenVersion:        "2.81.1",
 		},
 	}
 	for _, opt := range opts {
@@ -122,7 +130,11 @@ func New(opts ...SDKOption) *Oai {
 		sdk.sdkConfiguration.DefaultClient = &http.Client{Timeout: 60 * time.Second}
 	}
 	if sdk.sdkConfiguration.SecurityClient == nil {
-		sdk.sdkConfiguration.SecurityClient = sdk.sdkConfiguration.DefaultClient
+		if sdk.sdkConfiguration.Security != nil {
+			sdk.sdkConfiguration.SecurityClient = utils.ConfigureSecurityClient(sdk.sdkConfiguration.DefaultClient, sdk.sdkConfiguration.Security)
+		} else {
+			sdk.sdkConfiguration.SecurityClient = sdk.sdkConfiguration.DefaultClient
+		}
 	}
 
 	sdk.OpenAI = newOpenAI(sdk.sdkConfiguration)

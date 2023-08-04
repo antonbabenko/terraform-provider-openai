@@ -77,21 +77,21 @@ func (u CreateModerationRequestInput) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// CreateModerationRequestModel2 - Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
+// CreateModerationRequestModel - Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
 //
 // The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
-type CreateModerationRequestModel2 string
+type CreateModerationRequestModel string
 
 const (
-	CreateModerationRequestModel2TextModerationLatest CreateModerationRequestModel2 = "text-moderation-latest"
-	CreateModerationRequestModel2TextModerationStable CreateModerationRequestModel2 = "text-moderation-stable"
+	CreateModerationRequestModelTextModerationLatest CreateModerationRequestModel = "text-moderation-latest"
+	CreateModerationRequestModelTextModerationStable CreateModerationRequestModel = "text-moderation-stable"
 )
 
-func (e CreateModerationRequestModel2) ToPointer() *CreateModerationRequestModel2 {
+func (e CreateModerationRequestModel) ToPointer() *CreateModerationRequestModel {
 	return &e
 }
 
-func (e *CreateModerationRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateModerationRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -100,10 +100,10 @@ func (e *CreateModerationRequestModel2) UnmarshalJSON(data []byte) error {
 	case "text-moderation-latest":
 		fallthrough
 	case "text-moderation-stable":
-		*e = CreateModerationRequestModel2(v)
+		*e = CreateModerationRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateModerationRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateModerationRequestModel: %v", v)
 	}
 }
 
@@ -114,5 +114,5 @@ type CreateModerationRequest struct {
 	//
 	// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
 	//
-	Model interface{} `json:"model,omitempty"`
+	Model *CreateModerationRequestModel `json:"model,omitempty"`
 }

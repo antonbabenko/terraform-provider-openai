@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"oai/internal/sdk/pkg/types"
+	"openai/internal/sdk/pkg/types"
 )
 
 const (

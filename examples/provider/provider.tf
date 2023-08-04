@@ -1,12 +1,12 @@
 terraform {
   required_providers {
-    oai = {
-      source  = "antonbabenko/oai"
+    openai = {
+      source  = "antonbabenko/openai"
       version = "1.8.1"
     }
   }
 }
 
-provider "oai" {
+provider "openai" {
   # Configuration options
 }

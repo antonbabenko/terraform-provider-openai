@@ -12,38 +12,38 @@ type CreateTranslationRequestFile struct {
 	File    string `multipartForm:"name=file"`
 }
 
-// CreateTranslationRequestModel2 - ID of the model to use. Only `whisper-1` is currently available.
-type CreateTranslationRequestModel2 string
+// CreateTranslationRequestModel - ID of the model to use. Only `whisper-1` is currently available.
+type CreateTranslationRequestModel string
 
 const (
-	CreateTranslationRequestModel2Whisper1 CreateTranslationRequestModel2 = "whisper-1"
+	CreateTranslationRequestModelWhisper1 CreateTranslationRequestModel = "whisper-1"
 )
 
-func (e CreateTranslationRequestModel2) ToPointer() *CreateTranslationRequestModel2 {
+func (e CreateTranslationRequestModel) ToPointer() *CreateTranslationRequestModel {
 	return &e
 }
 
-func (e *CreateTranslationRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateTranslationRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "whisper-1":
-		*e = CreateTranslationRequestModel2(v)
+		*e = CreateTranslationRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateTranslationRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateTranslationRequestModel: %v", v)
 	}
 }
 
-type CreateTranslationRequest struct {
+type CreateTranslationRequest1 struct {
 	// The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
 	//
 	File CreateTranslationRequestFile `multipartForm:"file"`
 	// ID of the model to use. Only `whisper-1` is currently available.
 	//
-	Model interface{} `multipartForm:"name=model,json"`
+	Model CreateTranslationRequestModel `multipartForm:"name=model"`
 	// An optional text to guide the model's style or continue a previous audio segment. The [prompt](/docs/guides/speech-to-text/prompting) should be in English.
 	//
 	Prompt *string `multipartForm:"name=prompt"`

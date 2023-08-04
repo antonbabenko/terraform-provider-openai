@@ -7,24 +7,24 @@ import (
 	"fmt"
 )
 
-// CreateFineTuneRequestModel2 - The name of the base model to fine-tune. You can select one of "ada",
+// CreateFineTuneRequestModel - The name of the base model to fine-tune. You can select one of "ada",
 // "babbage", "curie", "davinci", or a fine-tuned model created after 2022-04-21.
 // To learn more about these models, see the
 // [Models](https://platform.openai.com/docs/models) documentation.
-type CreateFineTuneRequestModel2 string
+type CreateFineTuneRequestModel string
 
 const (
-	CreateFineTuneRequestModel2Ada     CreateFineTuneRequestModel2 = "ada"
-	CreateFineTuneRequestModel2Babbage CreateFineTuneRequestModel2 = "babbage"
-	CreateFineTuneRequestModel2Curie   CreateFineTuneRequestModel2 = "curie"
-	CreateFineTuneRequestModel2Davinci CreateFineTuneRequestModel2 = "davinci"
+	CreateFineTuneRequestModelAda     CreateFineTuneRequestModel = "ada"
+	CreateFineTuneRequestModelBabbage CreateFineTuneRequestModel = "babbage"
+	CreateFineTuneRequestModelCurie   CreateFineTuneRequestModel = "curie"
+	CreateFineTuneRequestModelDavinci CreateFineTuneRequestModel = "davinci"
 )
 
-func (e CreateFineTuneRequestModel2) ToPointer() *CreateFineTuneRequestModel2 {
+func (e CreateFineTuneRequestModel) ToPointer() *CreateFineTuneRequestModel {
 	return &e
 }
 
-func (e *CreateFineTuneRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateFineTuneRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -37,10 +37,10 @@ func (e *CreateFineTuneRequestModel2) UnmarshalJSON(data []byte) error {
 	case "curie":
 		fallthrough
 	case "davinci":
-		*e = CreateFineTuneRequestModel2(v)
+		*e = CreateFineTuneRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateFineTuneRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateFineTuneRequestModel: %v", v)
 	}
 }
 
@@ -101,7 +101,7 @@ type CreateFineTuneRequest struct {
 	// To learn more about these models, see the
 	// [Models](https://platform.openai.com/docs/models) documentation.
 	//
-	Model interface{} `json:"model,omitempty"`
+	Model *CreateFineTuneRequestModel `json:"model,omitempty"`
 	// The number of epochs to train the model for. An epoch refers to one
 	// full cycle through the training dataset.
 	//
