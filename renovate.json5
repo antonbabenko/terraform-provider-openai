@@ -1,8 +1,8 @@
 {
   "extends": [
     // Default base configuration for all languages.
-    // https://docs.renovatebot.com/presets-config/#configbase
-    "config:base",
+    // https://docs.renovatebot.com/presets-config/#configrecommended
+    "config:recommended",
     // Group various lint packages together.                                  | https://docs.renovatebot.com/presets-group/#grouplinters
     "group:linters",
     // Pin GitHub Action digests.                                             | https://docs.renovatebot.com/presets-helpers/#helperspingithubactiondigests
