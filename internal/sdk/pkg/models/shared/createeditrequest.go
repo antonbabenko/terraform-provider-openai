@@ -3,23 +3,25 @@
 package shared
 
 import (
+	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 )
 
-// CreateEditRequestModel - ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
-type CreateEditRequestModel string
+// CreateEditRequestModel2 - ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.
+type CreateEditRequestModel2 string
 
 const (
-	CreateEditRequestModelTextDavinciEdit001 CreateEditRequestModel = "text-davinci-edit-001"
-	CreateEditRequestModelCodeDavinciEdit001 CreateEditRequestModel = "code-davinci-edit-001"
+	CreateEditRequestModel2TextDavinciEdit001 CreateEditRequestModel2 = "text-davinci-edit-001"
+	CreateEditRequestModel2CodeDavinciEdit001 CreateEditRequestModel2 = "code-davinci-edit-001"
 )
 
-func (e CreateEditRequestModel) ToPointer() *CreateEditRequestModel {
+func (e CreateEditRequestModel2) ToPointer() *CreateEditRequestModel2 {
 	return &e
 }
 
-func (e *CreateEditRequestModel) UnmarshalJSON(data []byte) error {
+func (e *CreateEditRequestModel2) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -28,11 +30,79 @@ func (e *CreateEditRequestModel) UnmarshalJSON(data []byte) error {
 	case "text-davinci-edit-001":
 		fallthrough
 	case "code-davinci-edit-001":
-		*e = CreateEditRequestModel(v)
+		*e = CreateEditRequestModel2(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateEditRequestModel: %v", v)
+		return fmt.Errorf("invalid value for CreateEditRequestModel2: %v", v)
 	}
+}
+
+type CreateEditRequestModelType string
+
+const (
+	CreateEditRequestModelTypeStr                     CreateEditRequestModelType = "str"
+	CreateEditRequestModelTypeCreateEditRequestModel2 CreateEditRequestModelType = "CreateEditRequest_model_2"
+)
+
+type CreateEditRequestModel struct {
+	Str                     *string
+	CreateEditRequestModel2 *CreateEditRequestModel2
+
+	Type CreateEditRequestModelType
+}
+
+func CreateCreateEditRequestModelStr(str string) CreateEditRequestModel {
+	typ := CreateEditRequestModelTypeStr
+
+	return CreateEditRequestModel{
+		Str:  &str,
+		Type: typ,
+	}
+}
+
+func CreateCreateEditRequestModelCreateEditRequestModel2(createEditRequestModel2 CreateEditRequestModel2) CreateEditRequestModel {
+	typ := CreateEditRequestModelTypeCreateEditRequestModel2
+
+	return CreateEditRequestModel{
+		CreateEditRequestModel2: &createEditRequestModel2,
+		Type:                    typ,
+	}
+}
+
+func (u *CreateEditRequestModel) UnmarshalJSON(data []byte) error {
+	var d *json.Decoder
+
+	str := new(string)
+	d = json.NewDecoder(bytes.NewReader(data))
+	d.DisallowUnknownFields()
+	if err := d.Decode(&str); err == nil {
+		u.Str = str
+		u.Type = CreateEditRequestModelTypeStr
+		return nil
+	}
+
+	createEditRequestModel2 := new(CreateEditRequestModel2)
+	d = json.NewDecoder(bytes.NewReader(data))
+	d.DisallowUnknownFields()
+	if err := d.Decode(&createEditRequestModel2); err == nil {
+		u.CreateEditRequestModel2 = createEditRequestModel2
+		u.Type = CreateEditRequestModelTypeCreateEditRequestModel2
+		return nil
+	}
+
+	return errors.New("could not unmarshal into supported union types")
+}
+
+func (u CreateEditRequestModel) MarshalJSON() ([]byte, error) {
+	if u.Str != nil {
+		return json.Marshal(u.Str)
+	}
+
+	if u.CreateEditRequestModel2 != nil {
+		return json.Marshal(u.CreateEditRequestModel2)
+	}
+
+	return nil, nil
 }
 
 type CreateEditRequest struct {
