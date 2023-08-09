@@ -2,8 +2,8 @@ configVersion: 1.0.0
 management:
   docChecksum: 60758465b46e16e9341d0f17cc2819bd
   docVersion: 2.0.0
-  speakeasyVersion: 1.69.1
-  generationVersion: 2.82.0
+  speakeasyVersion: 1.70.2
+  generationVersion: 2.83.3
 generation:
   comments:
     disableComments: false
@@ -14,10 +14,10 @@ generation:
   tagNamespacingDisabled: false
 features:
   terraform:
-    core: 2.82.0
+    core: 2.83.0
     deprecations: 2.81.1
     globalServerURLs: 2.81.1
 terraform:
-  version: 1.10.0
+  version: 1.11.0
   author: antonbabenko
   packageName: openai
