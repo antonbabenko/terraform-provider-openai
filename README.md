@@ -21,7 +21,7 @@ terraform {
   required_providers {
     openai = {
       source  = "antonbabenko/openai"
-      version = "1.8.1"
+      version = "1.11.1"
     }
   }
 }
