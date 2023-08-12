@@ -145,7 +145,7 @@ func (e *CreateTranscriptionRequestResponseFormat) UnmarshalJSON(data []byte) er
 }
 
 type CreateTranscriptionRequest1 struct {
-	// The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
+	// The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
 	//
 	File CreateTranscriptionRequestFile `multipartForm:"file"`
 	// The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.
