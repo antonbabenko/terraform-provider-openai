@@ -74,6 +74,7 @@ internal/sdk/pkg/models/shared/finetune.go
 internal/sdk/pkg/models/shared/openaifile.go
 internal/sdk/pkg/models/shared/finetuneevent.go
 internal/sdk/pkg/models/shared/createchatcompletionresponse.go
+internal/sdk/pkg/models/shared/completionusage.go
 internal/sdk/pkg/models/shared/chatcompletionresponsemessage.go
 internal/sdk/pkg/models/shared/createchatcompletionrequest.go
 internal/sdk/pkg/models/shared/chatcompletionrequestmessage.go
@@ -83,10 +84,12 @@ internal/sdk/pkg/models/shared/createcompletionrequest.go
 internal/sdk/pkg/models/shared/createeditresponse.go
 internal/sdk/pkg/models/shared/createeditrequest.go
 internal/sdk/pkg/models/shared/createembeddingresponse.go
+internal/sdk/pkg/models/shared/embedding.go
 internal/sdk/pkg/models/shared/createembeddingrequest.go
 internal/sdk/pkg/models/shared/createfilerequest.go
 internal/sdk/pkg/models/shared/createfinetunerequest.go
 internal/sdk/pkg/models/shared/imagesresponse.go
+internal/sdk/pkg/models/shared/image.go
 internal/sdk/pkg/models/shared/createimagerequest.go
 internal/sdk/pkg/models/shared/createimageeditrequest2.go
 internal/sdk/pkg/models/shared/createimagevariationrequest2.go

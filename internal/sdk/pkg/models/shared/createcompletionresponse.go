@@ -7,6 +7,8 @@ import (
 	"fmt"
 )
 
+// CreateCompletionResponseChoicesFinishReason - The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+// or `length` if the maximum number of tokens specified in the request was reached.
 type CreateCompletionResponseChoicesFinishReason string
 
 const (
@@ -42,24 +44,27 @@ type CreateCompletionResponseChoicesLogprobs struct {
 }
 
 type CreateCompletionResponseChoices struct {
+	// The reason the model stopped generating tokens. This will be `stop` if the model hit a natural stop point or a provided stop sequence,
+	// or `length` if the maximum number of tokens specified in the request was reached.
+	//
 	FinishReason CreateCompletionResponseChoicesFinishReason `json:"finish_reason"`
 	Index        int64                                       `json:"index"`
 	Logprobs     CreateCompletionResponseChoicesLogprobs     `json:"logprobs"`
 	Text         string                                      `json:"text"`
 }
 
-type CreateCompletionResponseUsage struct {
-	CompletionTokens int64 `json:"completion_tokens"`
-	PromptTokens     int64 `json:"prompt_tokens"`
-	TotalTokens      int64 `json:"total_tokens"`
-}
-
-// CreateCompletionResponse - OK
+// CreateCompletionResponse - Represents a completion response from the API. Note: both the streamed and non-streamed response objects share the same shape (unlike the chat endpoint).
 type CreateCompletionResponse struct {
+	// The list of completion choices the model generated for the input prompt.
 	Choices []CreateCompletionResponseChoices `json:"choices"`
-	Created int64                             `json:"created"`
-	ID      string                            `json:"id"`
-	Model   string                            `json:"model"`
-	Object  string                            `json:"object"`
-	Usage   *CreateCompletionResponseUsage    `json:"usage,omitempty"`
+	// The Unix timestamp of when the completion was created.
+	Created int64 `json:"created"`
+	// A unique identifier for the completion.
+	ID string `json:"id"`
+	// The model used for completion.
+	Model string `json:"model"`
+	// The object type, which is always "text_completion"
+	Object string `json:"object"`
+	// Usage statistics for the completion request.
+	Usage *CompletionUsage `json:"usage,omitempty"`
 }

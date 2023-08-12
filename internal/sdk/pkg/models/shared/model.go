@@ -2,10 +2,14 @@
 
 package shared
 
-// Model - OK
+// Model - Describes an OpenAI model offering that can be used with the API.
 type Model struct {
-	Created int64  `json:"created"`
-	ID      string `json:"id"`
-	Object  string `json:"object"`
+	// The date and time when the model was created.
+	Created int64 `json:"created"`
+	// The model identifier, which can be referenced in the API endpoints.
+	ID string `json:"id"`
+	// The object type, which is always "model".
+	Object string `json:"object"`
+	// The organization that owns the model.
 	OwnedBy string `json:"owned_by"`
 }
