@@ -9,12 +9,6 @@ import (
 	"fmt"
 )
 
-// CreateChatCompletionRequestFunctionCall2 - Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
-type CreateChatCompletionRequestFunctionCall2 struct {
-	// The name of the function to call.
-	Name string `json:"name"`
-}
-
 // CreateChatCompletionRequestFunctionCall1 - Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
 type CreateChatCompletionRequestFunctionCall1 string
 
@@ -47,12 +41,12 @@ type CreateChatCompletionRequestFunctionCallType string
 
 const (
 	CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall1 CreateChatCompletionRequestFunctionCallType = "CreateChatCompletionRequest_function_call_1"
-	CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall2 CreateChatCompletionRequestFunctionCallType = "CreateChatCompletionRequest_function_call_2"
+	CreateChatCompletionRequestFunctionCallTypeChatCompletionFunctionCallOption         CreateChatCompletionRequestFunctionCallType = "ChatCompletionFunctionCallOption"
 )
 
 type CreateChatCompletionRequestFunctionCall struct {
 	CreateChatCompletionRequestFunctionCall1 *CreateChatCompletionRequestFunctionCall1
-	CreateChatCompletionRequestFunctionCall2 *CreateChatCompletionRequestFunctionCall2
+	ChatCompletionFunctionCallOption         *ChatCompletionFunctionCallOption
 
 	Type CreateChatCompletionRequestFunctionCallType
 }
@@ -66,12 +60,12 @@ func CreateCreateChatCompletionRequestFunctionCallCreateChatCompletionRequestFun
 	}
 }
 
-func CreateCreateChatCompletionRequestFunctionCallCreateChatCompletionRequestFunctionCall2(createChatCompletionRequestFunctionCall2 CreateChatCompletionRequestFunctionCall2) CreateChatCompletionRequestFunctionCall {
-	typ := CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall2
+func CreateCreateChatCompletionRequestFunctionCallChatCompletionFunctionCallOption(chatCompletionFunctionCallOption ChatCompletionFunctionCallOption) CreateChatCompletionRequestFunctionCall {
+	typ := CreateChatCompletionRequestFunctionCallTypeChatCompletionFunctionCallOption
 
 	return CreateChatCompletionRequestFunctionCall{
-		CreateChatCompletionRequestFunctionCall2: &createChatCompletionRequestFunctionCall2,
-		Type:                                     typ,
+		ChatCompletionFunctionCallOption: &chatCompletionFunctionCallOption,
+		Type:                             typ,
 	}
 }
 
@@ -87,12 +81,12 @@ func (u *CreateChatCompletionRequestFunctionCall) UnmarshalJSON(data []byte) err
 		return nil
 	}
 
-	createChatCompletionRequestFunctionCall2 := new(CreateChatCompletionRequestFunctionCall2)
+	chatCompletionFunctionCallOption := new(ChatCompletionFunctionCallOption)
 	d = json.NewDecoder(bytes.NewReader(data))
 	d.DisallowUnknownFields()
-	if err := d.Decode(&createChatCompletionRequestFunctionCall2); err == nil {
-		u.CreateChatCompletionRequestFunctionCall2 = createChatCompletionRequestFunctionCall2
-		u.Type = CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall2
+	if err := d.Decode(&chatCompletionFunctionCallOption); err == nil {
+		u.ChatCompletionFunctionCallOption = chatCompletionFunctionCallOption
+		u.Type = CreateChatCompletionRequestFunctionCallTypeChatCompletionFunctionCallOption
 		return nil
 	}
 
@@ -104,8 +98,8 @@ func (u CreateChatCompletionRequestFunctionCall) MarshalJSON() ([]byte, error) {
 		return json.Marshal(u.CreateChatCompletionRequestFunctionCall1)
 	}
 
-	if u.CreateChatCompletionRequestFunctionCall2 != nil {
-		return json.Marshal(u.CreateChatCompletionRequestFunctionCall2)
+	if u.ChatCompletionFunctionCallOption != nil {
+		return json.Marshal(u.ChatCompletionFunctionCallOption)
 	}
 
 	return nil, nil

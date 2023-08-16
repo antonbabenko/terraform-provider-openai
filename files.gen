@@ -79,6 +79,7 @@ internal/sdk/pkg/models/shared/chatcompletionresponsemessage.go
 internal/sdk/pkg/models/shared/createchatcompletionrequest.go
 internal/sdk/pkg/models/shared/chatcompletionrequestmessage.go
 internal/sdk/pkg/models/shared/chatcompletionfunctions.go
+internal/sdk/pkg/models/shared/chatcompletionfunctioncalloption.go
 internal/sdk/pkg/models/shared/createcompletionresponse.go
 internal/sdk/pkg/models/shared/createcompletionrequest.go
 internal/sdk/pkg/models/shared/createeditresponse.go
