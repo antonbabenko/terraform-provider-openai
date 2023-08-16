@@ -1,6 +1,6 @@
 configVersion: 1.0.0
 management:
-  docChecksum: c73282185ebaac1c90cd78ffee98b5f9
+  docChecksum: 5464ed8d7a2492f7fb97c01270a11d2b
   docVersion: 2.0.0
   speakeasyVersion: 1.73.1
   generationVersion: 2.84.3
@@ -18,6 +18,6 @@ features:
     deprecations: 2.81.1
     globalServerURLs: 2.82.0
 terraform:
-  version: 1.12.1
+  version: 1.12.2
   author: antonbabenko
   packageName: openai
