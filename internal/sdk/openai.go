@@ -70,7 +70,7 @@ func (s *openAI) CancelFineTune(ctx context.Context, request operations.CancelFi
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.FineTune
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.FineTune = out
@@ -93,7 +93,10 @@ func (s *openAI) CreateChatCompletion(ctx context.Context, request shared.Create
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -116,6 +119,7 @@ func (s *openAI) CreateChatCompletion(ctx context.Context, request shared.Create
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -132,7 +136,7 @@ func (s *openAI) CreateChatCompletion(ctx context.Context, request shared.Create
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateChatCompletionResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateChatCompletionResponse = out
@@ -155,7 +159,10 @@ func (s *openAI) CreateCompletion(ctx context.Context, request shared.CreateComp
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -178,6 +185,7 @@ func (s *openAI) CreateCompletion(ctx context.Context, request shared.CreateComp
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -194,7 +202,7 @@ func (s *openAI) CreateCompletion(ctx context.Context, request shared.CreateComp
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateCompletionResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateCompletionResponse = out
@@ -219,7 +227,10 @@ func (s *openAI) CreateEdit(ctx context.Context, request shared.CreateEditReques
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -242,6 +253,7 @@ func (s *openAI) CreateEdit(ctx context.Context, request shared.CreateEditReques
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -258,7 +270,7 @@ func (s *openAI) CreateEdit(ctx context.Context, request shared.CreateEditReques
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateEditResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateEditResponse = out
@@ -281,7 +293,10 @@ func (s *openAI) CreateEmbedding(ctx context.Context, request shared.CreateEmbed
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -304,6 +319,7 @@ func (s *openAI) CreateEmbedding(ctx context.Context, request shared.CreateEmbed
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -320,7 +336,7 @@ func (s *openAI) CreateEmbedding(ctx context.Context, request shared.CreateEmbed
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateEmbeddingResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateEmbeddingResponse = out
@@ -343,7 +359,10 @@ func (s *openAI) CreateFile(ctx context.Context, request shared.CreateFileReques
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -366,6 +385,7 @@ func (s *openAI) CreateFile(ctx context.Context, request shared.CreateFileReques
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -382,7 +402,7 @@ func (s *openAI) CreateFile(ctx context.Context, request shared.CreateFileReques
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.OpenAIFile
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.OpenAIFile = out
@@ -409,7 +429,10 @@ func (s *openAI) CreateFineTune(ctx context.Context, request shared.CreateFineTu
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -432,6 +455,7 @@ func (s *openAI) CreateFineTune(ctx context.Context, request shared.CreateFineTu
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -448,7 +472,7 @@ func (s *openAI) CreateFineTune(ctx context.Context, request shared.CreateFineTu
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.FineTune
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.FineTune = out
@@ -471,7 +495,10 @@ func (s *openAI) CreateImage(ctx context.Context, request shared.CreateImageRequ
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -494,6 +521,7 @@ func (s *openAI) CreateImage(ctx context.Context, request shared.CreateImageRequ
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -510,7 +538,7 @@ func (s *openAI) CreateImage(ctx context.Context, request shared.CreateImageRequ
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ImagesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ImagesResponse = out
@@ -533,7 +561,10 @@ func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImage
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -556,6 +587,7 @@ func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImage
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -572,7 +604,7 @@ func (s *openAI) CreateImageEdit(ctx context.Context, request shared.CreateImage
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ImagesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ImagesResponse = out
@@ -595,7 +627,10 @@ func (s *openAI) CreateImageVariation(ctx context.Context, request shared.Create
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -618,6 +653,7 @@ func (s *openAI) CreateImageVariation(ctx context.Context, request shared.Create
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -634,7 +670,7 @@ func (s *openAI) CreateImageVariation(ctx context.Context, request shared.Create
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ImagesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ImagesResponse = out
@@ -657,7 +693,10 @@ func (s *openAI) CreateModeration(ctx context.Context, request shared.CreateMode
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -680,6 +719,7 @@ func (s *openAI) CreateModeration(ctx context.Context, request shared.CreateMode
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -696,7 +736,7 @@ func (s *openAI) CreateModeration(ctx context.Context, request shared.CreateMode
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateModerationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateModerationResponse = out
@@ -719,7 +759,10 @@ func (s *openAI) CreateTranscription(ctx context.Context, request shared.CreateT
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -742,6 +785,7 @@ func (s *openAI) CreateTranscription(ctx context.Context, request shared.CreateT
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -758,7 +802,7 @@ func (s *openAI) CreateTranscription(ctx context.Context, request shared.CreateT
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateTranscriptionResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateTranscriptionResponse = out
@@ -781,7 +825,10 @@ func (s *openAI) CreateTranslation(ctx context.Context, request shared.CreateTra
 		return nil, fmt.Errorf("request body is required")
 	}
 
-	req, err := http.NewRequestWithContext(ctx, "POST", url, bodyReader)
+	debugBody := bytes.NewBuffer([]byte{})
+	debugReader := io.TeeReader(bodyReader, debugBody)
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, debugReader)
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %w", err)
 	}
@@ -804,6 +851,7 @@ func (s *openAI) CreateTranslation(ctx context.Context, request shared.CreateTra
 	if err != nil {
 		return nil, fmt.Errorf("error reading response body: %w", err)
 	}
+	httpRes.Request.Body = io.NopCloser(debugBody)
 	httpRes.Body.Close()
 	httpRes.Body = io.NopCloser(bytes.NewBuffer(rawBody))
 
@@ -820,7 +868,7 @@ func (s *openAI) CreateTranslation(ctx context.Context, request shared.CreateTra
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.CreateTranslationResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.CreateTranslationResponse = out
@@ -875,7 +923,7 @@ func (s *openAI) DeleteFile(ctx context.Context, request operations.DeleteFileRe
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.DeleteFileResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.DeleteFileResponse = out
@@ -930,7 +978,7 @@ func (s *openAI) DeleteModel(ctx context.Context, request operations.DeleteModel
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.DeleteModelResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.DeleteModelResponse = out
@@ -1033,7 +1081,7 @@ func (s *openAI) ListFiles(ctx context.Context) (*operations.ListFilesResponse, 
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ListFilesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ListFilesResponse = out
@@ -1092,7 +1140,7 @@ func (s *openAI) ListFineTuneEvents(ctx context.Context, request operations.List
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ListFineTuneEventsResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ListFineTuneEventsResponse = out
@@ -1144,7 +1192,7 @@ func (s *openAI) ListFineTunes(ctx context.Context) (*operations.ListFineTunesRe
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ListFineTunesResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ListFineTunesResponse = out
@@ -1196,7 +1244,7 @@ func (s *openAI) ListModels(ctx context.Context) (*operations.ListModelsResponse
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.ListModelsResponse
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.ListModelsResponse = out
@@ -1251,7 +1299,7 @@ func (s *openAI) RetrieveFile(ctx context.Context, request operations.RetrieveFi
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.OpenAIFile
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.OpenAIFile = out
@@ -1308,7 +1356,7 @@ func (s *openAI) RetrieveFineTune(ctx context.Context, request operations.Retrie
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.FineTune
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.FineTune = out
@@ -1363,7 +1411,7 @@ func (s *openAI) RetrieveModel(ctx context.Context, request operations.RetrieveM
 		case utils.MatchContentType(contentType, `application/json`):
 			var out *shared.Model
 			if err := utils.UnmarshalJsonFromResponseBody(bytes.NewBuffer(rawBody), &out); err != nil {
-				return nil, err
+				return res, err
 			}
 
 			res.Model = out
