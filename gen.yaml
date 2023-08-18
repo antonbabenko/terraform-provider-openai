@@ -18,6 +18,7 @@ features:
     deprecations: 2.81.1
     globalSecurity: 2.81.1
     globalServerURLs: 2.82.0
+    ignores: 2.81.1
     includes: 2.81.1
     typeOverrides: 2.81.1
 terraform:

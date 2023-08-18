@@ -36,7 +36,8 @@ func (p *OpenaiProvider) Metadata(ctx context.Context, req provider.MetadataRequ
 
 func (p *OpenaiProvider) Schema(ctx context.Context, req provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: `OpenAI API: APIs for sampling from and fine-tuning language models`,
+		MarkdownDescription: `OpenAI API: APIs for sampling from and fine-tuning language models. Hello World!` + "\n" +
+			``,
 		Attributes: map[string]schema.Attribute{
 			"server_url": schema.StringAttribute{
 				MarkdownDescription: "Server URL (defaults to https://api.openai.com/v1)",
@@ -85,6 +86,7 @@ func (p *OpenaiProvider) Resources(ctx context.Context) []func() resource.Resour
 	return []func() resource.Resource{
 		NewChatCompletionResource,
 		NewCompletionResource,
+		NewEmbeddingResource,
 		NewImageResource,
 	}
 }

@@ -16,7 +16,6 @@ type CreateEmbeddingResponseUsage struct {
 // CreateEmbeddingResponse - OK
 type CreateEmbeddingResponse struct {
 	Data   []CreateEmbeddingResponseData `json:"data"`
-	Model  string                        `json:"model"`
 	Object string                        `json:"object"`
 	Usage  CreateEmbeddingResponseUsage  `json:"usage"`
 }

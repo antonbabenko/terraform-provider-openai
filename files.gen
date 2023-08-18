@@ -12,6 +12,8 @@ internal/provider/type_create_chat_completion_response_usage.go
 internal/provider/type_create_completion_response_choices_logprobs.go
 internal/provider/type_create_completion_response_choices.go
 internal/provider/type_create_completion_request_prompt.go
+internal/provider/type_create_embedding_response_data.go
+internal/provider/type_create_embedding_response_usage.go
 internal/provider/type_images_response_data.go
 examples/README.md
 go.mod
@@ -126,6 +128,9 @@ examples/resources/openai_chat_completion/resource.tf
 internal/provider/completion_resource.go
 internal/provider/completion_resource_sdk.go
 examples/resources/openai_completion/resource.tf
+internal/provider/embedding_resource.go
+internal/provider/embedding_resource_sdk.go
+examples/resources/openai_embedding/resource.tf
 internal/provider/image_resource.go
 internal/provider/image_resource_sdk.go
 examples/resources/openai_image/resource.tf

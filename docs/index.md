@@ -3,12 +3,12 @@
 page_title: "openai Provider"
 subcategory: ""
 description: |-
-  OpenAI API: APIs for sampling from and fine-tuning language models
+  OpenAI API: APIs for sampling from and fine-tuning language models. Hello World!
 ---
 
 # openai Provider
 
-OpenAI API: APIs for sampling from and fine-tuning language models
+OpenAI API: APIs for sampling from and fine-tuning language models. Hello World!
 
 ## Example Usage
 
@@ -17,7 +17,7 @@ terraform {
   required_providers {
     openai = {
       source  = "antonbabenko/openai"
-      version = "1.8.1"
+      version = "1.12.4"
     }
   }
 }

@@ -1,7 +1,9 @@
 openapi: 3.0.0
 info:
   title: OpenAI API
-  description: APIs for sampling from and fine-tuning language models
+  description: |
+    APIs for sampling from and fine-tuning language models. Hello World!
+
   version: '2.0.0'
 servers:
   - url: https://api.openai.com/v1
@@ -470,7 +472,7 @@ paths:
 
   /embeddings:
     post:
-#      x-speakeasy-entity-operation: Embeddings#create
+      x-speakeasy-entity-operation: Embedding#create
       operationId: createEmbedding
       tags:
         - OpenAI
@@ -2702,7 +2704,7 @@ components:
         - data
 
     CreateEmbeddingRequest:
-#      x-speakeasy-entity: Embedding
+      x-speakeasy-entity: Embedding
       type: object
       additionalProperties: false
       properties:
@@ -2744,12 +2746,14 @@ components:
         - input
 
     CreateEmbeddingResponse:
+      x-speakeasy-entity: Embedding
       type: object
       properties:
         object:
           type: string
         model:
           type: string
+          x-speakeasy-ignore: true
         data:
           type: array
           items:

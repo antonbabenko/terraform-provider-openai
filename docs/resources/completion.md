@@ -45,7 +45,7 @@ resource "openai_completion" "my_completion" {
 
 ### Required
 
-- `model` (String) must be one of [text-davinci-003, text-davinci-002, text-davinci-001, code-davinci-002, text-curie-001, text-babbage-001, text-ada-001]
+- `model` (String) must be one of ["text-davinci-003", "text-davinci-002", "text-davinci-001", "code-davinci-002", "text-curie-001", "text-babbage-001", "text-ada-001"]
 ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
 - `prompt` (Attributes) The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
 
@@ -123,7 +123,7 @@ Optional:
 
 Read-Only:
 
-- `finish_reason` (String) must be one of [stop, length]
+- `finish_reason` (String) must be one of ["stop", "length"]
 - `index` (Number)
 - `logprobs` (Attributes) (see [below for nested schema](#nestedatt--choices--logprobs))
 - `text` (String)

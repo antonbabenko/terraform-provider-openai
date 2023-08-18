@@ -58,7 +58,7 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 	return ServerList[c.ServerIndex], nil
 }
 
-// Oai - OpenAI API: APIs for sampling from and fine-tuning language models
+// Oai - OpenAI API: APIs for sampling from and fine-tuning language models. Hello World!
 type Oai struct {
 	// OpenAI - The OpenAI REST API
 	OpenAI *openAI
