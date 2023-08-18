@@ -125,97 +125,29 @@ func (u CreateEmbeddingRequestInput) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
-// CreateEmbeddingRequestModel2 - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
-type CreateEmbeddingRequestModel2 string
+// CreateEmbeddingRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+type CreateEmbeddingRequestModel string
 
 const (
-	CreateEmbeddingRequestModel2TextEmbeddingAda002 CreateEmbeddingRequestModel2 = "text-embedding-ada-002"
+	CreateEmbeddingRequestModelTextEmbeddingAda002 CreateEmbeddingRequestModel = "text-embedding-ada-002"
 )
 
-func (e CreateEmbeddingRequestModel2) ToPointer() *CreateEmbeddingRequestModel2 {
+func (e CreateEmbeddingRequestModel) ToPointer() *CreateEmbeddingRequestModel {
 	return &e
 }
 
-func (e *CreateEmbeddingRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateEmbeddingRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "text-embedding-ada-002":
-		*e = CreateEmbeddingRequestModel2(v)
+		*e = CreateEmbeddingRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateEmbeddingRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateEmbeddingRequestModel: %v", v)
 	}
-}
-
-type CreateEmbeddingRequestModelType string
-
-const (
-	CreateEmbeddingRequestModelTypeStr                          CreateEmbeddingRequestModelType = "str"
-	CreateEmbeddingRequestModelTypeCreateEmbeddingRequestModel2 CreateEmbeddingRequestModelType = "CreateEmbeddingRequest_model_2"
-)
-
-type CreateEmbeddingRequestModel struct {
-	Str                          *string
-	CreateEmbeddingRequestModel2 *CreateEmbeddingRequestModel2
-
-	Type CreateEmbeddingRequestModelType
-}
-
-func CreateCreateEmbeddingRequestModelStr(str string) CreateEmbeddingRequestModel {
-	typ := CreateEmbeddingRequestModelTypeStr
-
-	return CreateEmbeddingRequestModel{
-		Str:  &str,
-		Type: typ,
-	}
-}
-
-func CreateCreateEmbeddingRequestModelCreateEmbeddingRequestModel2(createEmbeddingRequestModel2 CreateEmbeddingRequestModel2) CreateEmbeddingRequestModel {
-	typ := CreateEmbeddingRequestModelTypeCreateEmbeddingRequestModel2
-
-	return CreateEmbeddingRequestModel{
-		CreateEmbeddingRequestModel2: &createEmbeddingRequestModel2,
-		Type:                         typ,
-	}
-}
-
-func (u *CreateEmbeddingRequestModel) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
-
-	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
-		u.Str = str
-		u.Type = CreateEmbeddingRequestModelTypeStr
-		return nil
-	}
-
-	createEmbeddingRequestModel2 := new(CreateEmbeddingRequestModel2)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&createEmbeddingRequestModel2); err == nil {
-		u.CreateEmbeddingRequestModel2 = createEmbeddingRequestModel2
-		u.Type = CreateEmbeddingRequestModelTypeCreateEmbeddingRequestModel2
-		return nil
-	}
-
-	return errors.New("could not unmarshal into supported union types")
-}
-
-func (u CreateEmbeddingRequestModel) MarshalJSON() ([]byte, error) {
-	if u.Str != nil {
-		return json.Marshal(u.Str)
-	}
-
-	if u.CreateEmbeddingRequestModel2 != nil {
-		return json.Marshal(u.CreateEmbeddingRequestModel2)
-	}
-
-	return nil, nil
 }
 
 type CreateEmbeddingRequest struct {

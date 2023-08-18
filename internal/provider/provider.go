@@ -5,6 +5,7 @@ package provider
 import (
 	"context"
 	"openai/internal/sdk"
+	"openai/internal/sdk/pkg/models/shared"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -25,6 +26,7 @@ type OpenaiProvider struct {
 // OpenaiProviderModel describes the provider data model.
 type OpenaiProviderModel struct {
 	ServerURL types.String `tfsdk:"server_url"`
+	APIKey    types.String `tfsdk:"api_key"`
 }
 
 func (p *OpenaiProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {
@@ -40,6 +42,10 @@ func (p *OpenaiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				MarkdownDescription: "Server URL (defaults to https://api.openai.com/v1)",
 				Optional:            true,
 				Required:            false,
+			},
+			"api_key": schema.StringAttribute{
+				Optional:  true,
+				Sensitive: true,
 			},
 		},
 	}
@@ -60,8 +66,14 @@ func (p *OpenaiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		ServerURL = "https://api.openai.com/v1"
 	}
 
+	apiKey := data.APIKey.ValueString()
+	security := shared.Security{
+		APIKey: apiKey,
+	}
+
 	opts := []sdk.SDKOption{
 		sdk.WithServerURL(ServerURL),
+		sdk.WithSecurity(security),
 	}
 	client := sdk.New(opts...)
 
@@ -70,7 +82,11 @@ func (p *OpenaiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 }
 
 func (p *OpenaiProvider) Resources(ctx context.Context) []func() resource.Resource {
-	return []func() resource.Resource{}
+	return []func() resource.Resource{
+		NewChatCompletionResource,
+		NewCompletionResource,
+		NewImageResource,
+	}
 }
 
 func (p *OpenaiProvider) DataSources(ctx context.Context) []func() datasource.DataSource {

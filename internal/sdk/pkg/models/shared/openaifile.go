@@ -2,23 +2,14 @@
 
 package shared
 
-// OpenAIFile - The `File` object represents a document that has been uploaded to OpenAI.
+// OpenAIFile - OK
 type OpenAIFile struct {
-	// The size of the file in bytes.
-	Bytes int64 `json:"bytes"`
-	// The unix timestamp for when the file was created.
-	CreatedAt int64 `json:"created_at"`
-	// The name of the file.
-	Filename string `json:"filename"`
-	// The file identifier, which can be referenced in the API endpoints.
-	ID string `json:"id"`
-	// The object type, which is always "file".
-	Object string `json:"object"`
-	// The intended purpose of the file. Currently, only "fine-tune" is supported.
-	Purpose string `json:"purpose"`
-	// The current status of the file, which can be either `uploaded`, `processed`, `pending`, `error`, `deleting` or `deleted`.
-	Status *string `json:"status,omitempty"`
-	// Additional details about the status of the file. If the file is in the `error` state, this will include a message describing the error.
-	//
+	Bytes         int64   `json:"bytes"`
+	CreatedAt     int64   `json:"created_at"`
+	Filename      string  `json:"filename"`
+	ID            string  `json:"id"`
+	Object        string  `json:"object"`
+	Purpose       string  `json:"purpose"`
+	Status        *string `json:"status,omitempty"`
 	StatusDetails *string `json:"status_details,omitempty"`
 }

@@ -3,9 +3,7 @@
 package shared
 
 import (
-	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 )
 
@@ -14,97 +12,29 @@ type CreateTranscriptionRequestFile struct {
 	File    string `multipartForm:"name=file"`
 }
 
-// CreateTranscriptionRequestModel2 - ID of the model to use. Only `whisper-1` is currently available.
-type CreateTranscriptionRequestModel2 string
+// CreateTranscriptionRequestModel - ID of the model to use. Only `whisper-1` is currently available.
+type CreateTranscriptionRequestModel string
 
 const (
-	CreateTranscriptionRequestModel2Whisper1 CreateTranscriptionRequestModel2 = "whisper-1"
+	CreateTranscriptionRequestModelWhisper1 CreateTranscriptionRequestModel = "whisper-1"
 )
 
-func (e CreateTranscriptionRequestModel2) ToPointer() *CreateTranscriptionRequestModel2 {
+func (e CreateTranscriptionRequestModel) ToPointer() *CreateTranscriptionRequestModel {
 	return &e
 }
 
-func (e *CreateTranscriptionRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateTranscriptionRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
 	}
 	switch v {
 	case "whisper-1":
-		*e = CreateTranscriptionRequestModel2(v)
+		*e = CreateTranscriptionRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateTranscriptionRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateTranscriptionRequestModel: %v", v)
 	}
-}
-
-type CreateTranscriptionRequestModelType string
-
-const (
-	CreateTranscriptionRequestModelTypeStr                              CreateTranscriptionRequestModelType = "str"
-	CreateTranscriptionRequestModelTypeCreateTranscriptionRequestModel2 CreateTranscriptionRequestModelType = "CreateTranscriptionRequest_model_2"
-)
-
-type CreateTranscriptionRequestModel struct {
-	Str                              *string
-	CreateTranscriptionRequestModel2 *CreateTranscriptionRequestModel2
-
-	Type CreateTranscriptionRequestModelType
-}
-
-func CreateCreateTranscriptionRequestModelStr(str string) CreateTranscriptionRequestModel {
-	typ := CreateTranscriptionRequestModelTypeStr
-
-	return CreateTranscriptionRequestModel{
-		Str:  &str,
-		Type: typ,
-	}
-}
-
-func CreateCreateTranscriptionRequestModelCreateTranscriptionRequestModel2(createTranscriptionRequestModel2 CreateTranscriptionRequestModel2) CreateTranscriptionRequestModel {
-	typ := CreateTranscriptionRequestModelTypeCreateTranscriptionRequestModel2
-
-	return CreateTranscriptionRequestModel{
-		CreateTranscriptionRequestModel2: &createTranscriptionRequestModel2,
-		Type:                             typ,
-	}
-}
-
-func (u *CreateTranscriptionRequestModel) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
-
-	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
-		u.Str = str
-		u.Type = CreateTranscriptionRequestModelTypeStr
-		return nil
-	}
-
-	createTranscriptionRequestModel2 := new(CreateTranscriptionRequestModel2)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&createTranscriptionRequestModel2); err == nil {
-		u.CreateTranscriptionRequestModel2 = createTranscriptionRequestModel2
-		u.Type = CreateTranscriptionRequestModelTypeCreateTranscriptionRequestModel2
-		return nil
-	}
-
-	return errors.New("could not unmarshal into supported union types")
-}
-
-func (u CreateTranscriptionRequestModel) MarshalJSON() ([]byte, error) {
-	if u.Str != nil {
-		return json.Marshal(u.Str)
-	}
-
-	if u.CreateTranscriptionRequestModel2 != nil {
-		return json.Marshal(u.CreateTranscriptionRequestModel2)
-	}
-
-	return nil, nil
 }
 
 // CreateTranscriptionRequestResponseFormat - The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
@@ -144,8 +74,8 @@ func (e *CreateTranscriptionRequestResponseFormat) UnmarshalJSON(data []byte) er
 	}
 }
 
-type CreateTranscriptionRequest1 struct {
-	// The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.
+type CreateTranscriptionRequest2 struct {
+	// The audio file object (not file name) to transcribe, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
 	//
 	File CreateTranscriptionRequestFile `multipartForm:"file"`
 	// The language of the input audio. Supplying the input language in [ISO-639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) format will improve accuracy and latency.

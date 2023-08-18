@@ -470,6 +470,7 @@ paths:
 
   /embeddings:
     post:
+#      x-speakeasy-entity-operation: Embeddings#create
       operationId: createEmbedding
       tags:
         - OpenAI
@@ -2701,6 +2702,7 @@ components:
         - data
 
     CreateEmbeddingRequest:
+#      x-speakeasy-entity: Embedding
       type: object
       additionalProperties: false
       properties:

@@ -9,24 +9,24 @@ import (
 	"fmt"
 )
 
-// CreateCompletionRequestModel2 - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
-type CreateCompletionRequestModel2 string
+// CreateCompletionRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+type CreateCompletionRequestModel string
 
 const (
-	CreateCompletionRequestModel2TextDavinci003 CreateCompletionRequestModel2 = "text-davinci-003"
-	CreateCompletionRequestModel2TextDavinci002 CreateCompletionRequestModel2 = "text-davinci-002"
-	CreateCompletionRequestModel2TextDavinci001 CreateCompletionRequestModel2 = "text-davinci-001"
-	CreateCompletionRequestModel2CodeDavinci002 CreateCompletionRequestModel2 = "code-davinci-002"
-	CreateCompletionRequestModel2TextCurie001   CreateCompletionRequestModel2 = "text-curie-001"
-	CreateCompletionRequestModel2TextBabbage001 CreateCompletionRequestModel2 = "text-babbage-001"
-	CreateCompletionRequestModel2TextAda001     CreateCompletionRequestModel2 = "text-ada-001"
+	CreateCompletionRequestModelTextDavinci003 CreateCompletionRequestModel = "text-davinci-003"
+	CreateCompletionRequestModelTextDavinci002 CreateCompletionRequestModel = "text-davinci-002"
+	CreateCompletionRequestModelTextDavinci001 CreateCompletionRequestModel = "text-davinci-001"
+	CreateCompletionRequestModelCodeDavinci002 CreateCompletionRequestModel = "code-davinci-002"
+	CreateCompletionRequestModelTextCurie001   CreateCompletionRequestModel = "text-curie-001"
+	CreateCompletionRequestModelTextBabbage001 CreateCompletionRequestModel = "text-babbage-001"
+	CreateCompletionRequestModelTextAda001     CreateCompletionRequestModel = "text-ada-001"
 )
 
-func (e CreateCompletionRequestModel2) ToPointer() *CreateCompletionRequestModel2 {
+func (e CreateCompletionRequestModel) ToPointer() *CreateCompletionRequestModel {
 	return &e
 }
 
-func (e *CreateCompletionRequestModel2) UnmarshalJSON(data []byte) error {
+func (e *CreateCompletionRequestModel) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -45,79 +45,11 @@ func (e *CreateCompletionRequestModel2) UnmarshalJSON(data []byte) error {
 	case "text-babbage-001":
 		fallthrough
 	case "text-ada-001":
-		*e = CreateCompletionRequestModel2(v)
+		*e = CreateCompletionRequestModel(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateCompletionRequestModel2: %v", v)
+		return fmt.Errorf("invalid value for CreateCompletionRequestModel: %v", v)
 	}
-}
-
-type CreateCompletionRequestModelType string
-
-const (
-	CreateCompletionRequestModelTypeStr                           CreateCompletionRequestModelType = "str"
-	CreateCompletionRequestModelTypeCreateCompletionRequestModel2 CreateCompletionRequestModelType = "CreateCompletionRequest_model_2"
-)
-
-type CreateCompletionRequestModel struct {
-	Str                           *string
-	CreateCompletionRequestModel2 *CreateCompletionRequestModel2
-
-	Type CreateCompletionRequestModelType
-}
-
-func CreateCreateCompletionRequestModelStr(str string) CreateCompletionRequestModel {
-	typ := CreateCompletionRequestModelTypeStr
-
-	return CreateCompletionRequestModel{
-		Str:  &str,
-		Type: typ,
-	}
-}
-
-func CreateCreateCompletionRequestModelCreateCompletionRequestModel2(createCompletionRequestModel2 CreateCompletionRequestModel2) CreateCompletionRequestModel {
-	typ := CreateCompletionRequestModelTypeCreateCompletionRequestModel2
-
-	return CreateCompletionRequestModel{
-		CreateCompletionRequestModel2: &createCompletionRequestModel2,
-		Type:                          typ,
-	}
-}
-
-func (u *CreateCompletionRequestModel) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
-
-	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
-		u.Str = str
-		u.Type = CreateCompletionRequestModelTypeStr
-		return nil
-	}
-
-	createCompletionRequestModel2 := new(CreateCompletionRequestModel2)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&createCompletionRequestModel2); err == nil {
-		u.CreateCompletionRequestModel2 = createCompletionRequestModel2
-		u.Type = CreateCompletionRequestModelTypeCreateCompletionRequestModel2
-		return nil
-	}
-
-	return errors.New("could not unmarshal into supported union types")
-}
-
-func (u CreateCompletionRequestModel) MarshalJSON() ([]byte, error) {
-	if u.Str != nil {
-		return json.Marshal(u.Str)
-	}
-
-	if u.CreateCompletionRequestModel2 != nil {
-		return json.Marshal(u.CreateCompletionRequestModel2)
-	}
-
-	return nil, nil
 }
 
 type CreateCompletionRequestPromptType string

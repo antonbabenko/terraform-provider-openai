@@ -2,8 +2,13 @@
 
 package shared
 
+type ImagesResponseData struct {
+	B64JSON *string `json:"b64_json,omitempty"`
+	URL     *string `json:"url,omitempty"`
+}
+
 // ImagesResponse - OK
 type ImagesResponse struct {
-	Created int64   `json:"created"`
-	Data    []Image `json:"data"`
+	Created int64                `json:"created"`
+	Data    []ImagesResponseData `json:"data"`
 }
