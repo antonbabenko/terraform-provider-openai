@@ -29,7 +29,10 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 		frequencyPenalty = nil
 	}
 	logitBias := make(map[string]int64)
-	// Warning. This is a map, but the source tf var is not a map. This might indicate a bug.
+	for logitBiasKey, logitBiasValue := range r.LogitBias {
+		logitBiasInst := logitBiasValue.ValueInt64()
+		logitBias[logitBiasKey] = logitBiasInst
+	}
 	logprobs := new(int64)
 	if !r.Logprobs.IsUnknown() && !r.Logprobs.IsNull() {
 		*logprobs = r.Logprobs.ValueInt64()

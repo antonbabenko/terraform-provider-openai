@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"encoding/json"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"openai/internal/sdk/pkg/models/shared"
 )
@@ -50,7 +51,11 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 		}
 		name1 := functionsItem.Name.ValueString()
 		parameters := make(map[string]interface{})
-		// Warning. This is a map, but the source tf var is not a map. This might indicate a bug.
+		for parametersKey, parametersValue := range functionsItem.Parameters {
+			var parametersInst interface{}
+			_ = json.Unmarshal([]byte(parametersValue.ValueString()), &parametersInst)
+			parameters[parametersKey] = parametersInst
+		}
 		functions = append(functions, shared.ChatCompletionFunctions{
 			Description: description,
 			Name:        name1,
@@ -58,7 +63,10 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 		})
 	}
 	logitBias := make(map[string]int64)
-	// Warning. This is a map, but the source tf var is not a map. This might indicate a bug.
+	for logitBiasKey, logitBiasValue := range r.LogitBias {
+		logitBiasInst := logitBiasValue.ValueInt64()
+		logitBias[logitBiasKey] = logitBiasInst
+	}
 	maxTokens := new(int64)
 	if !r.MaxTokens.IsUnknown() && !r.MaxTokens.IsNull() {
 		*maxTokens = r.MaxTokens.ValueInt64()
