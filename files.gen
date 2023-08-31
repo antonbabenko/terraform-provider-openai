@@ -134,3 +134,4 @@ examples/resources/openai_embedding/resource.tf
 internal/provider/image_resource.go
 internal/provider/image_resource_sdk.go
 examples/resources/openai_image/resource.tf
+.gitattributes
