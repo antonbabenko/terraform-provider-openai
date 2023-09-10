@@ -13,7 +13,6 @@ type CreateEmbeddingResponseUsage struct {
 	TotalTokens  int64 `json:"total_tokens"`
 }
 
-// CreateEmbeddingResponse - OK
 type CreateEmbeddingResponse struct {
 	Data   []CreateEmbeddingResponseData `json:"data"`
 	Object string                        `json:"object"`
