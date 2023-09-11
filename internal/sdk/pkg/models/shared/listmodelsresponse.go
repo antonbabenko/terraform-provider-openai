@@ -2,7 +2,6 @@
 
 package shared
 
-// ListModelsResponse - OK
 type ListModelsResponse struct {
 	Data   []Model `json:"data"`
 	Object string  `json:"object"`
