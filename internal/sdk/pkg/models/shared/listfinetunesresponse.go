@@ -2,7 +2,6 @@
 
 package shared
 
-// ListFineTunesResponse - OK
 type ListFineTunesResponse struct {
 	Data   []FineTune `json:"data"`
 	Object string     `json:"object"`
