@@ -44,7 +44,7 @@ type CreateCompletionResponseChoicesLogprobs struct {
 type CreateCompletionResponseChoices struct {
 	FinishReason CreateCompletionResponseChoicesFinishReason `json:"finish_reason"`
 	Index        int64                                       `json:"index"`
-	Logprobs     CreateCompletionResponseChoicesLogprobs     `json:"logprobs"`
+	Logprobs     *CreateCompletionResponseChoicesLogprobs    `json:"logprobs"`
 	Text         string                                      `json:"text"`
 }
 
@@ -54,7 +54,6 @@ type CreateCompletionResponseUsage struct {
 	TotalTokens      int64 `json:"total_tokens"`
 }
 
-// CreateCompletionResponse - OK
 type CreateCompletionResponse struct {
 	Choices []CreateCompletionResponseChoices `json:"choices"`
 	Created int64                             `json:"created"`
