@@ -28,7 +28,6 @@ type CreateModerationResponseResults struct {
 	Flagged        bool                                          `json:"flagged"`
 }
 
-// CreateModerationResponse - OK
 type CreateModerationResponse struct {
 	ID      string                            `json:"id"`
 	Model   string                            `json:"model"`
