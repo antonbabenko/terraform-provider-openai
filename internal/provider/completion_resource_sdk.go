@@ -58,47 +58,49 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 	} else {
 		presencePenalty = nil
 	}
-	var prompt shared.CreateCompletionRequestPrompt
-	str := new(string)
-	if !r.Prompt.Str.IsUnknown() && !r.Prompt.Str.IsNull() {
-		*str = r.Prompt.Str.ValueString()
-	} else {
-		str = nil
-	}
-	if str != nil {
-		prompt = shared.CreateCompletionRequestPrompt{
-			Str: str,
+	var prompt *shared.CreateCompletionRequestPrompt
+	if r.Prompt != nil {
+		str := new(string)
+		if !r.Prompt.Str.IsUnknown() && !r.Prompt.Str.IsNull() {
+			*str = r.Prompt.Str.ValueString()
+		} else {
+			str = nil
 		}
-	}
-	var arrayOfstr []string = nil
-	for _, arrayOfstrItem := range r.Prompt.ArrayOfstr {
-		arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
-	}
-	if arrayOfstr != nil {
-		prompt = shared.CreateCompletionRequestPrompt{
-			ArrayOfstr: arrayOfstr,
+		if str != nil {
+			prompt = &shared.CreateCompletionRequestPrompt{
+				Str: str,
+			}
 		}
-	}
-	var arrayOfinteger []int64 = nil
-	for _, arrayOfintegerItem := range r.Prompt.ArrayOfinteger {
-		arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
-	}
-	if arrayOfinteger != nil {
-		prompt = shared.CreateCompletionRequestPrompt{
-			ArrayOfinteger: arrayOfinteger,
+		var arrayOfstr []string = nil
+		for _, arrayOfstrItem := range r.Prompt.ArrayOfstr {
+			arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
 		}
-	}
-	var arrayOfarrayOfinteger [][]int64 = nil
-	for _, arrayOfarrayOfintegerItem := range r.Prompt.ArrayOfarrayOfinteger {
-		var arrayOfarrayOfintegerTmp []int64 = nil
-		for _, item := range arrayOfarrayOfintegerItem {
-			arrayOfarrayOfintegerTmp = append(arrayOfarrayOfintegerTmp, item.ValueInt64())
+		if arrayOfstr != nil {
+			prompt = &shared.CreateCompletionRequestPrompt{
+				ArrayOfstr: arrayOfstr,
+			}
 		}
-		arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
-	}
-	if arrayOfarrayOfinteger != nil {
-		prompt = shared.CreateCompletionRequestPrompt{
-			ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
+		var arrayOfinteger []int64 = nil
+		for _, arrayOfintegerItem := range r.Prompt.ArrayOfinteger {
+			arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
+		}
+		if arrayOfinteger != nil {
+			prompt = &shared.CreateCompletionRequestPrompt{
+				ArrayOfinteger: arrayOfinteger,
+			}
+		}
+		var arrayOfarrayOfinteger [][]int64 = nil
+		for _, arrayOfarrayOfintegerItem := range r.Prompt.ArrayOfarrayOfinteger {
+			var arrayOfarrayOfintegerTmp []int64 = nil
+			for _, item := range arrayOfarrayOfintegerItem {
+				arrayOfarrayOfintegerTmp = append(arrayOfarrayOfintegerTmp, item.ValueInt64())
+			}
+			arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
+		}
+		if arrayOfarrayOfinteger != nil {
+			prompt = &shared.CreateCompletionRequestPrompt{
+				ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
+			}
 		}
 	}
 	var stop *shared.CreateCompletionRequestStop
@@ -181,23 +183,31 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 		var choices1 CreateCompletionResponseChoices
 		choices1.FinishReason = types.StringValue(string(choicesItem.FinishReason))
 		choices1.Index = types.Int64Value(choicesItem.Index)
-		choices1.Logprobs.TextOffset = nil
-		for _, v := range choicesItem.Logprobs.TextOffset {
-			choices1.Logprobs.TextOffset = append(choices1.Logprobs.TextOffset, types.Int64Value(v))
+		if choices1.Logprobs == nil {
+			choices1.Logprobs = &CreateCompletionResponseChoicesLogprobs{}
 		}
-		choices1.Logprobs.TokenLogprobs = nil
-		for _, v := range choicesItem.Logprobs.TokenLogprobs {
-			choices1.Logprobs.TokenLogprobs = append(choices1.Logprobs.TokenLogprobs, types.NumberValue(big.NewFloat(float64(v))))
-		}
-		choices1.Logprobs.Tokens = nil
-		for _, v := range choicesItem.Logprobs.Tokens {
-			choices1.Logprobs.Tokens = append(choices1.Logprobs.Tokens, types.StringValue(v))
-		}
-		if choicesItem.Logprobs.TopLogprobs == nil {
-			choices1.Logprobs.TopLogprobs = types.StringNull()
+		if choicesItem.Logprobs == nil {
+			choices1.Logprobs = nil
 		} else {
-			topLogprobsResult, _ := json.Marshal(choicesItem.Logprobs.TopLogprobs)
-			choices1.Logprobs.TopLogprobs = types.StringValue(string(topLogprobsResult))
+			choices1.Logprobs = &CreateCompletionResponseChoicesLogprobs{}
+			choices1.Logprobs.TextOffset = nil
+			for _, v := range choicesItem.Logprobs.TextOffset {
+				choices1.Logprobs.TextOffset = append(choices1.Logprobs.TextOffset, types.Int64Value(v))
+			}
+			choices1.Logprobs.TokenLogprobs = nil
+			for _, v := range choicesItem.Logprobs.TokenLogprobs {
+				choices1.Logprobs.TokenLogprobs = append(choices1.Logprobs.TokenLogprobs, types.NumberValue(big.NewFloat(float64(v))))
+			}
+			choices1.Logprobs.Tokens = nil
+			for _, v := range choicesItem.Logprobs.Tokens {
+				choices1.Logprobs.Tokens = append(choices1.Logprobs.Tokens, types.StringValue(v))
+			}
+			if choicesItem.Logprobs.TopLogprobs == nil {
+				choices1.Logprobs.TopLogprobs = types.StringNull()
+			} else {
+				topLogprobsResult, _ := json.Marshal(choicesItem.Logprobs.TopLogprobs)
+				choices1.Logprobs.TopLogprobs = types.StringValue(string(topLogprobsResult))
+			}
 		}
 		choices1.Text = types.StringValue(choicesItem.Text)
 		r.Choices = append(r.Choices, choices1)

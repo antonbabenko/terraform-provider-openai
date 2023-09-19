@@ -49,7 +49,6 @@ type CreateChatCompletionResponseUsage struct {
 	TotalTokens      int64 `json:"total_tokens"`
 }
 
-// CreateChatCompletionResponse - OK
 type CreateChatCompletionResponse struct {
 	Choices []CreateChatCompletionResponseChoices `json:"choices"`
 	Created int64                                 `json:"created"`
