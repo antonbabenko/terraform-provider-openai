@@ -46,7 +46,6 @@ type CreateEditResponseUsage struct {
 	TotalTokens      int64 `json:"total_tokens"`
 }
 
-// CreateEditResponse - OK
 type CreateEditResponse struct {
 	Choices []CreateEditResponseChoices `json:"choices"`
 	Created int64                       `json:"created"`
