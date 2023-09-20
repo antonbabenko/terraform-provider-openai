@@ -2,7 +2,6 @@
 
 package shared
 
-// DeleteModelResponse - OK
 type DeleteModelResponse struct {
 	Deleted bool   `json:"deleted"`
 	ID      string `json:"id"`

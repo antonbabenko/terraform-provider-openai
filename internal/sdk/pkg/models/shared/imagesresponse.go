@@ -7,7 +7,6 @@ type ImagesResponseData struct {
 	URL     *string `json:"url,omitempty"`
 }
 
-// ImagesResponse - OK
 type ImagesResponse struct {
 	Created int64                `json:"created"`
 	Data    []ImagesResponseData `json:"data"`
