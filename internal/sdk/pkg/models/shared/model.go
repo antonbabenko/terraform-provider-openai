@@ -2,7 +2,6 @@
 
 package shared
 
-// Model - OK
 type Model struct {
 	Created int64  `json:"created"`
 	ID      string `json:"id"`
