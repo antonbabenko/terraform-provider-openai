@@ -2,7 +2,6 @@
 
 package shared
 
-// OpenAIFile - OK
 type OpenAIFile struct {
 	Bytes         int64   `json:"bytes"`
 	CreatedAt     int64   `json:"created_at"`

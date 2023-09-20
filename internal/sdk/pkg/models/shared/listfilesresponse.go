@@ -2,7 +2,6 @@
 
 package shared
 
-// ListFilesResponse - OK
 type ListFilesResponse struct {
 	Data   []OpenAIFile `json:"data"`
 	Object string       `json:"object"`
