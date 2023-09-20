@@ -12,11 +12,10 @@ type FineTuneHyperparams struct {
 	PromptLossWeight             float64 `json:"prompt_loss_weight"`
 }
 
-// FineTune - OK
 type FineTune struct {
 	CreatedAt       int64               `json:"created_at"`
 	Events          []FineTuneEvent     `json:"events,omitempty"`
-	FineTunedModel  string              `json:"fine_tuned_model"`
+	FineTunedModel  *string             `json:"fine_tuned_model"`
 	Hyperparams     FineTuneHyperparams `json:"hyperparams"`
 	ID              string              `json:"id"`
 	Model           string              `json:"model"`
