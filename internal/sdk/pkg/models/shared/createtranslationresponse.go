@@ -2,7 +2,6 @@
 
 package shared
 
-// CreateTranslationResponse - OK
 type CreateTranslationResponse struct {
 	Text string `json:"text"`
 }
