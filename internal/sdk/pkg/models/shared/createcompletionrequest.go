@@ -286,7 +286,7 @@ type CreateCompletionRequest struct {
 	//
 	// Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.
 	//
-	Prompt CreateCompletionRequestPrompt `json:"prompt"`
+	Prompt *CreateCompletionRequestPrompt `json:"prompt"`
 	// Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
 	//
 	Stop *CreateCompletionRequestStop `json:"stop,omitempty"`

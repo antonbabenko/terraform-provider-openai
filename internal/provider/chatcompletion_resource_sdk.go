@@ -75,7 +75,12 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 	}
 	var messages []shared.ChatCompletionRequestMessage = nil
 	for _, messagesItem := range r.Messages {
-		content := messagesItem.Content.ValueString()
+		content := new(string)
+		if !messagesItem.Content.IsUnknown() && !messagesItem.Content.IsNull() {
+			*content = messagesItem.Content.ValueString()
+		} else {
+			content = nil
+		}
 		var functionCall1 *shared.ChatCompletionRequestMessageFunctionCall
 		if messagesItem.FunctionCall != nil {
 			arguments := messagesItem.FunctionCall.Arguments.ValueString()
