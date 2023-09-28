@@ -1,23 +1,23 @@
 resource "openai_completion" "my_completion" {
-  best_of           = 0
-  echo              = true
-  frequency_penalty = 2.02
+  best_of           = 4
+  echo              = false
+  frequency_penalty = 48.05
   logit_bias = {
-    "ipsam"    = 9
-    "sapiente" = 8
+    "totam" = 2
+    "fuga"  = 2
   }
-  logprobs         = 1
+  logprobs         = 8
   max_tokens       = 16
-  model            = "text-ada-001"
+  model            = "text-davinci-001"
   n                = 1
-  presence_penalty = 47.36
+  presence_penalty = 26.31
   prompt = {
     str = "This is a test."
   }
   stop = {
     str = "\n"
   }
-  stream      = false
+  stream      = true
   suffix      = "test."
   temperature = 1
   top_p       = 1
