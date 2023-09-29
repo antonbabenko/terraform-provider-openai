@@ -2,7 +2,6 @@
 
 package shared
 
-// DeleteFileResponse - OK
 type DeleteFileResponse struct {
 	Deleted bool   `json:"deleted"`
 	ID      string `json:"id"`
