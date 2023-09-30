@@ -13,9 +13,12 @@ type RetrieveModelRequest struct {
 }
 
 type RetrieveModelResponse struct {
+	// HTTP response content type for this operation
 	ContentType string
 	// OK
-	Model       *shared.Model
-	StatusCode  int
+	Model *shared.Model
+	// HTTP response status code for this operation
+	StatusCode int
+	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 }

@@ -71,7 +71,7 @@ func (e *CreateImageVariationRequestSize) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type CreateImageVariationRequest2 struct {
+type CreateImageVariationRequest struct {
 	// The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
 	Image CreateImageVariationRequestImage `multipartForm:"file"`
 	// The number of images to generate. Must be between 1 and 10.

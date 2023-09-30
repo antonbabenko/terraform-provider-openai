@@ -37,7 +37,7 @@ func (e *CreateTranslationRequestModel) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type CreateTranslationRequest1 struct {
+type CreateTranslationRequest struct {
 	// The audio file object (not file name) translate, in one of these formats: mp3, mp4, mpeg, mpga, m4a, wav, or webm.
 	//
 	File CreateTranslationRequestFile `multipartForm:"file"`
