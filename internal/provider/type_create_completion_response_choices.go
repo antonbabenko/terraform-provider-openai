@@ -5,8 +5,8 @@ package provider
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type CreateCompletionResponseChoices struct {
-	FinishReason types.String                            `tfsdk:"finish_reason"`
-	Index        types.Int64                             `tfsdk:"index"`
-	Logprobs     CreateCompletionResponseChoicesLogprobs `tfsdk:"logprobs"`
-	Text         types.String                            `tfsdk:"text"`
+	FinishReason types.String                             `tfsdk:"finish_reason"`
+	Index        types.Int64                              `tfsdk:"index"`
+	Logprobs     *CreateCompletionResponseChoicesLogprobs `tfsdk:"logprobs"`
+	Text         types.String                             `tfsdk:"text"`
 }

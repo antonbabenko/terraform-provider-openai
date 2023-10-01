@@ -76,7 +76,7 @@ func (e *CreateImageEditRequestSize) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type CreateImageEditRequest2 struct {
+type CreateImageEditRequest struct {
 	// The image to edit. Must be a valid PNG file, less than 4MB, and square. If mask is not provided, image must have transparency, which will be used as the mask.
 	Image CreateImageEditRequestImage `multipartForm:"file"`
 	// An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.

@@ -52,7 +52,7 @@ type CompletionResourceModel struct {
 	N                types.Int64                        `tfsdk:"n"`
 	Object           types.String                       `tfsdk:"object"`
 	PresencePenalty  types.Number                       `tfsdk:"presence_penalty"`
-	Prompt           CreateCompletionRequestPrompt      `tfsdk:"prompt"`
+	Prompt           *CreateCompletionRequestPrompt     `tfsdk:"prompt"`
 	Stop             *CreateChatCompletionRequestStop   `tfsdk:"stop"`
 	Stream           types.Bool                         `tfsdk:"stream"`
 	Suffix           types.String                       `tfsdk:"suffix"`
@@ -234,7 +234,7 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 				PlanModifiers: []planmodifier.Object{
 					objectplanmodifier.RequiresReplace(),
 				},
-				Required: true,
+				Optional: true,
 				Attributes: map[string]schema.Attribute{
 					"str": schema.StringAttribute{
 						PlanModifiers: []planmodifier.String{
