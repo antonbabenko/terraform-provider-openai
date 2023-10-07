@@ -3,6 +3,7 @@
 package provider
 
 import (
+	"encoding/json"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
 	"openai/internal/sdk/pkg/models/shared"
@@ -59,10 +60,15 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 	} else {
 		user = nil
 	}
+	var additionalProperties interface{}
+	if !r.AdditionalProperties.IsUnknown() && !r.AdditionalProperties.IsNull() {
+		_ = json.Unmarshal([]byte(r.AdditionalProperties.ValueString()), &additionalProperties)
+	}
 	out := shared.CreateEmbeddingRequest{
-		Input: input,
-		Model: model,
-		User:  user,
+		Input:                input,
+		Model:                model,
+		User:                 user,
+		AdditionalProperties: additionalProperties,
 	}
 	return &out
 }

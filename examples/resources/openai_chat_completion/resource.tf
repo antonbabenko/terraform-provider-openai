@@ -8,34 +8,34 @@ resource "openai_chat_completion" "my_chatcompletion" {
       description = "...my_description..."
       name        = "Carlos Halvorson"
       parameters = {
-        "non"  = "{ \"see\": \"documentation\" }"
-        "quas" = "{ \"see\": \"documentation\" }"
+        "Granite" = "{ \"see\": \"documentation\" }"
+        "DNS"     = "{ \"see\": \"documentation\" }"
       }
     },
   ]
   logit_bias = {
-    "esse"       = 2
-    "blanditiis" = 3
+    "copying"      = 2
+    "transmitting" = 9
   }
-  max_tokens = 2
+  max_tokens = 9
   messages = [
     {
       content = "...my_content..."
       function_call = {
         arguments = "...my_arguments..."
-        name      = "Marcos Smith"
+        name      = "Mae VonRueden"
       }
-      name = "Phil Robel"
+      name = "Rick Gottlieb"
       role = "user"
     },
   ]
   model            = "gpt-3.5-turbo"
   n                = 1
-  presence_penalty = 48.94
+  presence_penalty = 38.48
   stop = {
     str = "..."
   }
-  stream      = true
+  stream      = false
   temperature = 1
   top_p       = 1
   user        = "user-1234"

@@ -53,4 +53,54 @@ type CreateTranslationRequest struct {
 	// The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
 	//
 	Temperature *float64 `multipartForm:"name=temperature"`
+
+	AdditionalProperties interface{} `json:"-"`
+}
+type _CreateTranslationRequest CreateTranslationRequest
+
+func (c *CreateTranslationRequest) UnmarshalJSON(bs []byte) error {
+	data := _CreateTranslationRequest{}
+
+	if err := json.Unmarshal(bs, &data); err != nil {
+		return err
+	}
+	*c = CreateTranslationRequest(data)
+
+	additionalFields := make(map[string]interface{})
+
+	if err := json.Unmarshal(bs, &additionalFields); err != nil {
+		return err
+	}
+	delete(additionalFields, "")
+	delete(additionalFields, "")
+	delete(additionalFields, "")
+	delete(additionalFields, "")
+	delete(additionalFields, "")
+
+	c.AdditionalProperties = additionalFields
+
+	return nil
+}
+
+func (c CreateTranslationRequest) MarshalJSON() ([]byte, error) {
+	out := map[string]interface{}{}
+	bs, err := json.Marshal(_CreateTranslationRequest(c))
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal([]byte(bs), &out); err != nil {
+		return nil, err
+	}
+
+	bs, err = json.Marshal(c.AdditionalProperties)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := json.Unmarshal([]byte(bs), &out); err != nil {
+		return nil, err
+	}
+
+	return json.Marshal(out)
 }
