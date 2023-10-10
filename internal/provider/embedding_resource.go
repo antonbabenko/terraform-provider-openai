@@ -35,13 +35,12 @@ type EmbeddingResource struct {
 
 // EmbeddingResourceModel describes the resource data model.
 type EmbeddingResourceModel struct {
-	Data                 []CreateEmbeddingResponseData `tfsdk:"data"`
-	Input                CreateCompletionRequestPrompt `tfsdk:"input"`
-	Model                types.String                  `tfsdk:"model"`
-	Object               types.String                  `tfsdk:"object"`
-	Usage                CreateEmbeddingResponseUsage  `tfsdk:"usage"`
-	User                 types.String                  `tfsdk:"user"`
-	AdditionalProperties types.String                  `tfsdk:"additional_properties"`
+	Data   []CreateEmbeddingResponseData `tfsdk:"data"`
+	Input  CreateCompletionRequestPrompt `tfsdk:"input"`
+	Model  types.String                  `tfsdk:"model"`
+	Object types.String                  `tfsdk:"object"`
+	Usage  CreateEmbeddingResponseUsage  `tfsdk:"usage"`
+	User   types.String                  `tfsdk:"user"`
 }
 
 func (r *EmbeddingResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {
@@ -147,13 +146,6 @@ func (r *EmbeddingResource) Schema(ctx context.Context, req resource.SchemaReque
 				Optional: true,
 				MarkdownDescription: `A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).` + "\n" +
 					``,
-			},
-			"additional_properties": schema.StringAttribute{
-				Optional: true,
-				Validators: []validator.String{
-					validators.IsValidJSON(),
-				},
-				Description: `Parsed as JSON.`,
 			},
 		},
 	}
