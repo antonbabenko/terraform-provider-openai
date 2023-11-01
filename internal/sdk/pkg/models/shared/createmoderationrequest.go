@@ -3,10 +3,10 @@
 package shared
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type CreateModerationRequestInputType string
@@ -42,21 +42,16 @@ func CreateCreateModerationRequestInputArrayOfstr(arrayOfstr []string) CreateMod
 }
 
 func (u *CreateModerationRequestInput) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
 	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
+	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
 		u.Type = CreateModerationRequestInputTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfstr); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
 		u.Type = CreateModerationRequestInputTypeArrayOfstr
 		return nil
@@ -67,14 +62,14 @@ func (u *CreateModerationRequestInput) UnmarshalJSON(data []byte) error {
 
 func (u CreateModerationRequestInput) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
-		return json.Marshal(u.Str)
+		return utils.MarshalJSON(u.Str, "", true)
 	}
 
 	if u.ArrayOfstr != nil {
-		return json.Marshal(u.ArrayOfstr)
+		return utils.MarshalJSON(u.ArrayOfstr, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 // CreateModerationRequestModel - Two content moderations models are available: `text-moderation-stable` and `text-moderation-latest`.
@@ -114,5 +109,30 @@ type CreateModerationRequest struct {
 	//
 	// The default is `text-moderation-latest` which will be automatically upgraded over time. This ensures you are always using our most accurate model. If you use `text-moderation-stable`, we will provide advanced notice before updating the model. Accuracy of `text-moderation-stable` may be slightly lower than for `text-moderation-latest`.
 	//
-	Model *CreateModerationRequestModel `json:"model,omitempty"`
+	Model *CreateModerationRequestModel `default:"text-moderation-latest" json:"model"`
+}
+
+func (c CreateModerationRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateModerationRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateModerationRequest) GetInput() CreateModerationRequestInput {
+	if o == nil {
+		return CreateModerationRequestInput{}
+	}
+	return o.Input
+}
+
+func (o *CreateModerationRequest) GetModel() *CreateModerationRequestModel {
+	if o == nil {
+		return nil
+	}
+	return o.Model
 }

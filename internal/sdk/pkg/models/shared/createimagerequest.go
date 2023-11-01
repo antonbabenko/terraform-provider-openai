@@ -5,6 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 // CreateImageRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.
@@ -68,14 +69,60 @@ func (e *CreateImageRequestSize) UnmarshalJSON(data []byte) error {
 
 type CreateImageRequest struct {
 	// The number of images to generate. Must be between 1 and 10.
-	N *int64 `json:"n,omitempty"`
+	N *int64 `default:"1" json:"n"`
 	// A text description of the desired image(s). The maximum length is 1000 characters.
 	Prompt string `json:"prompt"`
 	// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-	ResponseFormat *CreateImageRequestResponseFormat `json:"response_format,omitempty"`
+	ResponseFormat *CreateImageRequestResponseFormat `default:"url" json:"response_format"`
 	// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-	Size *CreateImageRequestSize `json:"size,omitempty"`
+	Size *CreateImageRequestSize `default:"1024x1024" json:"size"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `json:"user,omitempty"`
+}
+
+func (c CreateImageRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateImageRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateImageRequest) GetN() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.N
+}
+
+func (o *CreateImageRequest) GetPrompt() string {
+	if o == nil {
+		return ""
+	}
+	return o.Prompt
+}
+
+func (o *CreateImageRequest) GetResponseFormat() *CreateImageRequestResponseFormat {
+	if o == nil {
+		return nil
+	}
+	return o.ResponseFormat
+}
+
+func (o *CreateImageRequest) GetSize() *CreateImageRequestSize {
+	if o == nil {
+		return nil
+	}
+	return o.Size
+}
+
+func (o *CreateImageRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

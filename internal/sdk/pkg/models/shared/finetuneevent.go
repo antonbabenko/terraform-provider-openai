@@ -8,3 +8,31 @@ type FineTuneEvent struct {
 	Message   string `json:"message"`
 	Object    string `json:"object"`
 }
+
+func (o *FineTuneEvent) GetCreatedAt() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.CreatedAt
+}
+
+func (o *FineTuneEvent) GetLevel() string {
+	if o == nil {
+		return ""
+	}
+	return o.Level
+}
+
+func (o *FineTuneEvent) GetMessage() string {
+	if o == nil {
+		return ""
+	}
+	return o.Message
+}
+
+func (o *FineTuneEvent) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}

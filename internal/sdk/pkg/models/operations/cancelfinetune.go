@@ -13,6 +13,13 @@ type CancelFineTuneRequest struct {
 	FineTuneID string `pathParam:"style=simple,explode=false,name=fine_tune_id"`
 }
 
+func (o *CancelFineTuneRequest) GetFineTuneID() string {
+	if o == nil {
+		return ""
+	}
+	return o.FineTuneID
+}
+
 type CancelFineTuneResponse struct {
 	// HTTP response content type for this operation
 	ContentType string
@@ -22,4 +29,32 @@ type CancelFineTuneResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
+}
+
+func (o *CancelFineTuneResponse) GetContentType() string {
+	if o == nil {
+		return ""
+	}
+	return o.ContentType
+}
+
+func (o *CancelFineTuneResponse) GetFineTune() *shared.FineTune {
+	if o == nil {
+		return nil
+	}
+	return o.FineTune
+}
+
+func (o *CancelFineTuneResponse) GetStatusCode() int {
+	if o == nil {
+		return 0
+	}
+	return o.StatusCode
+}
+
+func (o *CancelFineTuneResponse) GetRawResponse() *http.Response {
+	if o == nil {
+		return nil
+	}
+	return o.RawResponse
 }

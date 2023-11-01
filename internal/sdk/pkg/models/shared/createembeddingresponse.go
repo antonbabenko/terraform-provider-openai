@@ -8,13 +8,69 @@ type CreateEmbeddingResponseData struct {
 	Object    string    `json:"object"`
 }
 
+func (o *CreateEmbeddingResponseData) GetEmbedding() []float64 {
+	if o == nil {
+		return []float64{}
+	}
+	return o.Embedding
+}
+
+func (o *CreateEmbeddingResponseData) GetIndex() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Index
+}
+
+func (o *CreateEmbeddingResponseData) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
 type CreateEmbeddingResponseUsage struct {
 	PromptTokens int64 `json:"prompt_tokens"`
 	TotalTokens  int64 `json:"total_tokens"`
+}
+
+func (o *CreateEmbeddingResponseUsage) GetPromptTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.PromptTokens
+}
+
+func (o *CreateEmbeddingResponseUsage) GetTotalTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.TotalTokens
 }
 
 type CreateEmbeddingResponse struct {
 	Data   []CreateEmbeddingResponseData `json:"data"`
 	Object string                        `json:"object"`
 	Usage  CreateEmbeddingResponseUsage  `json:"usage"`
+}
+
+func (o *CreateEmbeddingResponse) GetData() []CreateEmbeddingResponseData {
+	if o == nil {
+		return []CreateEmbeddingResponseData{}
+	}
+	return o.Data
+}
+
+func (o *CreateEmbeddingResponse) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
+func (o *CreateEmbeddingResponse) GetUsage() CreateEmbeddingResponseUsage {
+	if o == nil {
+		return CreateEmbeddingResponseUsage{}
+	}
+	return o.Usage
 }

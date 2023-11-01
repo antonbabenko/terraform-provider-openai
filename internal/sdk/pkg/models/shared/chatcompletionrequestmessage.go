@@ -15,6 +15,20 @@ type ChatCompletionRequestMessageFunctionCall struct {
 	Name string `json:"name"`
 }
 
+func (o *ChatCompletionRequestMessageFunctionCall) GetArguments() string {
+	if o == nil {
+		return ""
+	}
+	return o.Arguments
+}
+
+func (o *ChatCompletionRequestMessageFunctionCall) GetName() string {
+	if o == nil {
+		return ""
+	}
+	return o.Name
+}
+
 // ChatCompletionRequestMessageRole - The role of the messages author. One of `system`, `user`, `assistant`, or `function`.
 type ChatCompletionRequestMessageRole string
 
@@ -58,4 +72,32 @@ type ChatCompletionRequestMessage struct {
 	Name *string `json:"name,omitempty"`
 	// The role of the messages author. One of `system`, `user`, `assistant`, or `function`.
 	Role ChatCompletionRequestMessageRole `json:"role"`
+}
+
+func (o *ChatCompletionRequestMessage) GetContent() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Content
+}
+
+func (o *ChatCompletionRequestMessage) GetFunctionCall() *ChatCompletionRequestMessageFunctionCall {
+	if o == nil {
+		return nil
+	}
+	return o.FunctionCall
+}
+
+func (o *ChatCompletionRequestMessage) GetName() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Name
+}
+
+func (o *ChatCompletionRequestMessage) GetRole() ChatCompletionRequestMessageRole {
+	if o == nil {
+		return ChatCompletionRequestMessageRole("")
+	}
+	return o.Role
 }

@@ -12,6 +12,55 @@ type CreateModerationResponseResultsCategories struct {
 	ViolenceGraphic bool `json:"violence/graphic"`
 }
 
+func (o *CreateModerationResponseResultsCategories) GetHate() bool {
+	if o == nil {
+		return false
+	}
+	return o.Hate
+}
+
+func (o *CreateModerationResponseResultsCategories) GetHateThreatening() bool {
+	if o == nil {
+		return false
+	}
+	return o.HateThreatening
+}
+
+func (o *CreateModerationResponseResultsCategories) GetSelfHarm() bool {
+	if o == nil {
+		return false
+	}
+	return o.SelfHarm
+}
+
+func (o *CreateModerationResponseResultsCategories) GetSexual() bool {
+	if o == nil {
+		return false
+	}
+	return o.Sexual
+}
+
+func (o *CreateModerationResponseResultsCategories) GetSexualMinors() bool {
+	if o == nil {
+		return false
+	}
+	return o.SexualMinors
+}
+
+func (o *CreateModerationResponseResultsCategories) GetViolence() bool {
+	if o == nil {
+		return false
+	}
+	return o.Violence
+}
+
+func (o *CreateModerationResponseResultsCategories) GetViolenceGraphic() bool {
+	if o == nil {
+		return false
+	}
+	return o.ViolenceGraphic
+}
+
 type CreateModerationResponseResultsCategoryScores struct {
 	Hate            float64 `json:"hate"`
 	HateThreatening float64 `json:"hate/threatening"`
@@ -22,14 +71,105 @@ type CreateModerationResponseResultsCategoryScores struct {
 	ViolenceGraphic float64 `json:"violence/graphic"`
 }
 
+func (o *CreateModerationResponseResultsCategoryScores) GetHate() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.Hate
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetHateThreatening() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.HateThreatening
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetSelfHarm() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.SelfHarm
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetSexual() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.Sexual
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetSexualMinors() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.SexualMinors
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetViolence() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.Violence
+}
+
+func (o *CreateModerationResponseResultsCategoryScores) GetViolenceGraphic() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.ViolenceGraphic
+}
+
 type CreateModerationResponseResults struct {
 	Categories     CreateModerationResponseResultsCategories     `json:"categories"`
 	CategoryScores CreateModerationResponseResultsCategoryScores `json:"category_scores"`
 	Flagged        bool                                          `json:"flagged"`
 }
 
+func (o *CreateModerationResponseResults) GetCategories() CreateModerationResponseResultsCategories {
+	if o == nil {
+		return CreateModerationResponseResultsCategories{}
+	}
+	return o.Categories
+}
+
+func (o *CreateModerationResponseResults) GetCategoryScores() CreateModerationResponseResultsCategoryScores {
+	if o == nil {
+		return CreateModerationResponseResultsCategoryScores{}
+	}
+	return o.CategoryScores
+}
+
+func (o *CreateModerationResponseResults) GetFlagged() bool {
+	if o == nil {
+		return false
+	}
+	return o.Flagged
+}
+
 type CreateModerationResponse struct {
 	ID      string                            `json:"id"`
 	Model   string                            `json:"model"`
 	Results []CreateModerationResponseResults `json:"results"`
+}
+
+func (o *CreateModerationResponse) GetID() string {
+	if o == nil {
+		return ""
+	}
+	return o.ID
+}
+
+func (o *CreateModerationResponse) GetModel() string {
+	if o == nil {
+		return ""
+	}
+	return o.Model
+}
+
+func (o *CreateModerationResponse) GetResults() []CreateModerationResponseResults {
+	if o == nil {
+		return []CreateModerationResponseResults{}
+	}
+	return o.Results
 }

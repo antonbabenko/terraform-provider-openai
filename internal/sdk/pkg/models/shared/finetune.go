@@ -12,6 +12,55 @@ type FineTuneHyperparams struct {
 	PromptLossWeight             float64 `json:"prompt_loss_weight"`
 }
 
+func (o *FineTuneHyperparams) GetBatchSize() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.BatchSize
+}
+
+func (o *FineTuneHyperparams) GetClassificationNClasses() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.ClassificationNClasses
+}
+
+func (o *FineTuneHyperparams) GetClassificationPositiveClass() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ClassificationPositiveClass
+}
+
+func (o *FineTuneHyperparams) GetComputeClassificationMetrics() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.ComputeClassificationMetrics
+}
+
+func (o *FineTuneHyperparams) GetLearningRateMultiplier() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.LearningRateMultiplier
+}
+
+func (o *FineTuneHyperparams) GetNEpochs() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.NEpochs
+}
+
+func (o *FineTuneHyperparams) GetPromptLossWeight() float64 {
+	if o == nil {
+		return 0.0
+	}
+	return o.PromptLossWeight
+}
+
 type FineTune struct {
 	CreatedAt       int64               `json:"created_at"`
 	Events          []FineTuneEvent     `json:"events,omitempty"`
@@ -26,4 +75,95 @@ type FineTune struct {
 	TrainingFiles   []OpenAIFile        `json:"training_files"`
 	UpdatedAt       int64               `json:"updated_at"`
 	ValidationFiles []OpenAIFile        `json:"validation_files"`
+}
+
+func (o *FineTune) GetCreatedAt() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.CreatedAt
+}
+
+func (o *FineTune) GetEvents() []FineTuneEvent {
+	if o == nil {
+		return nil
+	}
+	return o.Events
+}
+
+func (o *FineTune) GetFineTunedModel() *string {
+	if o == nil {
+		return nil
+	}
+	return o.FineTunedModel
+}
+
+func (o *FineTune) GetHyperparams() FineTuneHyperparams {
+	if o == nil {
+		return FineTuneHyperparams{}
+	}
+	return o.Hyperparams
+}
+
+func (o *FineTune) GetID() string {
+	if o == nil {
+		return ""
+	}
+	return o.ID
+}
+
+func (o *FineTune) GetModel() string {
+	if o == nil {
+		return ""
+	}
+	return o.Model
+}
+
+func (o *FineTune) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
+func (o *FineTune) GetOrganizationID() string {
+	if o == nil {
+		return ""
+	}
+	return o.OrganizationID
+}
+
+func (o *FineTune) GetResultFiles() []OpenAIFile {
+	if o == nil {
+		return []OpenAIFile{}
+	}
+	return o.ResultFiles
+}
+
+func (o *FineTune) GetStatus() string {
+	if o == nil {
+		return ""
+	}
+	return o.Status
+}
+
+func (o *FineTune) GetTrainingFiles() []OpenAIFile {
+	if o == nil {
+		return []OpenAIFile{}
+	}
+	return o.TrainingFiles
+}
+
+func (o *FineTune) GetUpdatedAt() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.UpdatedAt
+}
+
+func (o *FineTune) GetValidationFiles() []OpenAIFile {
+	if o == nil {
+		return []OpenAIFile{}
+	}
+	return o.ValidationFiles
 }

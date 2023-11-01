@@ -5,6 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 // CreateFineTuneRequestModel - The name of the base model to fine-tune. You can select one of "ada",
@@ -53,7 +54,7 @@ type CreateFineTuneRequest struct {
 	// in general, we've found that larger batch sizes tend to work better
 	// for larger datasets.
 	//
-	BatchSize *int64 `json:"batch_size,omitempty"`
+	BatchSize *int64 `default:"null" json:"batch_size"`
 	// If this is provided, we calculate F-beta scores at the specified
 	// beta values. The F-beta score is a generalization of F-1 score.
 	// This is only used for binary classification.
@@ -68,13 +69,13 @@ type CreateFineTuneRequest struct {
 	//
 	// This parameter is required for multiclass classification.
 	//
-	ClassificationNClasses *int64 `json:"classification_n_classes,omitempty"`
+	ClassificationNClasses *int64 `default:"null" json:"classification_n_classes"`
 	// The positive class in binary classification.
 	//
 	// This parameter is needed to generate precision, recall, and F1
 	// metrics when doing binary classification.
 	//
-	ClassificationPositiveClass *string `json:"classification_positive_class,omitempty"`
+	ClassificationPositiveClass *string `default:"null" json:"classification_positive_class"`
 	// If set, we calculate classification-specific metrics such as accuracy
 	// and F-1 score using the validation set at the end of every epoch.
 	// These metrics can be viewed in the [results file](/docs/guides/fine-tuning/analyzing-your-fine-tuned-model).
@@ -84,7 +85,7 @@ type CreateFineTuneRequest struct {
 	// specify `classification_n_classes` for multiclass classification or
 	// `classification_positive_class` for binary classification.
 	//
-	ComputeClassificationMetrics *bool `json:"compute_classification_metrics,omitempty"`
+	ComputeClassificationMetrics *bool `default:"false" json:"compute_classification_metrics"`
 	// The learning rate multiplier to use for training.
 	// The fine-tuning learning rate is the original learning rate used for
 	// pretraining multiplied by this value.
@@ -95,17 +96,17 @@ type CreateFineTuneRequest struct {
 	// with values in the range 0.02 to 0.2 to see what produces the best
 	// results.
 	//
-	LearningRateMultiplier *float64 `json:"learning_rate_multiplier,omitempty"`
+	LearningRateMultiplier *float64 `default:"null" json:"learning_rate_multiplier"`
 	// The name of the base model to fine-tune. You can select one of "ada",
 	// "babbage", "curie", "davinci", or a fine-tuned model created after 2022-04-21.
 	// To learn more about these models, see the
 	// [Models](https://platform.openai.com/docs/models) documentation.
 	//
-	Model *CreateFineTuneRequestModel `json:"model,omitempty"`
+	Model *CreateFineTuneRequestModel `default:"curie" json:"model"`
 	// The number of epochs to train the model for. An epoch refers to one
 	// full cycle through the training dataset.
 	//
-	NEpochs *int64 `json:"n_epochs,omitempty"`
+	NEpochs *int64 `default:"4" json:"n_epochs"`
 	// The weight to use for loss on the prompt tokens. This controls how
 	// much the model tries to learn to generate the prompt (as compared
 	// to the completion which always has a weight of 1.0), and can add
@@ -115,12 +116,12 @@ type CreateFineTuneRequest struct {
 	// sense to reduce this weight so as to avoid over-prioritizing
 	// learning the prompt.
 	//
-	PromptLossWeight *float64 `json:"prompt_loss_weight,omitempty"`
+	PromptLossWeight *float64 `default:"0.01" json:"prompt_loss_weight"`
 	// A string of up to 40 characters that will be added to your fine-tuned model name.
 	//
 	// For example, a `suffix` of "custom-model-name" would produce a model name like `ada:ft-your-org:custom-model-name-2022-02-15-04-21-04`.
 	//
-	Suffix *string `json:"suffix,omitempty"`
+	Suffix *string `default:"null" json:"suffix"`
 	// The ID of an uploaded file that contains training data.
 	//
 	// See [upload file](/docs/api-reference/files/upload) for how to upload a file.
@@ -146,4 +147,99 @@ type CreateFineTuneRequest struct {
 	// See the [fine-tuning guide](/docs/guides/fine-tuning/creating-training-data) for more details.
 	//
 	ValidationFile *string `json:"validation_file,omitempty"`
+}
+
+func (c CreateFineTuneRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateFineTuneRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateFineTuneRequest) GetBatchSize() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.BatchSize
+}
+
+func (o *CreateFineTuneRequest) GetClassificationBetas() []float64 {
+	if o == nil {
+		return nil
+	}
+	return o.ClassificationBetas
+}
+
+func (o *CreateFineTuneRequest) GetClassificationNClasses() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.ClassificationNClasses
+}
+
+func (o *CreateFineTuneRequest) GetClassificationPositiveClass() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ClassificationPositiveClass
+}
+
+func (o *CreateFineTuneRequest) GetComputeClassificationMetrics() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.ComputeClassificationMetrics
+}
+
+func (o *CreateFineTuneRequest) GetLearningRateMultiplier() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.LearningRateMultiplier
+}
+
+func (o *CreateFineTuneRequest) GetModel() *CreateFineTuneRequestModel {
+	if o == nil {
+		return nil
+	}
+	return o.Model
+}
+
+func (o *CreateFineTuneRequest) GetNEpochs() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.NEpochs
+}
+
+func (o *CreateFineTuneRequest) GetPromptLossWeight() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.PromptLossWeight
+}
+
+func (o *CreateFineTuneRequest) GetSuffix() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Suffix
+}
+
+func (o *CreateFineTuneRequest) GetTrainingFile() string {
+	if o == nil {
+		return ""
+	}
+	return o.TrainingFile
+}
+
+func (o *CreateFineTuneRequest) GetValidationFile() *string {
+	if o == nil {
+		return nil
+	}
+	return o.ValidationFile
 }

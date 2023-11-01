@@ -15,6 +15,20 @@ type ChatCompletionResponseMessageFunctionCall struct {
 	Name *string `json:"name,omitempty"`
 }
 
+func (o *ChatCompletionResponseMessageFunctionCall) GetArguments() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Arguments
+}
+
+func (o *ChatCompletionResponseMessageFunctionCall) GetName() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Name
+}
+
 // ChatCompletionResponseMessageRole - The role of the author of this message.
 type ChatCompletionResponseMessageRole string
 
@@ -56,4 +70,25 @@ type ChatCompletionResponseMessage struct {
 	FunctionCall *ChatCompletionResponseMessageFunctionCall `json:"function_call,omitempty"`
 	// The role of the author of this message.
 	Role ChatCompletionResponseMessageRole `json:"role"`
+}
+
+func (o *ChatCompletionResponseMessage) GetContent() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Content
+}
+
+func (o *ChatCompletionResponseMessage) GetFunctionCall() *ChatCompletionResponseMessageFunctionCall {
+	if o == nil {
+		return nil
+	}
+	return o.FunctionCall
+}
+
+func (o *ChatCompletionResponseMessage) GetRole() ChatCompletionResponseMessageRole {
+	if o == nil {
+		return ChatCompletionResponseMessageRole("")
+	}
+	return o.Role
 }

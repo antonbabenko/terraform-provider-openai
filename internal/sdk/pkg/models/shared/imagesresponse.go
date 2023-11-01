@@ -7,7 +7,35 @@ type ImagesResponseData struct {
 	URL     *string `json:"url,omitempty"`
 }
 
+func (o *ImagesResponseData) GetB64JSON() *string {
+	if o == nil {
+		return nil
+	}
+	return o.B64JSON
+}
+
+func (o *ImagesResponseData) GetURL() *string {
+	if o == nil {
+		return nil
+	}
+	return o.URL
+}
+
 type ImagesResponse struct {
 	Created int64                `json:"created"`
 	Data    []ImagesResponseData `json:"data"`
+}
+
+func (o *ImagesResponse) GetCreated() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Created
+}
+
+func (o *ImagesResponse) GetData() []ImagesResponseData {
+	if o == nil {
+		return []ImagesResponseData{}
+	}
+	return o.Data
 }

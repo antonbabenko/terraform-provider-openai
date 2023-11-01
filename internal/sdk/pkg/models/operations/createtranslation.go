@@ -17,3 +17,31 @@ type CreateTranslationResponse struct {
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 }
+
+func (o *CreateTranslationResponse) GetContentType() string {
+	if o == nil {
+		return ""
+	}
+	return o.ContentType
+}
+
+func (o *CreateTranslationResponse) GetCreateTranslationResponse() *shared.CreateTranslationResponse {
+	if o == nil {
+		return nil
+	}
+	return o.CreateTranslationResponse
+}
+
+func (o *CreateTranslationResponse) GetStatusCode() int {
+	if o == nil {
+		return 0
+	}
+	return o.StatusCode
+}
+
+func (o *CreateTranslationResponse) GetRawResponse() *http.Response {
+	if o == nil {
+		return nil
+	}
+	return o.RawResponse
+}

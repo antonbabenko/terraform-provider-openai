@@ -5,6 +5,7 @@ package operations
 import (
 	"net/http"
 	"openai/internal/sdk/pkg/models/shared"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type ListFineTuneEventsRequest struct {
@@ -20,7 +21,32 @@ type ListFineTuneEventsRequest struct {
 	//
 	// If set to false, only events generated so far will be returned.
 	//
-	Stream *bool `queryParam:"style=form,explode=true,name=stream"`
+	Stream *bool `default:"false" queryParam:"style=form,explode=true,name=stream"`
+}
+
+func (l ListFineTuneEventsRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(l, "", false)
+}
+
+func (l *ListFineTuneEventsRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &l, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *ListFineTuneEventsRequest) GetFineTuneID() string {
+	if o == nil {
+		return ""
+	}
+	return o.FineTuneID
+}
+
+func (o *ListFineTuneEventsRequest) GetStream() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Stream
 }
 
 type ListFineTuneEventsResponse struct {
@@ -32,4 +58,32 @@ type ListFineTuneEventsResponse struct {
 	StatusCode int
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
+}
+
+func (o *ListFineTuneEventsResponse) GetContentType() string {
+	if o == nil {
+		return ""
+	}
+	return o.ContentType
+}
+
+func (o *ListFineTuneEventsResponse) GetListFineTuneEventsResponse() *shared.ListFineTuneEventsResponse {
+	if o == nil {
+		return nil
+	}
+	return o.ListFineTuneEventsResponse
+}
+
+func (o *ListFineTuneEventsResponse) GetStatusCode() int {
+	if o == nil {
+		return 0
+	}
+	return o.StatusCode
+}
+
+func (o *ListFineTuneEventsResponse) GetRawResponse() *http.Response {
+	if o == nil {
+		return nil
+	}
+	return o.RawResponse
 }

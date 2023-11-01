@@ -5,6 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type CreateImageEditRequestImage struct {
@@ -12,9 +13,37 @@ type CreateImageEditRequestImage struct {
 	Image   string `multipartForm:"name=image"`
 }
 
+func (o *CreateImageEditRequestImage) GetContent() []byte {
+	if o == nil {
+		return []byte{}
+	}
+	return o.Content
+}
+
+func (o *CreateImageEditRequestImage) GetImage() string {
+	if o == nil {
+		return ""
+	}
+	return o.Image
+}
+
 type CreateImageEditRequestMask struct {
 	Content []byte `multipartForm:"content"`
 	Mask    string `multipartForm:"name=mask"`
+}
+
+func (o *CreateImageEditRequestMask) GetContent() []byte {
+	if o == nil {
+		return []byte{}
+	}
+	return o.Content
+}
+
+func (o *CreateImageEditRequestMask) GetMask() string {
+	if o == nil {
+		return ""
+	}
+	return o.Mask
 }
 
 // CreateImageEditRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.
@@ -82,14 +111,74 @@ type CreateImageEditRequest struct {
 	// An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
 	Mask *CreateImageEditRequestMask `multipartForm:"file"`
 	// The number of images to generate. Must be between 1 and 10.
-	N *int64 `multipartForm:"name=n"`
+	N *int64 `default:"1" multipartForm:"name=n"`
 	// A text description of the desired image(s). The maximum length is 1000 characters.
 	Prompt string `multipartForm:"name=prompt"`
 	// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-	ResponseFormat *CreateImageEditRequestResponseFormat `multipartForm:"name=response_format"`
+	ResponseFormat *CreateImageEditRequestResponseFormat `default:"url" multipartForm:"name=response_format"`
 	// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-	Size *CreateImageEditRequestSize `multipartForm:"name=size"`
+	Size *CreateImageEditRequestSize `default:"1024x1024" multipartForm:"name=size"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `multipartForm:"name=user"`
+}
+
+func (c CreateImageEditRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateImageEditRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateImageEditRequest) GetImage() CreateImageEditRequestImage {
+	if o == nil {
+		return CreateImageEditRequestImage{}
+	}
+	return o.Image
+}
+
+func (o *CreateImageEditRequest) GetMask() *CreateImageEditRequestMask {
+	if o == nil {
+		return nil
+	}
+	return o.Mask
+}
+
+func (o *CreateImageEditRequest) GetN() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.N
+}
+
+func (o *CreateImageEditRequest) GetPrompt() string {
+	if o == nil {
+		return ""
+	}
+	return o.Prompt
+}
+
+func (o *CreateImageEditRequest) GetResponseFormat() *CreateImageEditRequestResponseFormat {
+	if o == nil {
+		return nil
+	}
+	return o.ResponseFormat
+}
+
+func (o *CreateImageEditRequest) GetSize() *CreateImageEditRequestSize {
+	if o == nil {
+		return nil
+	}
+	return o.Size
+}
+
+func (o *CreateImageEditRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

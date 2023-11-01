@@ -41,6 +41,34 @@ type CreateCompletionResponseChoicesLogprobs struct {
 	TopLogprobs   interface{} `json:"top_logprobs,omitempty"`
 }
 
+func (o *CreateCompletionResponseChoicesLogprobs) GetTextOffset() []int64 {
+	if o == nil {
+		return nil
+	}
+	return o.TextOffset
+}
+
+func (o *CreateCompletionResponseChoicesLogprobs) GetTokenLogprobs() []float64 {
+	if o == nil {
+		return nil
+	}
+	return o.TokenLogprobs
+}
+
+func (o *CreateCompletionResponseChoicesLogprobs) GetTokens() []string {
+	if o == nil {
+		return nil
+	}
+	return o.Tokens
+}
+
+func (o *CreateCompletionResponseChoicesLogprobs) GetTopLogprobs() interface{} {
+	if o == nil {
+		return nil
+	}
+	return o.TopLogprobs
+}
+
 type CreateCompletionResponseChoices struct {
 	FinishReason CreateCompletionResponseChoicesFinishReason `json:"finish_reason"`
 	Index        int64                                       `json:"index"`
@@ -48,10 +76,59 @@ type CreateCompletionResponseChoices struct {
 	Text         string                                      `json:"text"`
 }
 
+func (o *CreateCompletionResponseChoices) GetFinishReason() CreateCompletionResponseChoicesFinishReason {
+	if o == nil {
+		return CreateCompletionResponseChoicesFinishReason("")
+	}
+	return o.FinishReason
+}
+
+func (o *CreateCompletionResponseChoices) GetIndex() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Index
+}
+
+func (o *CreateCompletionResponseChoices) GetLogprobs() *CreateCompletionResponseChoicesLogprobs {
+	if o == nil {
+		return nil
+	}
+	return o.Logprobs
+}
+
+func (o *CreateCompletionResponseChoices) GetText() string {
+	if o == nil {
+		return ""
+	}
+	return o.Text
+}
+
 type CreateCompletionResponseUsage struct {
 	CompletionTokens int64 `json:"completion_tokens"`
 	PromptTokens     int64 `json:"prompt_tokens"`
 	TotalTokens      int64 `json:"total_tokens"`
+}
+
+func (o *CreateCompletionResponseUsage) GetCompletionTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.CompletionTokens
+}
+
+func (o *CreateCompletionResponseUsage) GetPromptTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.PromptTokens
+}
+
+func (o *CreateCompletionResponseUsage) GetTotalTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.TotalTokens
 }
 
 type CreateCompletionResponse struct {
@@ -61,4 +138,46 @@ type CreateCompletionResponse struct {
 	Model   string                            `json:"model"`
 	Object  string                            `json:"object"`
 	Usage   *CreateCompletionResponseUsage    `json:"usage,omitempty"`
+}
+
+func (o *CreateCompletionResponse) GetChoices() []CreateCompletionResponseChoices {
+	if o == nil {
+		return []CreateCompletionResponseChoices{}
+	}
+	return o.Choices
+}
+
+func (o *CreateCompletionResponse) GetCreated() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Created
+}
+
+func (o *CreateCompletionResponse) GetID() string {
+	if o == nil {
+		return ""
+	}
+	return o.ID
+}
+
+func (o *CreateCompletionResponse) GetModel() string {
+	if o == nil {
+		return ""
+	}
+	return o.Model
+}
+
+func (o *CreateCompletionResponse) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
+func (o *CreateCompletionResponse) GetUsage() *CreateCompletionResponseUsage {
+	if o == nil {
+		return nil
+	}
+	return o.Usage
 }

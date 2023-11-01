@@ -76,7 +76,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					int64planmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Generates ` + "`" + `best_of` + "`" + ` completions server-side and returns the "best" (the one with the highest log probability per token). Results cannot be streamed.` + "\n" +
+				MarkdownDescription: `Default: 1` + "\n" +
+					`Generates ` + "`" + `best_of` + "`" + ` completions server-side and returns the "best" (the one with the highest log probability per token). Results cannot be streamed.` + "\n" +
 					`` + "\n" +
 					`When used with ` + "`" + `n` + "`" + `, ` + "`" + `best_of` + "`" + ` controls the number of candidate completions and ` + "`" + `n` + "`" + ` specifies how many to return – ` + "`" + `best_of` + "`" + ` must be greater than ` + "`" + `n` + "`" + `.` + "\n" +
 					`` + "\n" +
@@ -138,7 +139,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					boolplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Echo back the prompt in addition to the completion` + "\n" +
+				MarkdownDescription: `Default: false` + "\n" +
+					`Echo back the prompt in addition to the completion` + "\n" +
 					``,
 			},
 			"frequency_penalty": schema.NumberAttribute{
@@ -146,7 +148,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					numberplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.` + "\n" +
+				MarkdownDescription: `Default: 0` + "\n" +
+					`Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.` + "\n" +
 					`` + "\n" +
 					`[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)` + "\n" +
 					``,
@@ -172,7 +175,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					int64planmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Include the log probabilities on the ` + "`" + `logprobs` + "`" + ` most likely tokens, as well the chosen tokens. For example, if ` + "`" + `logprobs` + "`" + ` is 5, the API will return a list of the 5 most likely tokens. The API will always return the ` + "`" + `logprob` + "`" + ` of the sampled token, so there may be up to ` + "`" + `logprobs+1` + "`" + ` elements in the response.` + "\n" +
+				MarkdownDescription: `Default: null` + "\n" +
+					`Include the log probabilities on the ` + "`" + `logprobs` + "`" + ` most likely tokens, as well the chosen tokens. For example, if ` + "`" + `logprobs` + "`" + ` is 5, the API will return a list of the 5 most likely tokens. The API will always return the ` + "`" + `logprob` + "`" + ` of the sampled token, so there may be up to ` + "`" + `logprobs+1` + "`" + ` elements in the response.` + "\n" +
 					`` + "\n" +
 					`The maximum value for ` + "`" + `logprobs` + "`" + ` is 5.` + "\n" +
 					``,
@@ -182,7 +186,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					int64planmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `The maximum number of [tokens](/tokenizer) to generate in the completion.` + "\n" +
+				MarkdownDescription: `Default: 16` + "\n" +
+					`The maximum number of [tokens](/tokenizer) to generate in the completion.` + "\n" +
 					`` + "\n" +
 					`The token count of your prompt plus ` + "`" + `max_tokens` + "`" + ` cannot exceed the model's context length. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.` + "\n" +
 					``,
@@ -212,7 +217,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					int64planmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `How many completions to generate for each prompt.` + "\n" +
+				MarkdownDescription: `Default: 1` + "\n" +
+					`How many completions to generate for each prompt.` + "\n" +
 					`` + "\n" +
 					`**Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for ` + "`" + `max_tokens` + "`" + ` and ` + "`" + `stop` + "`" + `.` + "\n" +
 					``,
@@ -225,7 +231,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					numberplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.` + "\n" +
+				MarkdownDescription: `Default: 0` + "\n" +
+					`Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.` + "\n" +
 					`` + "\n" +
 					`[See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)` + "\n" +
 					``,
@@ -305,22 +312,25 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					boolplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a ` + "`" + `data: [DONE]` + "`" + ` message. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb).` + "\n" +
+				MarkdownDescription: `Default: false` + "\n" +
+					`Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a ` + "`" + `data: [DONE]` + "`" + ` message. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb).` + "\n" +
 					``,
 			},
 			"suffix": schema.StringAttribute{
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
-				Optional:    true,
-				Description: `The suffix that comes after a completion of inserted text.`,
+				Optional: true,
+				MarkdownDescription: `Default: null` + "\n" +
+					`The suffix that comes after a completion of inserted text.`,
 			},
 			"temperature": schema.NumberAttribute{
 				PlanModifiers: []planmodifier.Number{
 					numberplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.` + "\n" +
+				MarkdownDescription: `Default: 1` + "\n" +
+					`What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.` + "\n" +
 					`` + "\n" +
 					`We generally recommend altering this or ` + "`" + `top_p` + "`" + ` but not both.` + "\n" +
 					``,
@@ -330,7 +340,8 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					numberplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
-				MarkdownDescription: `An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.` + "\n" +
+				MarkdownDescription: `Default: 1` + "\n" +
+					`An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.` + "\n" +
 					`` + "\n" +
 					`We generally recommend altering this or ` + "`" + `temperature` + "`" + ` but not both.` + "\n" +
 					``,

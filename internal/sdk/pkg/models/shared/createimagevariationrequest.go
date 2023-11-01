@@ -5,11 +5,26 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type CreateImageVariationRequestImage struct {
 	Content []byte `multipartForm:"content"`
 	Image   string `multipartForm:"name=image"`
+}
+
+func (o *CreateImageVariationRequestImage) GetContent() []byte {
+	if o == nil {
+		return []byte{}
+	}
+	return o.Content
+}
+
+func (o *CreateImageVariationRequestImage) GetImage() string {
+	if o == nil {
+		return ""
+	}
+	return o.Image
 }
 
 // CreateImageVariationRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.
@@ -75,12 +90,58 @@ type CreateImageVariationRequest struct {
 	// The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.
 	Image CreateImageVariationRequestImage `multipartForm:"file"`
 	// The number of images to generate. Must be between 1 and 10.
-	N *int64 `multipartForm:"name=n"`
+	N *int64 `default:"1" multipartForm:"name=n"`
 	// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-	ResponseFormat *CreateImageVariationRequestResponseFormat `multipartForm:"name=response_format"`
+	ResponseFormat *CreateImageVariationRequestResponseFormat `default:"url" multipartForm:"name=response_format"`
 	// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-	Size *CreateImageVariationRequestSize `multipartForm:"name=size"`
+	Size *CreateImageVariationRequestSize `default:"1024x1024" multipartForm:"name=size"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `multipartForm:"name=user"`
+}
+
+func (c CreateImageVariationRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateImageVariationRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateImageVariationRequest) GetImage() CreateImageVariationRequestImage {
+	if o == nil {
+		return CreateImageVariationRequestImage{}
+	}
+	return o.Image
+}
+
+func (o *CreateImageVariationRequest) GetN() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.N
+}
+
+func (o *CreateImageVariationRequest) GetResponseFormat() *CreateImageVariationRequestResponseFormat {
+	if o == nil {
+		return nil
+	}
+	return o.ResponseFormat
+}
+
+func (o *CreateImageVariationRequest) GetSize() *CreateImageVariationRequestSize {
+	if o == nil {
+		return nil
+	}
+	return o.Size
+}
+
+func (o *CreateImageVariationRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

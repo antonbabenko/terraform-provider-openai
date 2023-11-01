@@ -12,3 +12,24 @@ type ChatCompletionFunctions struct {
 	// To describe a function that accepts no parameters, provide the value `{"type": "object", "properties": {}}`.
 	Parameters map[string]interface{} `json:"parameters"`
 }
+
+func (o *ChatCompletionFunctions) GetDescription() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Description
+}
+
+func (o *ChatCompletionFunctions) GetName() string {
+	if o == nil {
+		return ""
+	}
+	return o.Name
+}
+
+func (o *ChatCompletionFunctions) GetParameters() map[string]interface{} {
+	if o == nil {
+		return map[string]interface{}{}
+	}
+	return o.Parameters
+}

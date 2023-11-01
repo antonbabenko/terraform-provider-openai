@@ -3,10 +3,10 @@
 package shared
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 // CreateCompletionRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
@@ -107,39 +107,30 @@ func CreateCreateCompletionRequestPromptArrayOfarrayOfinteger(arrayOfarrayOfinte
 }
 
 func (u *CreateCompletionRequestPrompt) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
 	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
+	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
 		u.Type = CreateCompletionRequestPromptTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfstr); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
 		u.Type = CreateCompletionRequestPromptTypeArrayOfstr
 		return nil
 	}
 
 	arrayOfinteger := []int64{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfinteger); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfinteger = arrayOfinteger
 		u.Type = CreateCompletionRequestPromptTypeArrayOfinteger
 		return nil
 	}
 
 	arrayOfarrayOfinteger := [][]int64{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfarrayOfinteger); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfarrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfarrayOfinteger = arrayOfarrayOfinteger
 		u.Type = CreateCompletionRequestPromptTypeArrayOfarrayOfinteger
 		return nil
@@ -150,22 +141,22 @@ func (u *CreateCompletionRequestPrompt) UnmarshalJSON(data []byte) error {
 
 func (u CreateCompletionRequestPrompt) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
-		return json.Marshal(u.Str)
+		return utils.MarshalJSON(u.Str, "", true)
 	}
 
 	if u.ArrayOfstr != nil {
-		return json.Marshal(u.ArrayOfstr)
+		return utils.MarshalJSON(u.ArrayOfstr, "", true)
 	}
 
 	if u.ArrayOfinteger != nil {
-		return json.Marshal(u.ArrayOfinteger)
+		return utils.MarshalJSON(u.ArrayOfinteger, "", true)
 	}
 
 	if u.ArrayOfarrayOfinteger != nil {
-		return json.Marshal(u.ArrayOfarrayOfinteger)
+		return utils.MarshalJSON(u.ArrayOfarrayOfinteger, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 type CreateCompletionRequestStopType string
@@ -201,21 +192,16 @@ func CreateCreateCompletionRequestStopArrayOfstr(arrayOfstr []string) CreateComp
 }
 
 func (u *CreateCompletionRequestStop) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
 	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
+	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
 		u.Type = CreateCompletionRequestStopTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfstr); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
 		u.Type = CreateCompletionRequestStopTypeArrayOfstr
 		return nil
@@ -226,14 +212,14 @@ func (u *CreateCompletionRequestStop) UnmarshalJSON(data []byte) error {
 
 func (u CreateCompletionRequestStop) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
-		return json.Marshal(u.Str)
+		return utils.MarshalJSON(u.Str, "", true)
 	}
 
 	if u.ArrayOfstr != nil {
-		return json.Marshal(u.ArrayOfstr)
+		return utils.MarshalJSON(u.ArrayOfstr, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 type CreateCompletionRequest struct {
@@ -243,15 +229,15 @@ type CreateCompletionRequest struct {
 	//
 	// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
 	//
-	BestOf *int64 `json:"best_of,omitempty"`
+	BestOf *int64 `default:"1" json:"best_of"`
 	// Echo back the prompt in addition to the completion
 	//
-	Echo *bool `json:"echo,omitempty"`
+	Echo *bool `default:"false" json:"echo"`
 	// Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim.
 	//
 	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
 	//
-	FrequencyPenalty *float64 `json:"frequency_penalty,omitempty"`
+	FrequencyPenalty *float64 `default:"0" json:"frequency_penalty"`
 	// Modify the likelihood of specified tokens appearing in the completion.
 	//
 	// Accepts a json object that maps tokens (specified by their token ID in the GPT tokenizer) to an associated bias value from -100 to 100. You can use this [tokenizer tool](/tokenizer?view=bpe) (which works for both GPT-2 and GPT-3) to convert text to token IDs. Mathematically, the bias is added to the logits generated by the model prior to sampling. The exact effect will vary per model, but values between -1 and 1 should decrease or increase likelihood of selection; values like -100 or 100 should result in a ban or exclusive selection of the relevant token.
@@ -263,12 +249,12 @@ type CreateCompletionRequest struct {
 	//
 	// The maximum value for `logprobs` is 5.
 	//
-	Logprobs *int64 `json:"logprobs,omitempty"`
+	Logprobs *int64 `default:"null" json:"logprobs"`
 	// The maximum number of [tokens](/tokenizer) to generate in the completion.
 	//
 	// The token count of your prompt plus `max_tokens` cannot exceed the model's context length. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.
 	//
-	MaxTokens *int64 `json:"max_tokens,omitempty"`
+	MaxTokens *int64 `default:"16" json:"max_tokens"`
 	// ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
 	//
 	Model CreateCompletionRequestModel `json:"model"`
@@ -276,12 +262,12 @@ type CreateCompletionRequest struct {
 	//
 	// **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.
 	//
-	N *int64 `json:"n,omitempty"`
+	N *int64 `default:"1" json:"n"`
 	// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
 	//
 	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
 	//
-	PresencePenalty *float64 `json:"presence_penalty,omitempty"`
+	PresencePenalty *float64 `default:"0" json:"presence_penalty"`
 	// The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.
 	//
 	// Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.
@@ -292,20 +278,143 @@ type CreateCompletionRequest struct {
 	Stop *CreateCompletionRequestStop `json:"stop,omitempty"`
 	// Whether to stream back partial progress. If set, tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb).
 	//
-	Stream *bool `json:"stream,omitempty"`
+	Stream *bool `default:"false" json:"stream"`
 	// The suffix that comes after a completion of inserted text.
-	Suffix *string `json:"suffix,omitempty"`
+	Suffix *string `default:"null" json:"suffix"`
 	// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 	//
 	// We generally recommend altering this or `top_p` but not both.
 	//
-	Temperature *float64 `json:"temperature,omitempty"`
+	Temperature *float64 `default:"1" json:"temperature"`
 	// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 	//
 	// We generally recommend altering this or `temperature` but not both.
 	//
-	TopP *float64 `json:"top_p,omitempty"`
+	TopP *float64 `default:"1" json:"top_p"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `json:"user,omitempty"`
+}
+
+func (c CreateCompletionRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateCompletionRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateCompletionRequest) GetBestOf() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.BestOf
+}
+
+func (o *CreateCompletionRequest) GetEcho() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Echo
+}
+
+func (o *CreateCompletionRequest) GetFrequencyPenalty() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.FrequencyPenalty
+}
+
+func (o *CreateCompletionRequest) GetLogitBias() map[string]int64 {
+	if o == nil {
+		return nil
+	}
+	return o.LogitBias
+}
+
+func (o *CreateCompletionRequest) GetLogprobs() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.Logprobs
+}
+
+func (o *CreateCompletionRequest) GetMaxTokens() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.MaxTokens
+}
+
+func (o *CreateCompletionRequest) GetModel() CreateCompletionRequestModel {
+	if o == nil {
+		return CreateCompletionRequestModel("")
+	}
+	return o.Model
+}
+
+func (o *CreateCompletionRequest) GetN() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.N
+}
+
+func (o *CreateCompletionRequest) GetPresencePenalty() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.PresencePenalty
+}
+
+func (o *CreateCompletionRequest) GetPrompt() *CreateCompletionRequestPrompt {
+	if o == nil {
+		return nil
+	}
+	return o.Prompt
+}
+
+func (o *CreateCompletionRequest) GetStop() *CreateCompletionRequestStop {
+	if o == nil {
+		return nil
+	}
+	return o.Stop
+}
+
+func (o *CreateCompletionRequest) GetStream() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Stream
+}
+
+func (o *CreateCompletionRequest) GetSuffix() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Suffix
+}
+
+func (o *CreateCompletionRequest) GetTemperature() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.Temperature
+}
+
+func (o *CreateCompletionRequest) GetTopP() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.TopP
+}
+
+func (o *CreateCompletionRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

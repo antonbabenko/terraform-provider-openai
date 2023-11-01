@@ -7,6 +7,20 @@ type CreateFileRequestFile struct {
 	File    string `multipartForm:"name=file"`
 }
 
+func (o *CreateFileRequestFile) GetContent() []byte {
+	if o == nil {
+		return []byte{}
+	}
+	return o.Content
+}
+
+func (o *CreateFileRequestFile) GetFile() string {
+	if o == nil {
+		return ""
+	}
+	return o.File
+}
+
 type CreateFileRequest struct {
 	// Name of the [JSON Lines](https://jsonlines.readthedocs.io/en/latest/) file to be uploaded.
 	//
@@ -18,4 +32,18 @@ type CreateFileRequest struct {
 	// Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
 	//
 	Purpose string `multipartForm:"name=purpose"`
+}
+
+func (o *CreateFileRequest) GetFile() CreateFileRequestFile {
+	if o == nil {
+		return CreateFileRequestFile{}
+	}
+	return o.File
+}
+
+func (o *CreateFileRequest) GetPurpose() string {
+	if o == nil {
+		return ""
+	}
+	return o.Purpose
 }

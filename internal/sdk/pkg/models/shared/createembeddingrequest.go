@@ -3,10 +3,10 @@
 package shared
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type CreateEmbeddingRequestInputType string
@@ -64,39 +64,30 @@ func CreateCreateEmbeddingRequestInputArrayOfarrayOfinteger(arrayOfarrayOfintege
 }
 
 func (u *CreateEmbeddingRequestInput) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
 	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
+	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
 		u.Type = CreateEmbeddingRequestInputTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfstr); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
 		u.Type = CreateEmbeddingRequestInputTypeArrayOfstr
 		return nil
 	}
 
 	arrayOfinteger := []int64{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfinteger); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfinteger = arrayOfinteger
 		u.Type = CreateEmbeddingRequestInputTypeArrayOfinteger
 		return nil
 	}
 
 	arrayOfarrayOfinteger := [][]int64{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfarrayOfinteger); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfarrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfarrayOfinteger = arrayOfarrayOfinteger
 		u.Type = CreateEmbeddingRequestInputTypeArrayOfarrayOfinteger
 		return nil
@@ -107,22 +98,22 @@ func (u *CreateEmbeddingRequestInput) UnmarshalJSON(data []byte) error {
 
 func (u CreateEmbeddingRequestInput) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
-		return json.Marshal(u.Str)
+		return utils.MarshalJSON(u.Str, "", true)
 	}
 
 	if u.ArrayOfstr != nil {
-		return json.Marshal(u.ArrayOfstr)
+		return utils.MarshalJSON(u.ArrayOfstr, "", true)
 	}
 
 	if u.ArrayOfinteger != nil {
-		return json.Marshal(u.ArrayOfinteger)
+		return utils.MarshalJSON(u.ArrayOfinteger, "", true)
 	}
 
 	if u.ArrayOfarrayOfinteger != nil {
-		return json.Marshal(u.ArrayOfarrayOfinteger)
+		return utils.MarshalJSON(u.ArrayOfarrayOfinteger, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 // CreateEmbeddingRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
@@ -160,4 +151,25 @@ type CreateEmbeddingRequest struct {
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `json:"user,omitempty"`
+}
+
+func (o *CreateEmbeddingRequest) GetInput() CreateEmbeddingRequestInput {
+	if o == nil {
+		return CreateEmbeddingRequestInput{}
+	}
+	return o.Input
+}
+
+func (o *CreateEmbeddingRequest) GetModel() CreateEmbeddingRequestModel {
+	if o == nil {
+		return CreateEmbeddingRequestModel("")
+	}
+	return o.Model
+}
+
+func (o *CreateEmbeddingRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

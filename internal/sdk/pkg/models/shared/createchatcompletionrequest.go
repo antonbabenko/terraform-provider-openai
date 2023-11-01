@@ -3,16 +3,23 @@
 package shared
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 // CreateChatCompletionRequestFunctionCall2 - Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
 type CreateChatCompletionRequestFunctionCall2 struct {
 	// The name of the function to call.
 	Name string `json:"name"`
+}
+
+func (o *CreateChatCompletionRequestFunctionCall2) GetName() string {
+	if o == nil {
+		return ""
+	}
+	return o.Name
 }
 
 // CreateChatCompletionRequestFunctionCall1 - Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
@@ -76,23 +83,18 @@ func CreateCreateChatCompletionRequestFunctionCallCreateChatCompletionRequestFun
 }
 
 func (u *CreateChatCompletionRequestFunctionCall) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
-	createChatCompletionRequestFunctionCall1 := new(CreateChatCompletionRequestFunctionCall1)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&createChatCompletionRequestFunctionCall1); err == nil {
-		u.CreateChatCompletionRequestFunctionCall1 = createChatCompletionRequestFunctionCall1
-		u.Type = CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall1
+	createChatCompletionRequestFunctionCall2 := new(CreateChatCompletionRequestFunctionCall2)
+	if err := utils.UnmarshalJSON(data, &createChatCompletionRequestFunctionCall2, "", true, true); err == nil {
+		u.CreateChatCompletionRequestFunctionCall2 = createChatCompletionRequestFunctionCall2
+		u.Type = CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall2
 		return nil
 	}
 
-	createChatCompletionRequestFunctionCall2 := new(CreateChatCompletionRequestFunctionCall2)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&createChatCompletionRequestFunctionCall2); err == nil {
-		u.CreateChatCompletionRequestFunctionCall2 = createChatCompletionRequestFunctionCall2
-		u.Type = CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall2
+	createChatCompletionRequestFunctionCall1 := new(CreateChatCompletionRequestFunctionCall1)
+	if err := utils.UnmarshalJSON(data, &createChatCompletionRequestFunctionCall1, "", true, true); err == nil {
+		u.CreateChatCompletionRequestFunctionCall1 = createChatCompletionRequestFunctionCall1
+		u.Type = CreateChatCompletionRequestFunctionCallTypeCreateChatCompletionRequestFunctionCall1
 		return nil
 	}
 
@@ -101,14 +103,14 @@ func (u *CreateChatCompletionRequestFunctionCall) UnmarshalJSON(data []byte) err
 
 func (u CreateChatCompletionRequestFunctionCall) MarshalJSON() ([]byte, error) {
 	if u.CreateChatCompletionRequestFunctionCall1 != nil {
-		return json.Marshal(u.CreateChatCompletionRequestFunctionCall1)
+		return utils.MarshalJSON(u.CreateChatCompletionRequestFunctionCall1, "", true)
 	}
 
 	if u.CreateChatCompletionRequestFunctionCall2 != nil {
-		return json.Marshal(u.CreateChatCompletionRequestFunctionCall2)
+		return utils.MarshalJSON(u.CreateChatCompletionRequestFunctionCall2, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 // CreateChatCompletionRequestModel - ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
@@ -199,21 +201,16 @@ func CreateCreateChatCompletionRequestStopArrayOfstr(arrayOfstr []string) Create
 }
 
 func (u *CreateChatCompletionRequestStop) UnmarshalJSON(data []byte) error {
-	var d *json.Decoder
 
 	str := new(string)
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&str); err == nil {
+	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
 		u.Type = CreateChatCompletionRequestStopTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
-	d = json.NewDecoder(bytes.NewReader(data))
-	d.DisallowUnknownFields()
-	if err := d.Decode(&arrayOfstr); err == nil {
+	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
 		u.Type = CreateChatCompletionRequestStopTypeArrayOfstr
 		return nil
@@ -224,14 +221,14 @@ func (u *CreateChatCompletionRequestStop) UnmarshalJSON(data []byte) error {
 
 func (u CreateChatCompletionRequestStop) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
-		return json.Marshal(u.Str)
+		return utils.MarshalJSON(u.Str, "", true)
 	}
 
 	if u.ArrayOfstr != nil {
-		return json.Marshal(u.ArrayOfstr)
+		return utils.MarshalJSON(u.ArrayOfstr, "", true)
 	}
 
-	return nil, nil
+	return nil, errors.New("could not marshal union type: all fields are null")
 }
 
 type CreateChatCompletionRequest struct {
@@ -239,7 +236,7 @@ type CreateChatCompletionRequest struct {
 	//
 	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
 	//
-	FrequencyPenalty *float64 `json:"frequency_penalty,omitempty"`
+	FrequencyPenalty *float64 `default:"0" json:"frequency_penalty"`
 	// Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via `{"name":\ "my_function"}` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.
 	FunctionCall *CreateChatCompletionRequestFunctionCall `json:"function_call,omitempty"`
 	// A list of functions the model may generate JSON inputs for.
@@ -253,35 +250,144 @@ type CreateChatCompletionRequest struct {
 	//
 	// The total length of input tokens and generated tokens is limited by the model's context length. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.
 	//
-	MaxTokens *int64 `json:"max_tokens,omitempty"`
+	MaxTokens *int64 `default:"inf" json:"max_tokens"`
 	// A list of messages comprising the conversation so far. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_format_inputs_to_ChatGPT_models.ipynb).
 	Messages []ChatCompletionRequestMessage `json:"messages"`
 	// ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.
 	Model CreateChatCompletionRequestModel `json:"model"`
 	// How many chat completion choices to generate for each input message.
-	N *int64 `json:"n,omitempty"`
+	N *int64 `default:"1" json:"n"`
 	// Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics.
 	//
 	// [See more information about frequency and presence penalties.](/docs/api-reference/parameter-details)
 	//
-	PresencePenalty *float64 `json:"presence_penalty,omitempty"`
+	PresencePenalty *float64 `default:"0" json:"presence_penalty"`
 	// Up to 4 sequences where the API will stop generating further tokens.
 	//
 	Stop *CreateChatCompletionRequestStop `json:"stop,omitempty"`
 	// If set, partial message deltas will be sent, like in ChatGPT. Tokens will be sent as data-only [server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format) as they become available, with the stream terminated by a `data: [DONE]` message. [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_stream_completions.ipynb).
 	//
-	Stream *bool `json:"stream,omitempty"`
+	Stream *bool `default:"false" json:"stream"`
 	// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
 	//
 	// We generally recommend altering this or `top_p` but not both.
 	//
-	Temperature *float64 `json:"temperature,omitempty"`
+	Temperature *float64 `default:"1" json:"temperature"`
 	// An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 	//
 	// We generally recommend altering this or `temperature` but not both.
 	//
-	TopP *float64 `json:"top_p,omitempty"`
+	TopP *float64 `default:"1" json:"top_p"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `json:"user,omitempty"`
+}
+
+func (c CreateChatCompletionRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateChatCompletionRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateChatCompletionRequest) GetFrequencyPenalty() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.FrequencyPenalty
+}
+
+func (o *CreateChatCompletionRequest) GetFunctionCall() *CreateChatCompletionRequestFunctionCall {
+	if o == nil {
+		return nil
+	}
+	return o.FunctionCall
+}
+
+func (o *CreateChatCompletionRequest) GetFunctions() []ChatCompletionFunctions {
+	if o == nil {
+		return nil
+	}
+	return o.Functions
+}
+
+func (o *CreateChatCompletionRequest) GetLogitBias() map[string]int64 {
+	if o == nil {
+		return nil
+	}
+	return o.LogitBias
+}
+
+func (o *CreateChatCompletionRequest) GetMaxTokens() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.MaxTokens
+}
+
+func (o *CreateChatCompletionRequest) GetMessages() []ChatCompletionRequestMessage {
+	if o == nil {
+		return []ChatCompletionRequestMessage{}
+	}
+	return o.Messages
+}
+
+func (o *CreateChatCompletionRequest) GetModel() CreateChatCompletionRequestModel {
+	if o == nil {
+		return CreateChatCompletionRequestModel("")
+	}
+	return o.Model
+}
+
+func (o *CreateChatCompletionRequest) GetN() *int64 {
+	if o == nil {
+		return nil
+	}
+	return o.N
+}
+
+func (o *CreateChatCompletionRequest) GetPresencePenalty() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.PresencePenalty
+}
+
+func (o *CreateChatCompletionRequest) GetStop() *CreateChatCompletionRequestStop {
+	if o == nil {
+		return nil
+	}
+	return o.Stop
+}
+
+func (o *CreateChatCompletionRequest) GetStream() *bool {
+	if o == nil {
+		return nil
+	}
+	return o.Stream
+}
+
+func (o *CreateChatCompletionRequest) GetTemperature() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.Temperature
+}
+
+func (o *CreateChatCompletionRequest) GetTopP() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.TopP
+}
+
+func (o *CreateChatCompletionRequest) GetUser() *string {
+	if o == nil {
+		return nil
+	}
+	return o.User
 }

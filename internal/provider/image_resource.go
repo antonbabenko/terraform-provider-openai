@@ -71,8 +71,9 @@ func (r *ImageResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 				PlanModifiers: []planmodifier.Int64{
 					int64planmodifier.RequiresReplace(),
 				},
-				Optional:    true,
-				Description: `The number of images to generate. Must be between 1 and 10.`,
+				Optional: true,
+				MarkdownDescription: `Default: 1` + "\n" +
+					`The number of images to generate. Must be between 1 and 10.`,
 			},
 			"prompt": schema.StringAttribute{
 				PlanModifiers: []planmodifier.String{
@@ -92,7 +93,7 @@ func (r *ImageResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 						"b64_json",
 					),
 				},
-				MarkdownDescription: `must be one of ["url", "b64_json"]` + "\n" +
+				MarkdownDescription: `must be one of ["url", "b64_json"]; Default: "url"` + "\n" +
 					`The format in which the generated images are returned. Must be one of ` + "`" + `url` + "`" + ` or ` + "`" + `b64_json` + "`" + `.`,
 			},
 			"size": schema.StringAttribute{
@@ -107,7 +108,7 @@ func (r *ImageResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 						"1024x1024",
 					),
 				},
-				MarkdownDescription: `must be one of ["256x256", "512x512", "1024x1024"]` + "\n" +
+				MarkdownDescription: `must be one of ["256x256", "512x512", "1024x1024"]; Default: "1024x1024"` + "\n" +
 					`The size of the generated images. Must be one of ` + "`" + `256x256` + "`" + `, ` + "`" + `512x512` + "`" + `, or ` + "`" + `1024x1024` + "`" + `.`,
 			},
 			"user": schema.StringAttribute{

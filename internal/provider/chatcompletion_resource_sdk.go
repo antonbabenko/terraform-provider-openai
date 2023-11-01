@@ -194,9 +194,6 @@ func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.Cre
 		} else {
 			choices1.Message.Content = types.StringNull()
 		}
-		if choices1.Message.FunctionCall == nil {
-			choices1.Message.FunctionCall = &ChatCompletionResponseMessageFunctionCall{}
-		}
 		if choicesItem.Message.FunctionCall == nil {
 			choices1.Message.FunctionCall = nil
 		} else {
@@ -219,9 +216,6 @@ func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.Cre
 	r.ID = types.StringValue(resp.ID)
 	r.Model = types.StringValue(string(resp.Model))
 	r.Object = types.StringValue(resp.Object)
-	if r.Usage == nil {
-		r.Usage = &CreateChatCompletionResponseUsage{}
-	}
 	if resp.Usage == nil {
 		r.Usage = nil
 	} else {

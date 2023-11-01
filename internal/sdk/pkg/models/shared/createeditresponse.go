@@ -40,10 +40,52 @@ type CreateEditResponseChoices struct {
 	Text         string                                `json:"text"`
 }
 
+func (o *CreateEditResponseChoices) GetFinishReason() CreateEditResponseChoicesFinishReason {
+	if o == nil {
+		return CreateEditResponseChoicesFinishReason("")
+	}
+	return o.FinishReason
+}
+
+func (o *CreateEditResponseChoices) GetIndex() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Index
+}
+
+func (o *CreateEditResponseChoices) GetText() string {
+	if o == nil {
+		return ""
+	}
+	return o.Text
+}
+
 type CreateEditResponseUsage struct {
 	CompletionTokens int64 `json:"completion_tokens"`
 	PromptTokens     int64 `json:"prompt_tokens"`
 	TotalTokens      int64 `json:"total_tokens"`
+}
+
+func (o *CreateEditResponseUsage) GetCompletionTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.CompletionTokens
+}
+
+func (o *CreateEditResponseUsage) GetPromptTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.PromptTokens
+}
+
+func (o *CreateEditResponseUsage) GetTotalTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.TotalTokens
 }
 
 type CreateEditResponse struct {
@@ -51,4 +93,32 @@ type CreateEditResponse struct {
 	Created int64                       `json:"created"`
 	Object  string                      `json:"object"`
 	Usage   CreateEditResponseUsage     `json:"usage"`
+}
+
+func (o *CreateEditResponse) GetChoices() []CreateEditResponseChoices {
+	if o == nil {
+		return []CreateEditResponseChoices{}
+	}
+	return o.Choices
+}
+
+func (o *CreateEditResponse) GetCreated() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Created
+}
+
+func (o *CreateEditResponse) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
+func (o *CreateEditResponse) GetUsage() CreateEditResponseUsage {
+	if o == nil {
+		return CreateEditResponseUsage{}
+	}
+	return o.Usage
 }

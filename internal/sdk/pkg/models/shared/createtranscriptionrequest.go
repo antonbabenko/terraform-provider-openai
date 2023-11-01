@@ -5,11 +5,26 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
+	"openai/internal/sdk/pkg/utils"
 )
 
 type CreateTranscriptionRequestFile struct {
 	Content []byte `multipartForm:"content"`
 	File    string `multipartForm:"name=file"`
+}
+
+func (o *CreateTranscriptionRequestFile) GetContent() []byte {
+	if o == nil {
+		return []byte{}
+	}
+	return o.Content
+}
+
+func (o *CreateTranscriptionRequestFile) GetFile() string {
+	if o == nil {
+		return ""
+	}
+	return o.File
 }
 
 // CreateTranscriptionRequestModel - ID of the model to use. Only `whisper-1` is currently available.
@@ -89,8 +104,61 @@ type CreateTranscriptionRequest struct {
 	Prompt *string `multipartForm:"name=prompt"`
 	// The format of the transcript output, in one of these options: json, text, srt, verbose_json, or vtt.
 	//
-	ResponseFormat *CreateTranscriptionRequestResponseFormat `multipartForm:"name=response_format"`
+	ResponseFormat *CreateTranscriptionRequestResponseFormat `default:"json" multipartForm:"name=response_format"`
 	// The sampling temperature, between 0 and 1. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. If set to 0, the model will use [log probability](https://en.wikipedia.org/wiki/Log_probability) to automatically increase the temperature until certain thresholds are hit.
 	//
-	Temperature *float64 `multipartForm:"name=temperature"`
+	Temperature *float64 `default:"0" multipartForm:"name=temperature"`
+}
+
+func (c CreateTranscriptionRequest) MarshalJSON() ([]byte, error) {
+	return utils.MarshalJSON(c, "", false)
+}
+
+func (c *CreateTranscriptionRequest) UnmarshalJSON(data []byte) error {
+	if err := utils.UnmarshalJSON(data, &c, "", false, false); err != nil {
+		return err
+	}
+	return nil
+}
+
+func (o *CreateTranscriptionRequest) GetFile() CreateTranscriptionRequestFile {
+	if o == nil {
+		return CreateTranscriptionRequestFile{}
+	}
+	return o.File
+}
+
+func (o *CreateTranscriptionRequest) GetLanguage() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Language
+}
+
+func (o *CreateTranscriptionRequest) GetModel() CreateTranscriptionRequestModel {
+	if o == nil {
+		return CreateTranscriptionRequestModel("")
+	}
+	return o.Model
+}
+
+func (o *CreateTranscriptionRequest) GetPrompt() *string {
+	if o == nil {
+		return nil
+	}
+	return o.Prompt
+}
+
+func (o *CreateTranscriptionRequest) GetResponseFormat() *CreateTranscriptionRequestResponseFormat {
+	if o == nil {
+		return nil
+	}
+	return o.ResponseFormat
+}
+
+func (o *CreateTranscriptionRequest) GetTemperature() *float64 {
+	if o == nil {
+		return nil
+	}
+	return o.Temperature
 }

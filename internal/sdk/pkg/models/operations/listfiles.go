@@ -17,3 +17,31 @@ type ListFilesResponse struct {
 	// Raw HTTP response; suitable for custom response parsing
 	RawResponse *http.Response
 }
+
+func (o *ListFilesResponse) GetContentType() string {
+	if o == nil {
+		return ""
+	}
+	return o.ContentType
+}
+
+func (o *ListFilesResponse) GetListFilesResponse() *shared.ListFilesResponse {
+	if o == nil {
+		return nil
+	}
+	return o.ListFilesResponse
+}
+
+func (o *ListFilesResponse) GetStatusCode() int {
+	if o == nil {
+		return 0
+	}
+	return o.StatusCode
+}
+
+func (o *ListFilesResponse) GetRawResponse() *http.Response {
+	if o == nil {
+		return nil
+	}
+	return o.RawResponse
+}

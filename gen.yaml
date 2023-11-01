@@ -2,26 +2,30 @@ configVersion: 1.0.0
 management:
   docChecksum: d136ae79f9d89697f83c3569a16a6578
   docVersion: 2.0.0
-  speakeasyVersion: 1.97.1
-  generationVersion: 2.152.1
+  speakeasyVersion: 1.109.2
+  generationVersion: 2.173.0
 generation:
   comments:
     disableComments: false
     omitDescriptionIfSummaryPresent: false
   baseServerURL: ""
+  repoURL: https://github.com/antonbabenko/terraform-provider-openai.git
   sdkClassName: oai
   singleTagPerOp: false
   tagNamespacingDisabled: false
 features:
   terraform:
-    core: 2.92.1
+    constsAndDefaults: 0.1.1
+    core: 2.93.3
     deprecations: 2.81.1
     globalSecurity: 2.81.1
     globalServerURLs: 2.82.0
     ignores: 2.81.1
-    includes: 2.81.1
     typeOverrides: 2.81.1
+    unions: 2.81.5
 terraform:
-  version: 1.17.2
+  version: 1.18.0
   author: antonbabenko
   packageName: openai
+  published: true
+  repoSubDirectory: .

@@ -43,10 +43,52 @@ type CreateChatCompletionResponseChoices struct {
 	Message      ChatCompletionResponseMessage                   `json:"message"`
 }
 
+func (o *CreateChatCompletionResponseChoices) GetFinishReason() CreateChatCompletionResponseChoicesFinishReason {
+	if o == nil {
+		return CreateChatCompletionResponseChoicesFinishReason("")
+	}
+	return o.FinishReason
+}
+
+func (o *CreateChatCompletionResponseChoices) GetIndex() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Index
+}
+
+func (o *CreateChatCompletionResponseChoices) GetMessage() ChatCompletionResponseMessage {
+	if o == nil {
+		return ChatCompletionResponseMessage{}
+	}
+	return o.Message
+}
+
 type CreateChatCompletionResponseUsage struct {
 	CompletionTokens int64 `json:"completion_tokens"`
 	PromptTokens     int64 `json:"prompt_tokens"`
 	TotalTokens      int64 `json:"total_tokens"`
+}
+
+func (o *CreateChatCompletionResponseUsage) GetCompletionTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.CompletionTokens
+}
+
+func (o *CreateChatCompletionResponseUsage) GetPromptTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.PromptTokens
+}
+
+func (o *CreateChatCompletionResponseUsage) GetTotalTokens() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.TotalTokens
 }
 
 type CreateChatCompletionResponse struct {
@@ -56,4 +98,46 @@ type CreateChatCompletionResponse struct {
 	Model   string                                `json:"model"`
 	Object  string                                `json:"object"`
 	Usage   *CreateChatCompletionResponseUsage    `json:"usage,omitempty"`
+}
+
+func (o *CreateChatCompletionResponse) GetChoices() []CreateChatCompletionResponseChoices {
+	if o == nil {
+		return []CreateChatCompletionResponseChoices{}
+	}
+	return o.Choices
+}
+
+func (o *CreateChatCompletionResponse) GetCreated() int64 {
+	if o == nil {
+		return 0
+	}
+	return o.Created
+}
+
+func (o *CreateChatCompletionResponse) GetID() string {
+	if o == nil {
+		return ""
+	}
+	return o.ID
+}
+
+func (o *CreateChatCompletionResponse) GetModel() string {
+	if o == nil {
+		return ""
+	}
+	return o.Model
+}
+
+func (o *CreateChatCompletionResponse) GetObject() string {
+	if o == nil {
+		return ""
+	}
+	return o.Object
+}
+
+func (o *CreateChatCompletionResponse) GetUsage() *CreateChatCompletionResponseUsage {
+	if o == nil {
+		return nil
+	}
+	return o.Usage
 }

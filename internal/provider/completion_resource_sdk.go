@@ -183,9 +183,6 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 		var choices1 CreateCompletionResponseChoices
 		choices1.FinishReason = types.StringValue(string(choicesItem.FinishReason))
 		choices1.Index = types.Int64Value(choicesItem.Index)
-		if choices1.Logprobs == nil {
-			choices1.Logprobs = &CreateCompletionResponseChoicesLogprobs{}
-		}
 		if choicesItem.Logprobs == nil {
 			choices1.Logprobs = nil
 		} else {
@@ -216,9 +213,6 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 	r.ID = types.StringValue(resp.ID)
 	r.Model = types.StringValue(string(resp.Model))
 	r.Object = types.StringValue(resp.Object)
-	if r.Usage == nil {
-		r.Usage = &CreateChatCompletionResponseUsage{}
-	}
 	if resp.Usage == nil {
 		r.Usage = nil
 	} else {
