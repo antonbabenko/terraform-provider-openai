@@ -2,8 +2,8 @@ configVersion: 1.0.0
 management:
   docChecksum: d136ae79f9d89697f83c3569a16a6578
   docVersion: 2.0.0
-  speakeasyVersion: 1.114.0
-  generationVersion: 2.179.0
+  speakeasyVersion: 1.114.1
+  generationVersion: 2.181.1
 generation:
   comments: {}
   sdkClassName: oai
@@ -11,7 +11,7 @@ generation:
 features:
   terraform:
     constsAndDefaults: 0.1.1
-    core: 3.1.0
+    core: 3.2.1
     deprecations: 2.81.1
     globalSecurity: 2.81.1
     globalServerURLs: 2.82.0
@@ -19,7 +19,7 @@ features:
     typeOverrides: 2.81.1
     unions: 2.81.5
 terraform:
-  version: 2.0.0
+  version: 2.1.0
   author: antonbabenko
   imports:
     option: openapi
