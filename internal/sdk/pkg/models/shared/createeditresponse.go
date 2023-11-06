@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type CreateEditResponseChoicesFinishReason string
+type CreateEditResponseFinishReason string
 
 const (
-	CreateEditResponseChoicesFinishReasonStop   CreateEditResponseChoicesFinishReason = "stop"
-	CreateEditResponseChoicesFinishReasonLength CreateEditResponseChoicesFinishReason = "length"
+	CreateEditResponseFinishReasonStop   CreateEditResponseFinishReason = "stop"
+	CreateEditResponseFinishReasonLength CreateEditResponseFinishReason = "length"
 )
 
-func (e CreateEditResponseChoicesFinishReason) ToPointer() *CreateEditResponseChoicesFinishReason {
+func (e CreateEditResponseFinishReason) ToPointer() *CreateEditResponseFinishReason {
 	return &e
 }
 
-func (e *CreateEditResponseChoicesFinishReason) UnmarshalJSON(data []byte) error {
+func (e *CreateEditResponseFinishReason) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,22 +27,22 @@ func (e *CreateEditResponseChoicesFinishReason) UnmarshalJSON(data []byte) error
 	case "stop":
 		fallthrough
 	case "length":
-		*e = CreateEditResponseChoicesFinishReason(v)
+		*e = CreateEditResponseFinishReason(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateEditResponseChoicesFinishReason: %v", v)
+		return fmt.Errorf("invalid value for CreateEditResponseFinishReason: %v", v)
 	}
 }
 
 type CreateEditResponseChoices struct {
-	FinishReason CreateEditResponseChoicesFinishReason `json:"finish_reason"`
-	Index        int64                                 `json:"index"`
-	Text         string                                `json:"text"`
+	FinishReason CreateEditResponseFinishReason `json:"finish_reason"`
+	Index        int64                          `json:"index"`
+	Text         string                         `json:"text"`
 }
 
-func (o *CreateEditResponseChoices) GetFinishReason() CreateEditResponseChoicesFinishReason {
+func (o *CreateEditResponseChoices) GetFinishReason() CreateEditResponseFinishReason {
 	if o == nil {
-		return CreateEditResponseChoicesFinishReason("")
+		return CreateEditResponseFinishReason("")
 	}
 	return o.FinishReason
 }

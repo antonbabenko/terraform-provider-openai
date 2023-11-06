@@ -7,18 +7,18 @@ import (
 	"fmt"
 )
 
-type CreateCompletionResponseChoicesFinishReason string
+type CreateCompletionResponseFinishReason string
 
 const (
-	CreateCompletionResponseChoicesFinishReasonStop   CreateCompletionResponseChoicesFinishReason = "stop"
-	CreateCompletionResponseChoicesFinishReasonLength CreateCompletionResponseChoicesFinishReason = "length"
+	CreateCompletionResponseFinishReasonStop   CreateCompletionResponseFinishReason = "stop"
+	CreateCompletionResponseFinishReasonLength CreateCompletionResponseFinishReason = "length"
 )
 
-func (e CreateCompletionResponseChoicesFinishReason) ToPointer() *CreateCompletionResponseChoicesFinishReason {
+func (e CreateCompletionResponseFinishReason) ToPointer() *CreateCompletionResponseFinishReason {
 	return &e
 }
 
-func (e *CreateCompletionResponseChoicesFinishReason) UnmarshalJSON(data []byte) error {
+func (e *CreateCompletionResponseFinishReason) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -27,42 +27,42 @@ func (e *CreateCompletionResponseChoicesFinishReason) UnmarshalJSON(data []byte)
 	case "stop":
 		fallthrough
 	case "length":
-		*e = CreateCompletionResponseChoicesFinishReason(v)
+		*e = CreateCompletionResponseFinishReason(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateCompletionResponseChoicesFinishReason: %v", v)
+		return fmt.Errorf("invalid value for CreateCompletionResponseFinishReason: %v", v)
 	}
 }
 
-type CreateCompletionResponseChoicesLogprobs struct {
+type Logprobs struct {
 	TextOffset    []int64     `json:"text_offset,omitempty"`
 	TokenLogprobs []float64   `json:"token_logprobs,omitempty"`
 	Tokens        []string    `json:"tokens,omitempty"`
 	TopLogprobs   interface{} `json:"top_logprobs,omitempty"`
 }
 
-func (o *CreateCompletionResponseChoicesLogprobs) GetTextOffset() []int64 {
+func (o *Logprobs) GetTextOffset() []int64 {
 	if o == nil {
 		return nil
 	}
 	return o.TextOffset
 }
 
-func (o *CreateCompletionResponseChoicesLogprobs) GetTokenLogprobs() []float64 {
+func (o *Logprobs) GetTokenLogprobs() []float64 {
 	if o == nil {
 		return nil
 	}
 	return o.TokenLogprobs
 }
 
-func (o *CreateCompletionResponseChoicesLogprobs) GetTokens() []string {
+func (o *Logprobs) GetTokens() []string {
 	if o == nil {
 		return nil
 	}
 	return o.Tokens
 }
 
-func (o *CreateCompletionResponseChoicesLogprobs) GetTopLogprobs() interface{} {
+func (o *Logprobs) GetTopLogprobs() interface{} {
 	if o == nil {
 		return nil
 	}
@@ -70,15 +70,15 @@ func (o *CreateCompletionResponseChoicesLogprobs) GetTopLogprobs() interface{} {
 }
 
 type CreateCompletionResponseChoices struct {
-	FinishReason CreateCompletionResponseChoicesFinishReason `json:"finish_reason"`
-	Index        int64                                       `json:"index"`
-	Logprobs     *CreateCompletionResponseChoicesLogprobs    `json:"logprobs"`
-	Text         string                                      `json:"text"`
+	FinishReason CreateCompletionResponseFinishReason `json:"finish_reason"`
+	Index        int64                                `json:"index"`
+	Logprobs     *Logprobs                            `json:"logprobs"`
+	Text         string                               `json:"text"`
 }
 
-func (o *CreateCompletionResponseChoices) GetFinishReason() CreateCompletionResponseChoicesFinishReason {
+func (o *CreateCompletionResponseChoices) GetFinishReason() CreateCompletionResponseFinishReason {
 	if o == nil {
-		return CreateCompletionResponseChoicesFinishReason("")
+		return CreateCompletionResponseFinishReason("")
 	}
 	return o.FinishReason
 }
@@ -90,7 +90,7 @@ func (o *CreateCompletionResponseChoices) GetIndex() int64 {
 	return o.Index
 }
 
-func (o *CreateCompletionResponseChoices) GetLogprobs() *CreateCompletionResponseChoicesLogprobs {
+func (o *CreateCompletionResponseChoices) GetLogprobs() *Logprobs {
 	if o == nil {
 		return nil
 	}

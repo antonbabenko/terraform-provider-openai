@@ -12,7 +12,7 @@ import (
 	"time"
 	"unsafe"
 
-	"openai/internal/sdk/pkg/types"
+	"openai/v2/internal/sdk/pkg/types"
 
 	"github.com/ericlagergren/decimal"
 )

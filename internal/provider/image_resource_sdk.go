@@ -4,7 +4,7 @@ package provider
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"openai/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *ImageResourceModel) ToCreateSDKType() *shared.CreateImageRequest {

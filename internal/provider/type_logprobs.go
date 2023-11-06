@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type CreateCompletionResponseChoicesLogprobs struct {
+type Logprobs struct {
 	TextOffset    []types.Int64  `tfsdk:"text_offset"`
 	TokenLogprobs []types.Number `tfsdk:"token_logprobs"`
 	Tokens        []types.String `tfsdk:"tokens"`

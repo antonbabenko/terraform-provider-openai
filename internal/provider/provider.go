@@ -4,8 +4,8 @@ package provider
 
 import (
 	"context"
-	"openai/internal/sdk"
-	"openai/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk"
+	"openai/v2/internal/sdk/pkg/models/shared"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"

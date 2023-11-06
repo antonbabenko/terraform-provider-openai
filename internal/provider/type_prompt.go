@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type CreateCompletionRequestPrompt struct {
+type Prompt struct {
 	Str                   types.String    `tfsdk:"str"`
 	ArrayOfstr            []types.String  `tfsdk:"array_ofstr"`
 	ArrayOfinteger        []types.Int64   `tfsdk:"array_ofinteger"`

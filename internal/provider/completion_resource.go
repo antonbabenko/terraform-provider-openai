@@ -5,7 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/internal/sdk"
+	"openai/v2/internal/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -21,7 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/internal/validators"
+	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -39,27 +39,27 @@ type CompletionResource struct {
 
 // CompletionResourceModel describes the resource data model.
 type CompletionResourceModel struct {
-	BestOf           types.Int64                        `tfsdk:"best_of"`
-	Choices          []CreateCompletionResponseChoices  `tfsdk:"choices"`
-	Created          types.Int64                        `tfsdk:"created"`
-	Echo             types.Bool                         `tfsdk:"echo"`
-	FrequencyPenalty types.Number                       `tfsdk:"frequency_penalty"`
-	ID               types.String                       `tfsdk:"id"`
-	LogitBias        map[string]types.Int64             `tfsdk:"logit_bias"`
-	Logprobs         types.Int64                        `tfsdk:"logprobs"`
-	MaxTokens        types.Int64                        `tfsdk:"max_tokens"`
-	Model            types.String                       `tfsdk:"model"`
-	N                types.Int64                        `tfsdk:"n"`
-	Object           types.String                       `tfsdk:"object"`
-	PresencePenalty  types.Number                       `tfsdk:"presence_penalty"`
-	Prompt           *CreateCompletionRequestPrompt     `tfsdk:"prompt"`
-	Stop             *CreateChatCompletionRequestStop   `tfsdk:"stop"`
-	Stream           types.Bool                         `tfsdk:"stream"`
-	Suffix           types.String                       `tfsdk:"suffix"`
-	Temperature      types.Number                       `tfsdk:"temperature"`
-	TopP             types.Number                       `tfsdk:"top_p"`
-	Usage            *CreateChatCompletionResponseUsage `tfsdk:"usage"`
-	User             types.String                       `tfsdk:"user"`
+	BestOf           types.Int64                       `tfsdk:"best_of"`
+	Choices          []CreateCompletionResponseChoices `tfsdk:"choices"`
+	Created          types.Int64                       `tfsdk:"created"`
+	Echo             types.Bool                        `tfsdk:"echo"`
+	FrequencyPenalty types.Number                      `tfsdk:"frequency_penalty"`
+	ID               types.String                      `tfsdk:"id"`
+	LogitBias        map[string]types.Int64            `tfsdk:"logit_bias"`
+	Logprobs         types.Int64                       `tfsdk:"logprobs"`
+	MaxTokens        types.Int64                       `tfsdk:"max_tokens"`
+	Model            types.String                      `tfsdk:"model"`
+	N                types.Int64                       `tfsdk:"n"`
+	Object           types.String                      `tfsdk:"object"`
+	PresencePenalty  types.Number                      `tfsdk:"presence_penalty"`
+	Prompt           *Prompt                           `tfsdk:"prompt"`
+	Stop             *Stop                             `tfsdk:"stop"`
+	Stream           types.Bool                        `tfsdk:"stream"`
+	Suffix           types.String                      `tfsdk:"suffix"`
+	Temperature      types.Number                      `tfsdk:"temperature"`
+	TopP             types.Number                      `tfsdk:"top_p"`
+	Usage            *Usage                            `tfsdk:"usage"`
+	User             types.String                      `tfsdk:"user"`
 }
 
 func (r *CompletionResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

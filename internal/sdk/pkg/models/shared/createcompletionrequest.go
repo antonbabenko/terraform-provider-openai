@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 // CreateCompletionRequestModel - ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
@@ -52,94 +52,94 @@ func (e *CreateCompletionRequestModel) UnmarshalJSON(data []byte) error {
 	}
 }
 
-type CreateCompletionRequestPromptType string
+type PromptType string
 
 const (
-	CreateCompletionRequestPromptTypeStr                   CreateCompletionRequestPromptType = "str"
-	CreateCompletionRequestPromptTypeArrayOfstr            CreateCompletionRequestPromptType = "arrayOfstr"
-	CreateCompletionRequestPromptTypeArrayOfinteger        CreateCompletionRequestPromptType = "arrayOfinteger"
-	CreateCompletionRequestPromptTypeArrayOfarrayOfinteger CreateCompletionRequestPromptType = "arrayOfarrayOfinteger"
+	PromptTypeStr                   PromptType = "str"
+	PromptTypeArrayOfstr            PromptType = "arrayOfstr"
+	PromptTypeArrayOfinteger        PromptType = "arrayOfinteger"
+	PromptTypeArrayOfarrayOfinteger PromptType = "arrayOfarrayOfinteger"
 )
 
-type CreateCompletionRequestPrompt struct {
+type Prompt struct {
 	Str                   *string
 	ArrayOfstr            []string
 	ArrayOfinteger        []int64
 	ArrayOfarrayOfinteger [][]int64
 
-	Type CreateCompletionRequestPromptType
+	Type PromptType
 }
 
-func CreateCreateCompletionRequestPromptStr(str string) CreateCompletionRequestPrompt {
-	typ := CreateCompletionRequestPromptTypeStr
+func CreatePromptStr(str string) Prompt {
+	typ := PromptTypeStr
 
-	return CreateCompletionRequestPrompt{
+	return Prompt{
 		Str:  &str,
 		Type: typ,
 	}
 }
 
-func CreateCreateCompletionRequestPromptArrayOfstr(arrayOfstr []string) CreateCompletionRequestPrompt {
-	typ := CreateCompletionRequestPromptTypeArrayOfstr
+func CreatePromptArrayOfstr(arrayOfstr []string) Prompt {
+	typ := PromptTypeArrayOfstr
 
-	return CreateCompletionRequestPrompt{
+	return Prompt{
 		ArrayOfstr: arrayOfstr,
 		Type:       typ,
 	}
 }
 
-func CreateCreateCompletionRequestPromptArrayOfinteger(arrayOfinteger []int64) CreateCompletionRequestPrompt {
-	typ := CreateCompletionRequestPromptTypeArrayOfinteger
+func CreatePromptArrayOfinteger(arrayOfinteger []int64) Prompt {
+	typ := PromptTypeArrayOfinteger
 
-	return CreateCompletionRequestPrompt{
+	return Prompt{
 		ArrayOfinteger: arrayOfinteger,
 		Type:           typ,
 	}
 }
 
-func CreateCreateCompletionRequestPromptArrayOfarrayOfinteger(arrayOfarrayOfinteger [][]int64) CreateCompletionRequestPrompt {
-	typ := CreateCompletionRequestPromptTypeArrayOfarrayOfinteger
+func CreatePromptArrayOfarrayOfinteger(arrayOfarrayOfinteger [][]int64) Prompt {
+	typ := PromptTypeArrayOfarrayOfinteger
 
-	return CreateCompletionRequestPrompt{
+	return Prompt{
 		ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
 		Type:                  typ,
 	}
 }
 
-func (u *CreateCompletionRequestPrompt) UnmarshalJSON(data []byte) error {
+func (u *Prompt) UnmarshalJSON(data []byte) error {
 
 	str := new(string)
 	if err := utils.UnmarshalJSON(data, &str, "", true, true); err == nil {
 		u.Str = str
-		u.Type = CreateCompletionRequestPromptTypeStr
+		u.Type = PromptTypeStr
 		return nil
 	}
 
 	arrayOfstr := []string{}
 	if err := utils.UnmarshalJSON(data, &arrayOfstr, "", true, true); err == nil {
 		u.ArrayOfstr = arrayOfstr
-		u.Type = CreateCompletionRequestPromptTypeArrayOfstr
+		u.Type = PromptTypeArrayOfstr
 		return nil
 	}
 
 	arrayOfinteger := []int64{}
 	if err := utils.UnmarshalJSON(data, &arrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfinteger = arrayOfinteger
-		u.Type = CreateCompletionRequestPromptTypeArrayOfinteger
+		u.Type = PromptTypeArrayOfinteger
 		return nil
 	}
 
 	arrayOfarrayOfinteger := [][]int64{}
 	if err := utils.UnmarshalJSON(data, &arrayOfarrayOfinteger, "", true, true); err == nil {
 		u.ArrayOfarrayOfinteger = arrayOfarrayOfinteger
-		u.Type = CreateCompletionRequestPromptTypeArrayOfarrayOfinteger
+		u.Type = PromptTypeArrayOfarrayOfinteger
 		return nil
 	}
 
 	return errors.New("could not unmarshal into supported union types")
 }
 
-func (u CreateCompletionRequestPrompt) MarshalJSON() ([]byte, error) {
+func (u Prompt) MarshalJSON() ([]byte, error) {
 	if u.Str != nil {
 		return utils.MarshalJSON(u.Str, "", true)
 	}
@@ -272,7 +272,7 @@ type CreateCompletionRequest struct {
 	//
 	// Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.
 	//
-	Prompt *CreateCompletionRequestPrompt `json:"prompt"`
+	Prompt *Prompt `json:"prompt"`
 	// Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.
 	//
 	Stop *CreateCompletionRequestStop `json:"stop,omitempty"`
@@ -370,7 +370,7 @@ func (o *CreateCompletionRequest) GetPresencePenalty() *float64 {
 	return o.PresencePenalty
 }
 
-func (o *CreateCompletionRequest) GetPrompt() *CreateCompletionRequestPrompt {
+func (o *CreateCompletionRequest) GetPrompt() *Prompt {
 	if o == nil {
 		return nil
 	}

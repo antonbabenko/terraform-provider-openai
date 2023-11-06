@@ -1,7 +1,7 @@
 resource "openai_chat_completion" "my_chatcompletion" {
   frequency_penalty = 5
   function_call = {
-    create_chat_completion_request_function_call_1 = "none"
+    one = "none"
   }
   functions = [
     {

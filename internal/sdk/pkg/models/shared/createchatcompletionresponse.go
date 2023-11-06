@@ -7,19 +7,19 @@ import (
 	"fmt"
 )
 
-type CreateChatCompletionResponseChoicesFinishReason string
+type FinishReason string
 
 const (
-	CreateChatCompletionResponseChoicesFinishReasonStop         CreateChatCompletionResponseChoicesFinishReason = "stop"
-	CreateChatCompletionResponseChoicesFinishReasonLength       CreateChatCompletionResponseChoicesFinishReason = "length"
-	CreateChatCompletionResponseChoicesFinishReasonFunctionCall CreateChatCompletionResponseChoicesFinishReason = "function_call"
+	FinishReasonStop         FinishReason = "stop"
+	FinishReasonLength       FinishReason = "length"
+	FinishReasonFunctionCall FinishReason = "function_call"
 )
 
-func (e CreateChatCompletionResponseChoicesFinishReason) ToPointer() *CreateChatCompletionResponseChoicesFinishReason {
+func (e FinishReason) ToPointer() *FinishReason {
 	return &e
 }
 
-func (e *CreateChatCompletionResponseChoicesFinishReason) UnmarshalJSON(data []byte) error {
+func (e *FinishReason) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -30,61 +30,61 @@ func (e *CreateChatCompletionResponseChoicesFinishReason) UnmarshalJSON(data []b
 	case "length":
 		fallthrough
 	case "function_call":
-		*e = CreateChatCompletionResponseChoicesFinishReason(v)
+		*e = FinishReason(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateChatCompletionResponseChoicesFinishReason: %v", v)
+		return fmt.Errorf("invalid value for FinishReason: %v", v)
 	}
 }
 
-type CreateChatCompletionResponseChoices struct {
-	FinishReason CreateChatCompletionResponseChoicesFinishReason `json:"finish_reason"`
-	Index        int64                                           `json:"index"`
-	Message      ChatCompletionResponseMessage                   `json:"message"`
+type Choices struct {
+	FinishReason FinishReason                  `json:"finish_reason"`
+	Index        int64                         `json:"index"`
+	Message      ChatCompletionResponseMessage `json:"message"`
 }
 
-func (o *CreateChatCompletionResponseChoices) GetFinishReason() CreateChatCompletionResponseChoicesFinishReason {
+func (o *Choices) GetFinishReason() FinishReason {
 	if o == nil {
-		return CreateChatCompletionResponseChoicesFinishReason("")
+		return FinishReason("")
 	}
 	return o.FinishReason
 }
 
-func (o *CreateChatCompletionResponseChoices) GetIndex() int64 {
+func (o *Choices) GetIndex() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.Index
 }
 
-func (o *CreateChatCompletionResponseChoices) GetMessage() ChatCompletionResponseMessage {
+func (o *Choices) GetMessage() ChatCompletionResponseMessage {
 	if o == nil {
 		return ChatCompletionResponseMessage{}
 	}
 	return o.Message
 }
 
-type CreateChatCompletionResponseUsage struct {
+type Usage struct {
 	CompletionTokens int64 `json:"completion_tokens"`
 	PromptTokens     int64 `json:"prompt_tokens"`
 	TotalTokens      int64 `json:"total_tokens"`
 }
 
-func (o *CreateChatCompletionResponseUsage) GetCompletionTokens() int64 {
+func (o *Usage) GetCompletionTokens() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.CompletionTokens
 }
 
-func (o *CreateChatCompletionResponseUsage) GetPromptTokens() int64 {
+func (o *Usage) GetPromptTokens() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.PromptTokens
 }
 
-func (o *CreateChatCompletionResponseUsage) GetTotalTokens() int64 {
+func (o *Usage) GetTotalTokens() int64 {
 	if o == nil {
 		return 0
 	}
@@ -92,17 +92,17 @@ func (o *CreateChatCompletionResponseUsage) GetTotalTokens() int64 {
 }
 
 type CreateChatCompletionResponse struct {
-	Choices []CreateChatCompletionResponseChoices `json:"choices"`
-	Created int64                                 `json:"created"`
-	ID      string                                `json:"id"`
-	Model   string                                `json:"model"`
-	Object  string                                `json:"object"`
-	Usage   *CreateChatCompletionResponseUsage    `json:"usage,omitempty"`
+	Choices []Choices `json:"choices"`
+	Created int64     `json:"created"`
+	ID      string    `json:"id"`
+	Model   string    `json:"model"`
+	Object  string    `json:"object"`
+	Usage   *Usage    `json:"usage,omitempty"`
 }
 
-func (o *CreateChatCompletionResponse) GetChoices() []CreateChatCompletionResponseChoices {
+func (o *CreateChatCompletionResponse) GetChoices() []Choices {
 	if o == nil {
-		return []CreateChatCompletionResponseChoices{}
+		return []Choices{}
 	}
 	return o.Choices
 }
@@ -135,7 +135,7 @@ func (o *CreateChatCompletionResponse) GetObject() string {
 	return o.Object
 }
 
-func (o *CreateChatCompletionResponse) GetUsage() *CreateChatCompletionResponseUsage {
+func (o *CreateChatCompletionResponse) GetUsage() *Usage {
 	if o == nil {
 		return nil
 	}

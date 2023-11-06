@@ -5,7 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/internal/sdk"
+	"openai/v2/internal/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"

@@ -5,7 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/internal/sdk"
+	"openai/v2/internal/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -17,7 +17,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/internal/validators"
+	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -35,12 +35,12 @@ type EmbeddingResource struct {
 
 // EmbeddingResourceModel describes the resource data model.
 type EmbeddingResourceModel struct {
-	Data   []CreateEmbeddingResponseData `tfsdk:"data"`
-	Input  CreateCompletionRequestPrompt `tfsdk:"input"`
-	Model  types.String                  `tfsdk:"model"`
-	Object types.String                  `tfsdk:"object"`
-	Usage  CreateEmbeddingResponseUsage  `tfsdk:"usage"`
-	User   types.String                  `tfsdk:"user"`
+	Data   []Data                       `tfsdk:"data"`
+	Input  Prompt                       `tfsdk:"input"`
+	Model  types.String                 `tfsdk:"model"`
+	Object types.String                 `tfsdk:"object"`
+	Usage  CreateEmbeddingResponseUsage `tfsdk:"usage"`
+	User   types.String                 `tfsdk:"user"`
 }
 
 func (r *EmbeddingResource) Metadata(ctx context.Context, req resource.MetadataRequest, resp *resource.MetadataResponse) {

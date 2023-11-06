@@ -5,12 +5,12 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 type CreateTranslationRequestFile struct {
-	Content []byte `multipartForm:"content"`
-	File    string `multipartForm:"name=file"`
+	Content  []byte `multipartForm:"content"`
+	FileName string `multipartForm:"name=file"`
 }
 
 func (o *CreateTranslationRequestFile) GetContent() []byte {
@@ -20,11 +20,11 @@ func (o *CreateTranslationRequestFile) GetContent() []byte {
 	return o.Content
 }
 
-func (o *CreateTranslationRequestFile) GetFile() string {
+func (o *CreateTranslationRequestFile) GetFileName() string {
 	if o == nil {
 		return ""
 	}
-	return o.File
+	return o.FileName
 }
 
 // CreateTranslationRequestModel - ID of the model to use. Only `whisper-1` is currently available.

@@ -5,7 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 // CreateFineTuneRequestModel - The name of the base model to fine-tune. You can select one of "ada",

@@ -5,7 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 // CreateEditRequestModel - ID of the model to use. You can use the `text-davinci-edit-001` or `code-davinci-edit-001` model with this endpoint.

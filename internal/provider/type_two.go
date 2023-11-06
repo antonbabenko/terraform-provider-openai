@@ -4,7 +4,6 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type ChatCompletionRequestMessageFunctionCall struct {
-	Arguments types.String `tfsdk:"arguments"`
-	Name      types.String `tfsdk:"name"`
+type Two struct {
+	Name types.String `tfsdk:"name"`
 }

@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type CreateChatCompletionRequestStop struct {
+type Stop struct {
 	Str        types.String   `tfsdk:"str"`
 	ArrayOfstr []types.String `tfsdk:"array_ofstr"`
 }

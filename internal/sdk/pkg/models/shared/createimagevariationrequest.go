@@ -5,12 +5,12 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 type CreateImageVariationRequestImage struct {
-	Content []byte `multipartForm:"content"`
-	Image   string `multipartForm:"name=image"`
+	Content  []byte `multipartForm:"content"`
+	FileName string `multipartForm:"name=image"`
 }
 
 func (o *CreateImageVariationRequestImage) GetContent() []byte {
@@ -20,11 +20,11 @@ func (o *CreateImageVariationRequestImage) GetContent() []byte {
 	return o.Content
 }
 
-func (o *CreateImageVariationRequestImage) GetImage() string {
+func (o *CreateImageVariationRequestImage) GetFileName() string {
 	if o == nil {
 		return ""
 	}
-	return o.Image
+	return o.FileName
 }
 
 // CreateImageVariationRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.

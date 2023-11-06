@@ -5,7 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/internal/sdk"
+	"openai/v2/internal/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
@@ -22,7 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/internal/validators"
+	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -40,7 +40,7 @@ type ChatCompletionResource struct {
 
 // ChatCompletionResourceModel describes the resource data model.
 type ChatCompletionResourceModel struct {
-	Choices          []CreateChatCompletionResponseChoices    `tfsdk:"choices"`
+	Choices          []Choices                                `tfsdk:"choices"`
 	Created          types.Int64                              `tfsdk:"created"`
 	FrequencyPenalty types.Number                             `tfsdk:"frequency_penalty"`
 	FunctionCall     *CreateChatCompletionRequestFunctionCall `tfsdk:"function_call"`
@@ -53,11 +53,11 @@ type ChatCompletionResourceModel struct {
 	N                types.Int64                              `tfsdk:"n"`
 	Object           types.String                             `tfsdk:"object"`
 	PresencePenalty  types.Number                             `tfsdk:"presence_penalty"`
-	Stop             *CreateChatCompletionRequestStop         `tfsdk:"stop"`
+	Stop             *Stop                                    `tfsdk:"stop"`
 	Stream           types.Bool                               `tfsdk:"stream"`
 	Temperature      types.Number                             `tfsdk:"temperature"`
 	TopP             types.Number                             `tfsdk:"top_p"`
-	Usage            *CreateChatCompletionResponseUsage       `tfsdk:"usage"`
+	Usage            *Usage                                   `tfsdk:"usage"`
 	User             types.String                             `tfsdk:"user"`
 }
 
@@ -147,7 +147,7 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 				},
 				Optional: true,
 				Attributes: map[string]schema.Attribute{
-					"create_chat_completion_request_function_call_1": schema.StringAttribute{
+					"one": schema.StringAttribute{
 						PlanModifiers: []planmodifier.String{
 							stringplanmodifier.RequiresReplace(),
 						},
@@ -161,7 +161,7 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 						MarkdownDescription: `must be one of ["none", "auto"]` + "\n" +
 							`Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 					},
-					"create_chat_completion_request_function_call_2": schema.SingleNestedAttribute{
+					"two": schema.SingleNestedAttribute{
 						PlanModifiers: []planmodifier.Object{
 							objectplanmodifier.RequiresReplace(),
 						},

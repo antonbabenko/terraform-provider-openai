@@ -4,7 +4,7 @@ package provider
 
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
-type CreateEmbeddingResponseData struct {
+type Data struct {
 	Embedding []types.Number `tfsdk:"embedding"`
 	Index     types.Int64    `tfsdk:"index"`
 	Object    types.String   `tfsdk:"object"`

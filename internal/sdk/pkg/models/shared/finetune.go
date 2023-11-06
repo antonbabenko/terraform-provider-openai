@@ -2,7 +2,7 @@
 
 package shared
 
-type FineTuneHyperparams struct {
+type Hyperparams struct {
 	BatchSize                    int64   `json:"batch_size"`
 	ClassificationNClasses       *int64  `json:"classification_n_classes,omitempty"`
 	ClassificationPositiveClass  *string `json:"classification_positive_class,omitempty"`
@@ -12,49 +12,49 @@ type FineTuneHyperparams struct {
 	PromptLossWeight             float64 `json:"prompt_loss_weight"`
 }
 
-func (o *FineTuneHyperparams) GetBatchSize() int64 {
+func (o *Hyperparams) GetBatchSize() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.BatchSize
 }
 
-func (o *FineTuneHyperparams) GetClassificationNClasses() *int64 {
+func (o *Hyperparams) GetClassificationNClasses() *int64 {
 	if o == nil {
 		return nil
 	}
 	return o.ClassificationNClasses
 }
 
-func (o *FineTuneHyperparams) GetClassificationPositiveClass() *string {
+func (o *Hyperparams) GetClassificationPositiveClass() *string {
 	if o == nil {
 		return nil
 	}
 	return o.ClassificationPositiveClass
 }
 
-func (o *FineTuneHyperparams) GetComputeClassificationMetrics() *bool {
+func (o *Hyperparams) GetComputeClassificationMetrics() *bool {
 	if o == nil {
 		return nil
 	}
 	return o.ComputeClassificationMetrics
 }
 
-func (o *FineTuneHyperparams) GetLearningRateMultiplier() float64 {
+func (o *Hyperparams) GetLearningRateMultiplier() float64 {
 	if o == nil {
 		return 0.0
 	}
 	return o.LearningRateMultiplier
 }
 
-func (o *FineTuneHyperparams) GetNEpochs() int64 {
+func (o *Hyperparams) GetNEpochs() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.NEpochs
 }
 
-func (o *FineTuneHyperparams) GetPromptLossWeight() float64 {
+func (o *Hyperparams) GetPromptLossWeight() float64 {
 	if o == nil {
 		return 0.0
 	}
@@ -62,19 +62,19 @@ func (o *FineTuneHyperparams) GetPromptLossWeight() float64 {
 }
 
 type FineTune struct {
-	CreatedAt       int64               `json:"created_at"`
-	Events          []FineTuneEvent     `json:"events,omitempty"`
-	FineTunedModel  *string             `json:"fine_tuned_model"`
-	Hyperparams     FineTuneHyperparams `json:"hyperparams"`
-	ID              string              `json:"id"`
-	Model           string              `json:"model"`
-	Object          string              `json:"object"`
-	OrganizationID  string              `json:"organization_id"`
-	ResultFiles     []OpenAIFile        `json:"result_files"`
-	Status          string              `json:"status"`
-	TrainingFiles   []OpenAIFile        `json:"training_files"`
-	UpdatedAt       int64               `json:"updated_at"`
-	ValidationFiles []OpenAIFile        `json:"validation_files"`
+	CreatedAt       int64           `json:"created_at"`
+	Events          []FineTuneEvent `json:"events,omitempty"`
+	FineTunedModel  *string         `json:"fine_tuned_model"`
+	Hyperparams     Hyperparams     `json:"hyperparams"`
+	ID              string          `json:"id"`
+	Model           string          `json:"model"`
+	Object          string          `json:"object"`
+	OrganizationID  string          `json:"organization_id"`
+	ResultFiles     []OpenAIFile    `json:"result_files"`
+	Status          string          `json:"status"`
+	TrainingFiles   []OpenAIFile    `json:"training_files"`
+	UpdatedAt       int64           `json:"updated_at"`
+	ValidationFiles []OpenAIFile    `json:"validation_files"`
 }
 
 func (o *FineTune) GetCreatedAt() int64 {
@@ -98,9 +98,9 @@ func (o *FineTune) GetFineTunedModel() *string {
 	return o.FineTunedModel
 }
 
-func (o *FineTune) GetHyperparams() FineTuneHyperparams {
+func (o *FineTune) GetHyperparams() Hyperparams {
 	if o == nil {
-		return FineTuneHyperparams{}
+		return Hyperparams{}
 	}
 	return o.Hyperparams
 }

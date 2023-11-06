@@ -2,27 +2,27 @@
 
 package shared
 
-type CreateEmbeddingResponseData struct {
+type Data struct {
 	Embedding []float64 `json:"embedding"`
 	Index     int64     `json:"index"`
 	Object    string    `json:"object"`
 }
 
-func (o *CreateEmbeddingResponseData) GetEmbedding() []float64 {
+func (o *Data) GetEmbedding() []float64 {
 	if o == nil {
 		return []float64{}
 	}
 	return o.Embedding
 }
 
-func (o *CreateEmbeddingResponseData) GetIndex() int64 {
+func (o *Data) GetIndex() int64 {
 	if o == nil {
 		return 0
 	}
 	return o.Index
 }
 
-func (o *CreateEmbeddingResponseData) GetObject() string {
+func (o *Data) GetObject() string {
 	if o == nil {
 		return ""
 	}
@@ -49,14 +49,14 @@ func (o *CreateEmbeddingResponseUsage) GetTotalTokens() int64 {
 }
 
 type CreateEmbeddingResponse struct {
-	Data   []CreateEmbeddingResponseData `json:"data"`
-	Object string                        `json:"object"`
-	Usage  CreateEmbeddingResponseUsage  `json:"usage"`
+	Data   []Data                       `json:"data"`
+	Object string                       `json:"object"`
+	Usage  CreateEmbeddingResponseUsage `json:"usage"`
 }
 
-func (o *CreateEmbeddingResponse) GetData() []CreateEmbeddingResponseData {
+func (o *CreateEmbeddingResponse) GetData() []Data {
 	if o == nil {
-		return []CreateEmbeddingResponseData{}
+		return []Data{}
 	}
 	return o.Data
 }

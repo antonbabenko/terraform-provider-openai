@@ -2,23 +2,23 @@
 
 package shared
 
-type CreateFileRequestFile struct {
-	Content []byte `multipartForm:"content"`
-	File    string `multipartForm:"name=file"`
+type File struct {
+	Content  []byte `multipartForm:"content"`
+	FileName string `multipartForm:"name=file"`
 }
 
-func (o *CreateFileRequestFile) GetContent() []byte {
+func (o *File) GetContent() []byte {
 	if o == nil {
 		return []byte{}
 	}
 	return o.Content
 }
 
-func (o *CreateFileRequestFile) GetFile() string {
+func (o *File) GetFileName() string {
 	if o == nil {
 		return ""
 	}
-	return o.File
+	return o.FileName
 }
 
 type CreateFileRequest struct {
@@ -26,7 +26,7 @@ type CreateFileRequest struct {
 	//
 	// If the `purpose` is set to "fine-tune", each line is a JSON record with "prompt" and "completion" fields representing your [training examples](/docs/guides/fine-tuning/prepare-training-data).
 	//
-	File CreateFileRequestFile `multipartForm:"file"`
+	File File `multipartForm:"file"`
 	// The intended purpose of the uploaded documents.
 	//
 	// Use "fine-tune" for [Fine-tuning](/docs/api-reference/fine-tunes). This allows us to validate the format of the uploaded file.
@@ -34,9 +34,9 @@ type CreateFileRequest struct {
 	Purpose string `multipartForm:"name=purpose"`
 }
 
-func (o *CreateFileRequest) GetFile() CreateFileRequestFile {
+func (o *CreateFileRequest) GetFile() File {
 	if o == nil {
-		return CreateFileRequestFile{}
+		return File{}
 	}
 	return o.File
 }

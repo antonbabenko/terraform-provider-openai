@@ -4,8 +4,8 @@ package operations
 
 import (
 	"net/http"
-	"openai/internal/sdk/pkg/models/shared"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
 type ListFineTuneEventsRequest struct {

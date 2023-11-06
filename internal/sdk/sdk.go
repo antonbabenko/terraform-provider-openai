@@ -6,8 +6,8 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"openai/internal/sdk/pkg/models/shared"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/utils"
 	"time"
 )
 
@@ -64,7 +64,7 @@ func (c *sdkConfiguration) GetServerDetails() (string, map[string]string) {
 // Oai - OpenAI API: APIs for sampling from and fine-tuning language models. Hello World!
 type Oai struct {
 	// The OpenAI REST API
-	OpenAI *openAI
+	OpenAI *OpenAI
 
 	sdkConfiguration sdkConfiguration
 }
@@ -141,9 +141,9 @@ func New(opts ...SDKOption) *Oai {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "2.0.0",
-			SDKVersion:        "1.18.0",
-			GenVersion:        "2.173.0",
-			UserAgent:         "speakeasy-sdk/go 1.18.0 2.173.0 2.0.0 openai",
+			SDKVersion:        "2.0.0",
+			GenVersion:        "2.179.0",
+			UserAgent:         "speakeasy-sdk/go 2.0.0 2.179.0 2.0.0 openai",
 		},
 	}
 	for _, opt := range opts {

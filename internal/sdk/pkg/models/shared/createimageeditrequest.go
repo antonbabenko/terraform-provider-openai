@@ -5,60 +5,60 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/internal/sdk/pkg/utils"
+	"openai/v2/internal/sdk/pkg/utils"
 )
 
-type CreateImageEditRequestImage struct {
-	Content []byte `multipartForm:"content"`
-	Image   string `multipartForm:"name=image"`
+type Image struct {
+	Content  []byte `multipartForm:"content"`
+	FileName string `multipartForm:"name=image"`
 }
 
-func (o *CreateImageEditRequestImage) GetContent() []byte {
+func (o *Image) GetContent() []byte {
 	if o == nil {
 		return []byte{}
 	}
 	return o.Content
 }
 
-func (o *CreateImageEditRequestImage) GetImage() string {
+func (o *Image) GetFileName() string {
 	if o == nil {
 		return ""
 	}
-	return o.Image
+	return o.FileName
 }
 
-type CreateImageEditRequestMask struct {
-	Content []byte `multipartForm:"content"`
-	Mask    string `multipartForm:"name=mask"`
+type Mask struct {
+	Content  []byte `multipartForm:"content"`
+	FileName string `multipartForm:"name=mask"`
 }
 
-func (o *CreateImageEditRequestMask) GetContent() []byte {
+func (o *Mask) GetContent() []byte {
 	if o == nil {
 		return []byte{}
 	}
 	return o.Content
 }
 
-func (o *CreateImageEditRequestMask) GetMask() string {
+func (o *Mask) GetFileName() string {
 	if o == nil {
 		return ""
 	}
-	return o.Mask
+	return o.FileName
 }
 
-// CreateImageEditRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-type CreateImageEditRequestResponseFormat string
+// ResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.
+type ResponseFormat string
 
 const (
-	CreateImageEditRequestResponseFormatURL     CreateImageEditRequestResponseFormat = "url"
-	CreateImageEditRequestResponseFormatB64JSON CreateImageEditRequestResponseFormat = "b64_json"
+	ResponseFormatURL     ResponseFormat = "url"
+	ResponseFormatB64JSON ResponseFormat = "b64_json"
 )
 
-func (e CreateImageEditRequestResponseFormat) ToPointer() *CreateImageEditRequestResponseFormat {
+func (e ResponseFormat) ToPointer() *ResponseFormat {
 	return &e
 }
 
-func (e *CreateImageEditRequestResponseFormat) UnmarshalJSON(data []byte) error {
+func (e *ResponseFormat) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -67,27 +67,27 @@ func (e *CreateImageEditRequestResponseFormat) UnmarshalJSON(data []byte) error 
 	case "url":
 		fallthrough
 	case "b64_json":
-		*e = CreateImageEditRequestResponseFormat(v)
+		*e = ResponseFormat(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateImageEditRequestResponseFormat: %v", v)
+		return fmt.Errorf("invalid value for ResponseFormat: %v", v)
 	}
 }
 
-// CreateImageEditRequestSize - The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-type CreateImageEditRequestSize string
+// Size - The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
+type Size string
 
 const (
-	CreateImageEditRequestSizeTwoHundredAndFiftySixx256     CreateImageEditRequestSize = "256x256"
-	CreateImageEditRequestSizeFiveHundredAndTwelvex512      CreateImageEditRequestSize = "512x512"
-	CreateImageEditRequestSizeOneThousandAndTwentyFourx1024 CreateImageEditRequestSize = "1024x1024"
+	SizeTwoHundredAndFiftySixx256     Size = "256x256"
+	SizeFiveHundredAndTwelvex512      Size = "512x512"
+	SizeOneThousandAndTwentyFourx1024 Size = "1024x1024"
 )
 
-func (e CreateImageEditRequestSize) ToPointer() *CreateImageEditRequestSize {
+func (e Size) ToPointer() *Size {
 	return &e
 }
 
-func (e *CreateImageEditRequestSize) UnmarshalJSON(data []byte) error {
+func (e *Size) UnmarshalJSON(data []byte) error {
 	var v string
 	if err := json.Unmarshal(data, &v); err != nil {
 		return err
@@ -98,26 +98,26 @@ func (e *CreateImageEditRequestSize) UnmarshalJSON(data []byte) error {
 	case "512x512":
 		fallthrough
 	case "1024x1024":
-		*e = CreateImageEditRequestSize(v)
+		*e = Size(v)
 		return nil
 	default:
-		return fmt.Errorf("invalid value for CreateImageEditRequestSize: %v", v)
+		return fmt.Errorf("invalid value for Size: %v", v)
 	}
 }
 
 type CreateImageEditRequest struct {
 	// The image to edit. Must be a valid PNG file, less than 4MB, and square. If mask is not provided, image must have transparency, which will be used as the mask.
-	Image CreateImageEditRequestImage `multipartForm:"file"`
+	Image Image `multipartForm:"file"`
 	// An additional image whose fully transparent areas (e.g. where alpha is zero) indicate where `image` should be edited. Must be a valid PNG file, less than 4MB, and have the same dimensions as `image`.
-	Mask *CreateImageEditRequestMask `multipartForm:"file"`
+	Mask *Mask `multipartForm:"file"`
 	// The number of images to generate. Must be between 1 and 10.
 	N *int64 `default:"1" multipartForm:"name=n"`
 	// A text description of the desired image(s). The maximum length is 1000 characters.
 	Prompt string `multipartForm:"name=prompt"`
 	// The format in which the generated images are returned. Must be one of `url` or `b64_json`.
-	ResponseFormat *CreateImageEditRequestResponseFormat `default:"url" multipartForm:"name=response_format"`
+	ResponseFormat *ResponseFormat `default:"url" multipartForm:"name=response_format"`
 	// The size of the generated images. Must be one of `256x256`, `512x512`, or `1024x1024`.
-	Size *CreateImageEditRequestSize `default:"1024x1024" multipartForm:"name=size"`
+	Size *Size `default:"1024x1024" multipartForm:"name=size"`
 	// A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
 	//
 	User *string `multipartForm:"name=user"`
@@ -134,14 +134,14 @@ func (c *CreateImageEditRequest) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (o *CreateImageEditRequest) GetImage() CreateImageEditRequestImage {
+func (o *CreateImageEditRequest) GetImage() Image {
 	if o == nil {
-		return CreateImageEditRequestImage{}
+		return Image{}
 	}
 	return o.Image
 }
 
-func (o *CreateImageEditRequest) GetMask() *CreateImageEditRequestMask {
+func (o *CreateImageEditRequest) GetMask() *Mask {
 	if o == nil {
 		return nil
 	}
@@ -162,14 +162,14 @@ func (o *CreateImageEditRequest) GetPrompt() string {
 	return o.Prompt
 }
 
-func (o *CreateImageEditRequest) GetResponseFormat() *CreateImageEditRequestResponseFormat {
+func (o *CreateImageEditRequest) GetResponseFormat() *ResponseFormat {
 	if o == nil {
 		return nil
 	}
 	return o.ResponseFormat
 }
 
-func (o *CreateImageEditRequest) GetSize() *CreateImageEditRequestSize {
+func (o *CreateImageEditRequest) GetSize() *Size {
 	if o == nil {
 		return nil
 	}

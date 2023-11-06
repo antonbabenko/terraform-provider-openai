@@ -5,7 +5,7 @@ package provider
 import (
 	"encoding/json"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"openai/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatCompletionRequest {
@@ -17,27 +17,27 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 	}
 	var functionCall *shared.CreateChatCompletionRequestFunctionCall
 	if r.FunctionCall != nil {
-		createChatCompletionRequestFunctionCall1 := new(shared.CreateChatCompletionRequestFunctionCall1)
-		if !r.FunctionCall.CreateChatCompletionRequestFunctionCall1.IsUnknown() && !r.FunctionCall.CreateChatCompletionRequestFunctionCall1.IsNull() {
-			*createChatCompletionRequestFunctionCall1 = shared.CreateChatCompletionRequestFunctionCall1(r.FunctionCall.CreateChatCompletionRequestFunctionCall1.ValueString())
+		one := new(shared.One)
+		if !r.FunctionCall.One.IsUnknown() && !r.FunctionCall.One.IsNull() {
+			*one = shared.One(r.FunctionCall.One.ValueString())
 		} else {
-			createChatCompletionRequestFunctionCall1 = nil
+			one = nil
 		}
-		if createChatCompletionRequestFunctionCall1 != nil {
+		if one != nil {
 			functionCall = &shared.CreateChatCompletionRequestFunctionCall{
-				CreateChatCompletionRequestFunctionCall1: createChatCompletionRequestFunctionCall1,
+				One: one,
 			}
 		}
-		var createChatCompletionRequestFunctionCall2 *shared.CreateChatCompletionRequestFunctionCall2
-		if r.FunctionCall.CreateChatCompletionRequestFunctionCall2 != nil {
-			name := r.FunctionCall.CreateChatCompletionRequestFunctionCall2.Name.ValueString()
-			createChatCompletionRequestFunctionCall2 = &shared.CreateChatCompletionRequestFunctionCall2{
+		var two *shared.Two
+		if r.FunctionCall.Two != nil {
+			name := r.FunctionCall.Two.Name.ValueString()
+			two = &shared.Two{
 				Name: name,
 			}
 		}
-		if createChatCompletionRequestFunctionCall2 != nil {
+		if two != nil {
 			functionCall = &shared.CreateChatCompletionRequestFunctionCall{
-				CreateChatCompletionRequestFunctionCall2: createChatCompletionRequestFunctionCall2,
+				Two: two,
 			}
 		}
 	}
@@ -81,11 +81,11 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 		} else {
 			content = nil
 		}
-		var functionCall1 *shared.ChatCompletionRequestMessageFunctionCall
+		var functionCall1 *shared.FunctionCall
 		if messagesItem.FunctionCall != nil {
 			arguments := messagesItem.FunctionCall.Arguments.ValueString()
 			name2 := messagesItem.FunctionCall.Name.ValueString()
-			functionCall1 = &shared.ChatCompletionRequestMessageFunctionCall{
+			functionCall1 = &shared.FunctionCall{
 				Arguments: arguments,
 				Name:      name2,
 			}
@@ -96,7 +96,7 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 		} else {
 			name3 = nil
 		}
-		role := shared.ChatCompletionRequestMessageRole(messagesItem.Role.ValueString())
+		role := shared.Role(messagesItem.Role.ValueString())
 		messages = append(messages, shared.ChatCompletionRequestMessage{
 			Content:      content,
 			FunctionCall: functionCall1,
@@ -117,7 +117,7 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 	} else {
 		presencePenalty = nil
 	}
-	var stop *shared.CreateChatCompletionRequestStop
+	var stop *shared.Stop
 	if r.Stop != nil {
 		str := new(string)
 		if !r.Stop.Str.IsUnknown() && !r.Stop.Str.IsNull() {
@@ -126,7 +126,7 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 			str = nil
 		}
 		if str != nil {
-			stop = &shared.CreateChatCompletionRequestStop{
+			stop = &shared.Stop{
 				Str: str,
 			}
 		}
@@ -135,7 +135,7 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 			arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
 		}
 		if arrayOfstr != nil {
-			stop = &shared.CreateChatCompletionRequestStop{
+			stop = &shared.Stop{
 				ArrayOfstr: arrayOfstr,
 			}
 		}
@@ -186,7 +186,7 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateChatCompletionResponse) {
 	r.Choices = nil
 	for _, choicesItem := range resp.Choices {
-		var choices1 CreateChatCompletionResponseChoices
+		var choices1 Choices
 		choices1.FinishReason = types.StringValue(string(choicesItem.FinishReason))
 		choices1.Index = types.Int64Value(choicesItem.Index)
 		if choicesItem.Message.Content != nil {
@@ -219,7 +219,7 @@ func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.Cre
 	if resp.Usage == nil {
 		r.Usage = nil
 	} else {
-		r.Usage = &CreateChatCompletionResponseUsage{}
+		r.Usage = &Usage{}
 		r.Usage.CompletionTokens = types.Int64Value(resp.Usage.CompletionTokens)
 		r.Usage.PromptTokens = types.Int64Value(resp.Usage.PromptTokens)
 		r.Usage.TotalTokens = types.Int64Value(resp.Usage.TotalTokens)

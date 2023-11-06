@@ -5,11 +5,11 @@ package provider
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
-	"openai/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingRequest {
-	var input shared.CreateEmbeddingRequestInput
+	var input shared.Input
 	str := new(string)
 	if !r.Input.Str.IsUnknown() && !r.Input.Str.IsNull() {
 		*str = r.Input.Str.ValueString()
@@ -17,7 +17,7 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 		str = nil
 	}
 	if str != nil {
-		input = shared.CreateEmbeddingRequestInput{
+		input = shared.Input{
 			Str: str,
 		}
 	}
@@ -26,7 +26,7 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 		arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
 	}
 	if arrayOfstr != nil {
-		input = shared.CreateEmbeddingRequestInput{
+		input = shared.Input{
 			ArrayOfstr: arrayOfstr,
 		}
 	}
@@ -35,7 +35,7 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 		arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
 	}
 	if arrayOfinteger != nil {
-		input = shared.CreateEmbeddingRequestInput{
+		input = shared.Input{
 			ArrayOfinteger: arrayOfinteger,
 		}
 	}
@@ -48,7 +48,7 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 		arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
 	}
 	if arrayOfarrayOfinteger != nil {
-		input = shared.CreateEmbeddingRequestInput{
+		input = shared.Input{
 			ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
 		}
 	}
@@ -70,7 +70,7 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 func (r *EmbeddingResourceModel) RefreshFromCreateResponse(resp *shared.CreateEmbeddingResponse) {
 	r.Data = nil
 	for _, dataItem := range resp.Data {
-		var data1 CreateEmbeddingResponseData
+		var data1 Data
 		data1.Embedding = nil
 		for _, v := range dataItem.Embedding {
 			data1.Embedding = append(data1.Embedding, types.NumberValue(big.NewFloat(float64(v))))

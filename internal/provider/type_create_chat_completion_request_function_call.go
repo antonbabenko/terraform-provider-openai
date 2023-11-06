@@ -5,6 +5,6 @@ package provider
 import "github.com/hashicorp/terraform-plugin-framework/types"
 
 type CreateChatCompletionRequestFunctionCall struct {
-	CreateChatCompletionRequestFunctionCall1 types.String                              `tfsdk:"create_chat_completion_request_function_call_1"`
-	CreateChatCompletionRequestFunctionCall2 *CreateChatCompletionRequestFunctionCall2 `tfsdk:"create_chat_completion_request_function_call_2"`
+	One types.String `tfsdk:"one"`
+	Two *Two         `tfsdk:"two"`
 }

@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
-	"openai/internal/sdk/pkg/models/shared"
+	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequest {
@@ -58,7 +58,7 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 	} else {
 		presencePenalty = nil
 	}
-	var prompt *shared.CreateCompletionRequestPrompt
+	var prompt *shared.Prompt
 	if r.Prompt != nil {
 		str := new(string)
 		if !r.Prompt.Str.IsUnknown() && !r.Prompt.Str.IsNull() {
@@ -67,7 +67,7 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 			str = nil
 		}
 		if str != nil {
-			prompt = &shared.CreateCompletionRequestPrompt{
+			prompt = &shared.Prompt{
 				Str: str,
 			}
 		}
@@ -76,7 +76,7 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 			arrayOfstr = append(arrayOfstr, arrayOfstrItem.ValueString())
 		}
 		if arrayOfstr != nil {
-			prompt = &shared.CreateCompletionRequestPrompt{
+			prompt = &shared.Prompt{
 				ArrayOfstr: arrayOfstr,
 			}
 		}
@@ -85,7 +85,7 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 			arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
 		}
 		if arrayOfinteger != nil {
-			prompt = &shared.CreateCompletionRequestPrompt{
+			prompt = &shared.Prompt{
 				ArrayOfinteger: arrayOfinteger,
 			}
 		}
@@ -98,7 +98,7 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 			arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
 		}
 		if arrayOfarrayOfinteger != nil {
-			prompt = &shared.CreateCompletionRequestPrompt{
+			prompt = &shared.Prompt{
 				ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
 			}
 		}
@@ -186,7 +186,7 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 		if choicesItem.Logprobs == nil {
 			choices1.Logprobs = nil
 		} else {
-			choices1.Logprobs = &CreateCompletionResponseChoicesLogprobs{}
+			choices1.Logprobs = &Logprobs{}
 			choices1.Logprobs.TextOffset = nil
 			for _, v := range choicesItem.Logprobs.TextOffset {
 				choices1.Logprobs.TextOffset = append(choices1.Logprobs.TextOffset, types.Int64Value(v))
@@ -216,7 +216,7 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 	if resp.Usage == nil {
 		r.Usage = nil
 	} else {
-		r.Usage = &CreateChatCompletionResponseUsage{}
+		r.Usage = &Usage{}
 		r.Usage.CompletionTokens = types.Int64Value(resp.Usage.CompletionTokens)
 		r.Usage.PromptTokens = types.Int64Value(resp.Usage.PromptTokens)
 		r.Usage.TotalTokens = types.Int64Value(resp.Usage.TotalTokens)
