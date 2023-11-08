@@ -6,12 +6,12 @@ import (
 	"bytes"
 	"context"
 	"fmt"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/operations"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/sdkerrors"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/utils"
 	"io"
 	"net/http"
-	"openai/v2/internal/sdk/pkg/models/operations"
-	"openai/v2/internal/sdk/pkg/models/sdkerrors"
-	"openai/v2/internal/sdk/pkg/models/shared"
-	"openai/v2/internal/sdk/pkg/utils"
 	"strings"
 )
 

@@ -3,9 +3,9 @@
 package operations
 
 import (
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/utils"
 	"net/http"
-	"openai/v2/internal/sdk/pkg/models/shared"
-	"openai/v2/internal/sdk/pkg/utils"
 )
 
 type ListFineTuneEventsRequest struct {
