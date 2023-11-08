@@ -4,9 +4,9 @@ package provider
 
 import (
 	"encoding/json"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequest {
@@ -80,26 +80,26 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 				ArrayOfstr: arrayOfstr,
 			}
 		}
-		var arrayOfinteger []int64 = nil
-		for _, arrayOfintegerItem := range r.Prompt.ArrayOfinteger {
-			arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
+		var arrayOfInteger []int64 = nil
+		for _, arrayOfIntegerItem := range r.Prompt.ArrayOfInteger {
+			arrayOfInteger = append(arrayOfInteger, arrayOfIntegerItem.ValueInt64())
 		}
-		if arrayOfinteger != nil {
+		if arrayOfInteger != nil {
 			prompt = &shared.Prompt{
-				ArrayOfinteger: arrayOfinteger,
+				ArrayOfInteger: arrayOfInteger,
 			}
 		}
-		var arrayOfarrayOfinteger [][]int64 = nil
-		for _, arrayOfarrayOfintegerItem := range r.Prompt.ArrayOfarrayOfinteger {
-			var arrayOfarrayOfintegerTmp []int64 = nil
-			for _, item := range arrayOfarrayOfintegerItem {
-				arrayOfarrayOfintegerTmp = append(arrayOfarrayOfintegerTmp, item.ValueInt64())
+		var arrayOfArrayOfInteger [][]int64 = nil
+		for _, arrayOfArrayOfIntegerItem := range r.Prompt.ArrayOfArrayOfInteger {
+			var arrayOfArrayOfIntegerTmp []int64 = nil
+			for _, item := range arrayOfArrayOfIntegerItem {
+				arrayOfArrayOfIntegerTmp = append(arrayOfArrayOfIntegerTmp, item.ValueInt64())
 			}
-			arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
+			arrayOfArrayOfInteger = append(arrayOfArrayOfInteger, arrayOfArrayOfIntegerTmp)
 		}
-		if arrayOfarrayOfinteger != nil {
+		if arrayOfArrayOfInteger != nil {
 			prompt = &shared.Prompt{
-				ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
+				ArrayOfArrayOfInteger: arrayOfArrayOfInteger,
 			}
 		}
 	}

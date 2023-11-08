@@ -3,8 +3,8 @@
 package operations
 
 import (
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"net/http"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 type CreateImageVariationResponse struct {
