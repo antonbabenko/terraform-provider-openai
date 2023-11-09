@@ -7,6 +7,6 @@ import "github.com/hashicorp/terraform-plugin-framework/types"
 type Prompt struct {
 	Str                   types.String    `tfsdk:"str"`
 	ArrayOfstr            []types.String  `tfsdk:"array_ofstr"`
-	ArrayOfinteger        []types.Int64   `tfsdk:"array_ofinteger"`
-	ArrayOfarrayOfinteger [][]types.Int64 `tfsdk:"array_ofarray_ofinteger"`
+	ArrayOfInteger        []types.Int64   `tfsdk:"array_of_integer"`
+	ArrayOfArrayOfInteger [][]types.Int64 `tfsdk:"array_of_array_of_integer"`
 }

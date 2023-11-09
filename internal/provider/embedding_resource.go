@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/v2/internal/sdk"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk"
 
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/validators"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -17,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -88,14 +88,14 @@ func (r *EmbeddingResource) Schema(ctx context.Context, req resource.SchemaReque
 						Optional:    true,
 						ElementType: types.StringType,
 					},
-					"array_ofinteger": schema.ListAttribute{
+					"array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
 						Optional:    true,
 						ElementType: types.Int64Type,
 					},
-					"array_ofarray_ofinteger": schema.ListAttribute{
+					"array_of_array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
