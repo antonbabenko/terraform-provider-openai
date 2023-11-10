@@ -5,7 +5,7 @@ package shared
 import (
 	"encoding/json"
 	"fmt"
-	"openai/v2/internal/sdk/pkg/utils"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/utils"
 )
 
 // CreateImageRequestResponseFormat - The format in which the generated images are returned. Must be one of `url` or `b64_json`.

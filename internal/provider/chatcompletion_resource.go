@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/v2/internal/sdk"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk"
 
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/validators"
 	"github.com/hashicorp/terraform-plugin-framework-validators/mapvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -22,7 +23,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -75,7 +75,8 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"finish_reason": schema.StringAttribute{
-							Computed: true,
+							Computed:    true,
+							Description: `must be one of ["stop", "length", "function_call"]`,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"stop",
@@ -83,7 +84,6 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 									"function_call",
 								),
 							},
-							Description: `must be one of ["stop", "length", "function_call"]`,
 						},
 						"index": schema.Int64Attribute{
 							Computed: true,
@@ -111,6 +111,8 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 								},
 								"role": schema.StringAttribute{
 									Computed: true,
+									MarkdownDescription: `must be one of ["system", "user", "assistant", "function"]` + "\n" +
+										`The role of the author of this message.`,
 									Validators: []validator.String{
 										stringvalidator.OneOf(
 											"system",
@@ -119,8 +121,6 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 											"function",
 										),
 									},
-									MarkdownDescription: `must be one of ["system", "user", "assistant", "function"]` + "\n" +
-										`The role of the author of this message.`,
 								},
 							},
 						},
@@ -152,14 +152,14 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 							stringplanmodifier.RequiresReplace(),
 						},
 						Optional: true,
+						MarkdownDescription: `must be one of ["none", "auto"]` + "\n" +
+							`Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 						Validators: []validator.String{
 							stringvalidator.OneOf(
 								"none",
 								"auto",
 							),
 						},
-						MarkdownDescription: `must be one of ["none", "auto"]` + "\n" +
-							`Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 					},
 					"two": schema.SingleNestedAttribute{
 						PlanModifiers: []planmodifier.Object{
@@ -178,10 +178,10 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 						Description: `Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 					},
 				},
+				Description: `Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 				Validators: []validator.Object{
 					validators.ExactlyOneChild(),
 				},
-				Description: `Controls how the model responds to function calls. "none" means the model does not call a function, and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.  Specifying a particular function via ` + "`" + `{"name":\ "my_function"}` + "`" + ` forces the model to call that function. "none" is the default when no functions are present. "auto" is the default if functions are present.`,
 			},
 			"functions": schema.ListNestedAttribute{
 				PlanModifiers: []planmodifier.List{
@@ -210,12 +210,12 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 							},
 							Required:    true,
 							ElementType: types.StringType,
-							Validators: []validator.Map{
-								mapvalidator.ValueStringsAre(validators.IsValidJSON()),
-							},
 							MarkdownDescription: `The parameters the functions accepts, described as a JSON Schema object. See the [guide](/docs/guides/gpt/function-calling) for examples, and the [JSON Schema reference](https://json-schema.org/understanding-json-schema/) for documentation about the format.` + "\n" +
 								`` + "\n" +
 								`To describe a function that accepts no parameters, provide the value ` + "`" + `{"type": "object", "properties": {}}` + "`" + `.`,
+							Validators: []validator.Map{
+								mapvalidator.ValueStringsAre(validators.IsValidJSON()),
+							},
 						},
 					},
 				},
@@ -295,6 +295,8 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 								stringplanmodifier.RequiresReplace(),
 							},
 							Required: true,
+							MarkdownDescription: `must be one of ["system", "user", "assistant", "function"]` + "\n" +
+								`The role of the messages author. One of ` + "`" + `system` + "`" + `, ` + "`" + `user` + "`" + `, ` + "`" + `assistant` + "`" + `, or ` + "`" + `function` + "`" + `.`,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"system",
@@ -303,8 +305,6 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 									"function",
 								),
 							},
-							MarkdownDescription: `must be one of ["system", "user", "assistant", "function"]` + "\n" +
-								`The role of the messages author. One of ` + "`" + `system` + "`" + `, ` + "`" + `user` + "`" + `, ` + "`" + `assistant` + "`" + `, or ` + "`" + `function` + "`" + `.`,
 						},
 					},
 				},
@@ -315,6 +315,8 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 					stringplanmodifier.RequiresReplace(),
 				},
 				Required: true,
+				MarkdownDescription: `must be one of ["gpt-4", "gpt-4-0314", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0314", "gpt-4-32k-0613", "gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k-0613"]` + "\n" +
+					`ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"gpt-4",
@@ -330,8 +332,6 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 						"gpt-3.5-turbo-16k-0613",
 					),
 				},
-				MarkdownDescription: `must be one of ["gpt-4", "gpt-4-0314", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0314", "gpt-4-32k-0613", "gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-0301", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k-0613"]` + "\n" +
-					`ID of the model to use. See the [model endpoint compatibility](/docs/models/model-endpoint-compatibility) table for details on which models work with the Chat API.`,
 			},
 			"n": schema.Int64Attribute{
 				PlanModifiers: []planmodifier.Int64{
@@ -375,11 +375,11 @@ func (r *ChatCompletionResource) Schema(ctx context.Context, req resource.Schema
 						ElementType: types.StringType,
 					},
 				},
+				MarkdownDescription: `Up to 4 sequences where the API will stop generating further tokens.` + "\n" +
+					``,
 				Validators: []validator.Object{
 					validators.ExactlyOneChild(),
 				},
-				MarkdownDescription: `Up to 4 sequences where the API will stop generating further tokens.` + "\n" +
-					``,
 			},
 			"stream": schema.BoolAttribute{
 				PlanModifiers: []planmodifier.Bool{

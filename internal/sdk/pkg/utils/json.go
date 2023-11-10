@@ -12,7 +12,7 @@ import (
 	"time"
 	"unsafe"
 
-	"openai/v2/internal/sdk/pkg/types"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/types"
 
 	"github.com/ericlagergren/decimal"
 )
