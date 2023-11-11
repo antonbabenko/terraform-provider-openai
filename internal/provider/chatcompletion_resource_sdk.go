@@ -4,8 +4,8 @@ package provider
 
 import (
 	"encoding/json"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatCompletionRequest {
@@ -184,8 +184,10 @@ func (r *ChatCompletionResourceModel) ToCreateSDKType() *shared.CreateChatComple
 }
 
 func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateChatCompletionResponse) {
-	r.Choices = nil
-	for _, choicesItem := range resp.Choices {
+	if len(r.Choices) > len(resp.Choices) {
+		r.Choices = r.Choices[:len(resp.Choices)]
+	}
+	for choicesCount, choicesItem := range resp.Choices {
 		var choices1 Choices
 		choices1.FinishReason = types.StringValue(string(choicesItem.FinishReason))
 		choices1.Index = types.Int64Value(choicesItem.Index)
@@ -210,7 +212,13 @@ func (r *ChatCompletionResourceModel) RefreshFromCreateResponse(resp *shared.Cre
 			}
 		}
 		choices1.Message.Role = types.StringValue(string(choicesItem.Message.Role))
-		r.Choices = append(r.Choices, choices1)
+		if choicesCount+1 > len(r.Choices) {
+			r.Choices = append(r.Choices, choices1)
+		} else {
+			r.Choices[choicesCount].FinishReason = choices1.FinishReason
+			r.Choices[choicesCount].Index = choices1.Index
+			r.Choices[choicesCount].Message = choices1.Message
+		}
 	}
 	r.Created = types.Int64Value(resp.Created)
 	r.ID = types.StringValue(resp.ID)

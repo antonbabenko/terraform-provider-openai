@@ -1,4 +1,4 @@
-module openai/v2
+module github.com/antonbabenko/terraform-provider-openai/v2
 
 go 1.18
 

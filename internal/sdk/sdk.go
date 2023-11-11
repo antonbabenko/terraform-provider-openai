@@ -5,9 +5,9 @@ package sdk
 import (
 	"context"
 	"fmt"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/utils"
 	"net/http"
-	"openai/v2/internal/sdk/pkg/models/shared"
-	"openai/v2/internal/sdk/pkg/utils"
 	"time"
 )
 
@@ -141,9 +141,9 @@ func New(opts ...SDKOption) *Oai {
 		sdkConfiguration: sdkConfiguration{
 			Language:          "go",
 			OpenAPIDocVersion: "2.0.0",
-			SDKVersion:        "2.1.0",
-			GenVersion:        "2.181.1",
-			UserAgent:         "speakeasy-sdk/go 2.1.0 2.181.1 2.0.0 openai",
+			SDKVersion:        "2.2.0",
+			GenVersion:        "2.188.1",
+			UserAgent:         "speakeasy-sdk/go 2.2.0 2.188.1 2.0.0 openai",
 		},
 	}
 	for _, opt := range opts {
