@@ -3,8 +3,8 @@
 package provider
 
 import (
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *ImageResourceModel) ToCreateSDKType() *shared.CreateImageRequest {
@@ -45,8 +45,10 @@ func (r *ImageResourceModel) ToCreateSDKType() *shared.CreateImageRequest {
 
 func (r *ImageResourceModel) RefreshFromCreateResponse(resp *shared.ImagesResponse) {
 	r.Created = types.Int64Value(resp.Created)
-	r.Data = nil
-	for _, dataItem := range resp.Data {
+	if len(r.Data) > len(resp.Data) {
+		r.Data = r.Data[:len(resp.Data)]
+	}
+	for dataCount, dataItem := range resp.Data {
 		var data1 ImagesResponseData
 		if dataItem.B64JSON != nil {
 			data1.B64JSON = types.StringValue(*dataItem.B64JSON)
@@ -58,6 +60,11 @@ func (r *ImageResourceModel) RefreshFromCreateResponse(resp *shared.ImagesRespon
 		} else {
 			data1.URL = types.StringNull()
 		}
-		r.Data = append(r.Data, data1)
+		if dataCount+1 > len(r.Data) {
+			r.Data = append(r.Data, data1)
+		} else {
+			r.Data[dataCount].B64JSON = data1.B64JSON
+			r.Data[dataCount].URL = data1.URL
+		}
 	}
 }

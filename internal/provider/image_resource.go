@@ -5,7 +5,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/v2/internal/sdk"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk"
 
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -87,20 +87,22 @@ func (r *ImageResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 					stringplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
+				MarkdownDescription: `must be one of ["url", "b64_json"]; Default: "url"` + "\n" +
+					`The format in which the generated images are returned. Must be one of ` + "`" + `url` + "`" + ` or ` + "`" + `b64_json` + "`" + `.`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"url",
 						"b64_json",
 					),
 				},
-				MarkdownDescription: `must be one of ["url", "b64_json"]; Default: "url"` + "\n" +
-					`The format in which the generated images are returned. Must be one of ` + "`" + `url` + "`" + ` or ` + "`" + `b64_json` + "`" + `.`,
 			},
 			"size": schema.StringAttribute{
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 				Optional: true,
+				MarkdownDescription: `must be one of ["256x256", "512x512", "1024x1024"]; Default: "1024x1024"` + "\n" +
+					`The size of the generated images. Must be one of ` + "`" + `256x256` + "`" + `, ` + "`" + `512x512` + "`" + `, or ` + "`" + `1024x1024` + "`" + `.`,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"256x256",
@@ -108,8 +110,6 @@ func (r *ImageResource) Schema(ctx context.Context, req resource.SchemaRequest, 
 						"1024x1024",
 					),
 				},
-				MarkdownDescription: `must be one of ["256x256", "512x512", "1024x1024"]; Default: "1024x1024"` + "\n" +
-					`The size of the generated images. Must be one of ` + "`" + `256x256` + "`" + `, ` + "`" + `512x512` + "`" + `, or ` + "`" + `1024x1024` + "`" + `.`,
 			},
 			"user": schema.StringAttribute{
 				PlanModifiers: []planmodifier.String{

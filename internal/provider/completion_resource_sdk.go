@@ -4,9 +4,9 @@ package provider
 
 import (
 	"encoding/json"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequest {
@@ -80,26 +80,26 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 				ArrayOfstr: arrayOfstr,
 			}
 		}
-		var arrayOfinteger []int64 = nil
-		for _, arrayOfintegerItem := range r.Prompt.ArrayOfinteger {
-			arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
+		var arrayOfInteger []int64 = nil
+		for _, arrayOfIntegerItem := range r.Prompt.ArrayOfInteger {
+			arrayOfInteger = append(arrayOfInteger, arrayOfIntegerItem.ValueInt64())
 		}
-		if arrayOfinteger != nil {
+		if arrayOfInteger != nil {
 			prompt = &shared.Prompt{
-				ArrayOfinteger: arrayOfinteger,
+				ArrayOfInteger: arrayOfInteger,
 			}
 		}
-		var arrayOfarrayOfinteger [][]int64 = nil
-		for _, arrayOfarrayOfintegerItem := range r.Prompt.ArrayOfarrayOfinteger {
-			var arrayOfarrayOfintegerTmp []int64 = nil
-			for _, item := range arrayOfarrayOfintegerItem {
-				arrayOfarrayOfintegerTmp = append(arrayOfarrayOfintegerTmp, item.ValueInt64())
+		var arrayOfArrayOfInteger [][]int64 = nil
+		for _, arrayOfArrayOfIntegerItem := range r.Prompt.ArrayOfArrayOfInteger {
+			var arrayOfArrayOfIntegerTmp []int64 = nil
+			for _, item := range arrayOfArrayOfIntegerItem {
+				arrayOfArrayOfIntegerTmp = append(arrayOfArrayOfIntegerTmp, item.ValueInt64())
 			}
-			arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
+			arrayOfArrayOfInteger = append(arrayOfArrayOfInteger, arrayOfArrayOfIntegerTmp)
 		}
-		if arrayOfarrayOfinteger != nil {
+		if arrayOfArrayOfInteger != nil {
 			prompt = &shared.Prompt{
-				ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
+				ArrayOfArrayOfInteger: arrayOfArrayOfInteger,
 			}
 		}
 	}
@@ -178,8 +178,10 @@ func (r *CompletionResourceModel) ToCreateSDKType() *shared.CreateCompletionRequ
 }
 
 func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateCompletionResponse) {
-	r.Choices = nil
-	for _, choicesItem := range resp.Choices {
+	if len(r.Choices) > len(resp.Choices) {
+		r.Choices = r.Choices[:len(resp.Choices)]
+	}
+	for choicesCount, choicesItem := range resp.Choices {
 		var choices1 CreateCompletionResponseChoices
 		choices1.FinishReason = types.StringValue(string(choicesItem.FinishReason))
 		choices1.Index = types.Int64Value(choicesItem.Index)
@@ -207,7 +209,14 @@ func (r *CompletionResourceModel) RefreshFromCreateResponse(resp *shared.CreateC
 			}
 		}
 		choices1.Text = types.StringValue(choicesItem.Text)
-		r.Choices = append(r.Choices, choices1)
+		if choicesCount+1 > len(r.Choices) {
+			r.Choices = append(r.Choices, choices1)
+		} else {
+			r.Choices[choicesCount].FinishReason = choices1.FinishReason
+			r.Choices[choicesCount].Index = choices1.Index
+			r.Choices[choicesCount].Logprobs = choices1.Logprobs
+			r.Choices[choicesCount].Text = choices1.Text
+		}
 	}
 	r.Created = types.Int64Value(resp.Created)
 	r.ID = types.StringValue(resp.ID)
