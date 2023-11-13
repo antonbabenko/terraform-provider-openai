@@ -3,9 +3,9 @@
 package provider
 
 import (
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk/pkg/models/shared"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"math/big"
-	"openai/v2/internal/sdk/pkg/models/shared"
 )
 
 func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingRequest {
@@ -30,26 +30,26 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 			ArrayOfstr: arrayOfstr,
 		}
 	}
-	var arrayOfinteger []int64 = nil
-	for _, arrayOfintegerItem := range r.Input.ArrayOfinteger {
-		arrayOfinteger = append(arrayOfinteger, arrayOfintegerItem.ValueInt64())
+	var arrayOfInteger []int64 = nil
+	for _, arrayOfIntegerItem := range r.Input.ArrayOfInteger {
+		arrayOfInteger = append(arrayOfInteger, arrayOfIntegerItem.ValueInt64())
 	}
-	if arrayOfinteger != nil {
+	if arrayOfInteger != nil {
 		input = shared.Input{
-			ArrayOfinteger: arrayOfinteger,
+			ArrayOfInteger: arrayOfInteger,
 		}
 	}
-	var arrayOfarrayOfinteger [][]int64 = nil
-	for _, arrayOfarrayOfintegerItem := range r.Input.ArrayOfarrayOfinteger {
-		var arrayOfarrayOfintegerTmp []int64 = nil
-		for _, item := range arrayOfarrayOfintegerItem {
-			arrayOfarrayOfintegerTmp = append(arrayOfarrayOfintegerTmp, item.ValueInt64())
+	var arrayOfArrayOfInteger [][]int64 = nil
+	for _, arrayOfArrayOfIntegerItem := range r.Input.ArrayOfArrayOfInteger {
+		var arrayOfArrayOfIntegerTmp []int64 = nil
+		for _, item := range arrayOfArrayOfIntegerItem {
+			arrayOfArrayOfIntegerTmp = append(arrayOfArrayOfIntegerTmp, item.ValueInt64())
 		}
-		arrayOfarrayOfinteger = append(arrayOfarrayOfinteger, arrayOfarrayOfintegerTmp)
+		arrayOfArrayOfInteger = append(arrayOfArrayOfInteger, arrayOfArrayOfIntegerTmp)
 	}
-	if arrayOfarrayOfinteger != nil {
+	if arrayOfArrayOfInteger != nil {
 		input = shared.Input{
-			ArrayOfarrayOfinteger: arrayOfarrayOfinteger,
+			ArrayOfArrayOfInteger: arrayOfArrayOfInteger,
 		}
 	}
 	model := shared.CreateEmbeddingRequestModel(r.Model.ValueString())
@@ -68,8 +68,10 @@ func (r *EmbeddingResourceModel) ToCreateSDKType() *shared.CreateEmbeddingReques
 }
 
 func (r *EmbeddingResourceModel) RefreshFromCreateResponse(resp *shared.CreateEmbeddingResponse) {
-	r.Data = nil
-	for _, dataItem := range resp.Data {
+	if len(r.Data) > len(resp.Data) {
+		r.Data = r.Data[:len(resp.Data)]
+	}
+	for dataCount, dataItem := range resp.Data {
 		var data1 Data
 		data1.Embedding = nil
 		for _, v := range dataItem.Embedding {
@@ -77,7 +79,13 @@ func (r *EmbeddingResourceModel) RefreshFromCreateResponse(resp *shared.CreateEm
 		}
 		data1.Index = types.Int64Value(dataItem.Index)
 		data1.Object = types.StringValue(dataItem.Object)
-		r.Data = append(r.Data, data1)
+		if dataCount+1 > len(r.Data) {
+			r.Data = append(r.Data, data1)
+		} else {
+			r.Data[dataCount].Embedding = data1.Embedding
+			r.Data[dataCount].Index = data1.Index
+			r.Data[dataCount].Object = data1.Object
+		}
 	}
 	r.Object = types.StringValue(resp.Object)
 	r.Usage.PromptTokens = types.Int64Value(resp.Usage.PromptTokens)

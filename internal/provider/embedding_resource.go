@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/v2/internal/sdk"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk"
 
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/validators"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -17,7 +18,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -88,14 +88,14 @@ func (r *EmbeddingResource) Schema(ctx context.Context, req resource.SchemaReque
 						Optional:    true,
 						ElementType: types.StringType,
 					},
-					"array_ofinteger": schema.ListAttribute{
+					"array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
 						Optional:    true,
 						ElementType: types.Int64Type,
 					},
-					"array_ofarray_ofinteger": schema.ListAttribute{
+					"array_of_array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
@@ -105,25 +105,25 @@ func (r *EmbeddingResource) Schema(ctx context.Context, req resource.SchemaReque
 						},
 					},
 				},
+				MarkdownDescription: `Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. Each input must not exceed the max input tokens for the model (8191 tokens for ` + "`" + `text-embedding-ada-002` + "`" + `). [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.` + "\n" +
+					``,
 				Validators: []validator.Object{
 					validators.ExactlyOneChild(),
 				},
-				MarkdownDescription: `Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. Each input must not exceed the max input tokens for the model (8191 tokens for ` + "`" + `text-embedding-ada-002` + "`" + `). [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.` + "\n" +
-					``,
 			},
 			"model": schema.StringAttribute{
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 				Required: true,
+				MarkdownDescription: `must be one of ["text-embedding-ada-002"]` + "\n" +
+					`ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.` + "\n" +
+					``,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"text-embedding-ada-002",
 					),
 				},
-				MarkdownDescription: `must be one of ["text-embedding-ada-002"]` + "\n" +
-					`ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.` + "\n" +
-					``,
 			},
 			"object": schema.StringAttribute{
 				Computed: true,
