@@ -5,8 +5,9 @@ package provider
 import (
 	"context"
 	"fmt"
-	"openai/v2/internal/sdk"
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk"
 
+	"github.com/antonbabenko/terraform-provider-openai/v2/internal/validators"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -21,7 +22,6 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-framework/types/basetypes"
-	"openai/v2/internal/validators"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.
@@ -89,14 +89,14 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 				NestedObject: schema.NestedAttributeObject{
 					Attributes: map[string]schema.Attribute{
 						"finish_reason": schema.StringAttribute{
-							Computed: true,
+							Computed:    true,
+							Description: `must be one of ["stop", "length"]`,
 							Validators: []validator.String{
 								stringvalidator.OneOf(
 									"stop",
 									"length",
 								),
 							},
-							Description: `must be one of ["stop", "length"]`,
 						},
 						"index": schema.Int64Attribute{
 							Computed: true,
@@ -117,11 +117,11 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 									ElementType: types.StringType,
 								},
 								"top_logprobs": schema.StringAttribute{
-									Computed: true,
+									Computed:    true,
+									Description: `Parsed as JSON.`,
 									Validators: []validator.String{
 										validators.IsValidJSON(),
 									},
-									Description: `Parsed as JSON.`,
 								},
 							},
 						},
@@ -197,6 +197,9 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 					stringplanmodifier.RequiresReplace(),
 				},
 				Required: true,
+				MarkdownDescription: `must be one of ["text-davinci-003", "text-davinci-002", "text-davinci-001", "code-davinci-002", "text-curie-001", "text-babbage-001", "text-ada-001"]` + "\n" +
+					`ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.` + "\n" +
+					``,
 				Validators: []validator.String{
 					stringvalidator.OneOf(
 						"text-davinci-003",
@@ -208,9 +211,6 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						"text-ada-001",
 					),
 				},
-				MarkdownDescription: `must be one of ["text-davinci-003", "text-davinci-002", "text-davinci-001", "code-davinci-002", "text-curie-001", "text-babbage-001", "text-ada-001"]` + "\n" +
-					`ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.` + "\n" +
-					``,
 			},
 			"n": schema.Int64Attribute{
 				PlanModifiers: []planmodifier.Int64{
@@ -256,14 +256,14 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						Optional:    true,
 						ElementType: types.StringType,
 					},
-					"array_ofinteger": schema.ListAttribute{
+					"array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
 						Optional:    true,
 						ElementType: types.Int64Type,
 					},
-					"array_ofarray_ofinteger": schema.ListAttribute{
+					"array_of_array_of_integer": schema.ListAttribute{
 						PlanModifiers: []planmodifier.List{
 							listplanmodifier.RequiresReplace(),
 						},
@@ -273,13 +273,13 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						},
 					},
 				},
-				Validators: []validator.Object{
-					validators.ExactlyOneChild(),
-				},
 				MarkdownDescription: `The prompt(s) to generate completions for, encoded as a string, array of strings, array of tokens, or array of token arrays.` + "\n" +
 					`` + "\n" +
 					`Note that <|endoftext|> is the document separator that the model sees during training, so if a prompt is not specified the model will generate as if from the beginning of a new document.` + "\n" +
 					``,
+				Validators: []validator.Object{
+					validators.ExactlyOneChild(),
+				},
 			},
 			"stop": schema.SingleNestedAttribute{
 				PlanModifiers: []planmodifier.Object{
@@ -301,11 +301,11 @@ func (r *CompletionResource) Schema(ctx context.Context, req resource.SchemaRequ
 						ElementType: types.StringType,
 					},
 				},
+				MarkdownDescription: `Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.` + "\n" +
+					``,
 				Validators: []validator.Object{
 					validators.ExactlyOneChild(),
 				},
-				MarkdownDescription: `Up to 4 sequences where the API will stop generating further tokens. The returned text will not contain the stop sequence.` + "\n" +
-					``,
 			},
 			"stream": schema.BoolAttribute{
 				PlanModifiers: []planmodifier.Bool{
