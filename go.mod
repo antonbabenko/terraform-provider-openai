@@ -60,7 +60,7 @@ require (
 
 require (
 	github.com/hashicorp/terraform-plugin-docs v0.13.0
-	github.com/hashicorp/terraform-plugin-framework-validators v0.10.0
+	github.com/hashicorp/terraform-plugin-framework-validators v0.12.0
 	github.com/hashicorp/yamux v0.0.0-20181012175058-2f1d1f20f75d // indirect
 	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 )
