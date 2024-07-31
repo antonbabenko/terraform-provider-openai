@@ -17,7 +17,7 @@ terraform {
   required_providers {
     openai = {
       source  = "antonbabenko/openai"
-      version = "1.12.4"
+      version = "2.2.0"
     }
   }
 }
@@ -32,5 +32,4 @@ provider "openai" {
 
 ### Optional
 
-- `api_key` (String, Sensitive)
 - `server_url` (String) Server URL (defaults to https://api.openai.com/v1)

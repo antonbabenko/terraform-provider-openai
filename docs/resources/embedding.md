@@ -15,7 +15,7 @@ Embedding Resource
 ```terraform
 resource "openai_embedding" "my_embedding" {
   input = {
-    str = "This is a test."
+    str = "The quick brown fox jumped over the lazy dog"
   }
   model = "text-embedding-ada-002"
   user  = "user-1234"
@@ -27,13 +27,18 @@ resource "openai_embedding" "my_embedding" {
 
 ### Required
 
-- `input` (Attributes) Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. Each input must not exceed the max input tokens for the model (8191 tokens for `text-embedding-ada-002`). [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens. (see [below for nested schema](#nestedatt--input))
-- `model` (String) must be one of ["text-embedding-ada-002"]
-ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+- `input` (Attributes) Input text to embed, encoded as a string or array of tokens. To embed multiple inputs in a single request, pass an array of strings or array of token arrays. Each input must not exceed the max input tokens for the model (8191 tokens for `text-embedding-ada-002`). [Example Python code](https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb) for counting tokens.
+
+Requires replacement if changed. (see [below for nested schema](#nestedatt--input))
+- `model` (String) ID of the model to use. You can use the [List models](/docs/api-reference/models/list) API to see all of your available models, or see our [Model overview](/docs/models/overview) for descriptions of them.
+
+Requires replacement if changed. ; must be one of ["text-embedding-ada-002"]
 
 ### Optional
 
 - `user` (String) A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse. [Learn more](/docs/guides/safety-best-practices/end-user-ids).
+
+Requires replacement if changed.
 
 ### Read-Only
 
@@ -46,10 +51,10 @@ ID of the model to use. You can use the [List models](/docs/api-reference/models
 
 Optional:
 
-- `array_ofarray_ofinteger` (List of List of Number)
-- `array_ofinteger` (List of Number)
-- `array_ofstr` (List of String)
-- `str` (String)
+- `array_of_array_of_integer` (List of List of Number) Requires replacement if changed.
+- `array_of_integer` (List of Number) Requires replacement if changed.
+- `array_of_str` (List of String) Requires replacement if changed.
+- `str` (String) Requires replacement if changed.
 
 
 <a id="nestedatt--data"></a>
@@ -69,5 +74,3 @@ Read-Only:
 
 - `prompt_tokens` (Number)
 - `total_tokens` (Number)
-
-
