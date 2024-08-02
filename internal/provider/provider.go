@@ -44,6 +44,10 @@ func (p *OpenaiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 				Optional:            true,
 				Required:            false,
 			},
+			"api_key": schema.StringAttribute{
+				Sensitive: true,
+				Required:  true,
+			},
 		},
 	}
 }
