@@ -46,7 +46,7 @@ func (p *OpenaiProvider) Schema(ctx context.Context, req provider.SchemaRequest,
 			},
 			"api_key": schema.StringAttribute{
 				Sensitive: true,
-				Required:  true,
+				Optional:  true,
 			},
 		},
 	}
@@ -67,9 +67,12 @@ func (p *OpenaiProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		ServerURL = "https://api.openai.com/v1"
 	}
 
-	var apiKey string
-	apiKey = data.APIKey.ValueString()
-
+	apiKey := new(string)
+	if !data.APIKey.IsUnknown() && !data.APIKey.IsNull() {
+		*apiKey = data.APIKey.ValueString()
+	} else {
+		apiKey = nil
+	}
 	security := shared.Security{
 		APIKey: apiKey,
 	}
