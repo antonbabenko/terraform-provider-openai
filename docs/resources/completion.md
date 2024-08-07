@@ -14,18 +14,18 @@ Completion Resource
 
 ```terraform
 resource "openai_completion" "my_completion" {
-  best_of           = 2
-  echo              = true
-  frequency_penalty = 26.2
+  best_of           = 4
+  echo              = false
+  frequency_penalty = 26.31
   logit_bias = {
-    "tesla"      = 4
-    "Incredible" = 7
+    "invoice" = 1
+    "Future"  = 7
   }
-  logprobs         = 2
+  logprobs         = 3
   max_tokens       = 16
-  model            = "text-davinci-001"
+  model            = "text-davinci-003"
   n                = 1
-  presence_penalty = 48.85
+  presence_penalty = 69.43
   prompt = {
     str = "This is a test."
   }

@@ -31,7 +31,7 @@ resource "openai_chat_completion" "my_chatcompletion" {
   ]
   model            = "gpt-3.5-turbo"
   n                = 1
-  presence_penalty = 38.48
+  presence_penalty = 48.05
   stop = {
     str = "..."
   }

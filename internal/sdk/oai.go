@@ -146,8 +146,8 @@ func New(opts ...SDKOption) *Oai {
 			Language:          "go",
 			OpenAPIDocVersion: "2.0.0",
 			SDKVersion:        "0.0.1",
-			GenVersion:        "2.385.1",
-			UserAgent:         "speakeasy-sdk/go 0.0.1 2.385.1 2.0.0 github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk",
+			GenVersion:        "2.387.0",
+			UserAgent:         "speakeasy-sdk/go 0.0.1 2.387.0 2.0.0 github.com/antonbabenko/terraform-provider-openai/v2/internal/sdk",
 			Hooks:             hooks.New(),
 		},
 	}
