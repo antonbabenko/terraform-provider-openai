@@ -3,10 +3,10 @@ id: 1c1a194a-5b7a-4eb2-997f-31d709ae7004
 management:
   docChecksum: d136ae79f9d89697f83c3569a16a6578
   docVersion: 2.0.0
-  speakeasyVersion: 1.355.0
-  generationVersion: 2.387.0
-  releaseVersion: 2.3.1
-  configChecksum: b75bee214f74d560ecf6001fdc3b20b2
+  speakeasyVersion: 1.361.1
+  generationVersion: 2.393.4
+  releaseVersion: 2.3.2
+  configChecksum: a078bf820b6ac403041e6ab91848d437
   repoURL: https://github.com/antonbabenko/terraform-provider-openai.git
   repoSubDirectory: .
   published: true
@@ -22,7 +22,7 @@ features:
     ignores: 2.81.1
     nullables: 0.0.0
     typeOverrides: 2.81.1
-    unions: 2.81.15
+    unions: 2.81.16
 generatedFiles:
   - internal/sdk/openai.go
   - internal/sdk/oai.go
